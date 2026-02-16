@@ -16,12 +16,7 @@
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
         body { background-color: #0f172a; }
-        
-        /* Custom Font Klasse: Tahoma */
-        .font-brand {
-            font-family: 'Tahoma', sans-serif;
-            letter-spacing: normal;
-        }
+        .font-brand { font-family: 'Tahoma', sans-serif; letter-spacing: normal; }
     </style>
 </head>
 <body>
@@ -30,43 +25,29 @@
     <script type="text/babel">
         const { useState, useEffect, useMemo } = React;
 
-        // --- INTERNE ICONS ---
         const Icons = {
-            MovingHead: (props) => (
-                <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M4 21h16" />
-                    <path d="M18 21v-3a3 3 0 0 0-3-3H9a3 3 0 0 0-3 3v3" />
-                    <rect x="8" y="3" width="8" height="10" rx="2" />
-                    <circle cx="12" cy="8" r="2" />
-                </svg>
-            ),
             Search: (props) => (
-                <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
             ),
             Edit2: (props) => (
-                <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+                <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
             ),
             MapPin: (props) => (
-                <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
             ),
             X: (props) => (
-                <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                <svg {...props} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
             )
         };
 
         const Icon = ({ name, size = 24, className = "" }) => {
             const IconComponent = Icons[name];
-            if (!IconComponent) return null;
-            return <IconComponent width={size} height={size} className={className} />;
+            return IconComponent ? <IconComponent width={size} height={size} className={className} /> : null;
         };
 
-        // --- MOCK DATEN ---
         const MOCK_DATA = [
             { id: 1, CHANNEL: "101", TYP: "Viper Performance", POSITION: "LX 1", ORT: "Dimmerraum 1", ADRESSE: "1.001" },
-            { id: 2, CHANNEL: "102", TYP: "Viper Performance", POSITION: "LX 1", ORT: "Dimmerraum 2", ADRESSE: "1.036" },
-            { id: 3, CHANNEL: "201", TYP: "Aura XB", POSITION: "Portal", ORT: "Dimmerraum 3", ADRESSE: "2.100" },
-            { id: 4, CHANNEL: "202", TYP: "Aura XB", POSITION: "Portal", ORT: "Dimmerraum 4", ADRESSE: "2.125" },
-            { id: 5, CHANNEL: "301", TYP: "JDC 1", POSITION: "Boden", ORT: "Dimmerraum 1", ADRESSE: "3.001" },
+            { id: 2, CHANNEL: "102", TYP: "Viper Performance", POSITION: "LX 1", ORT: "Dimmerraum 2", ADRESSE: "1.036" }
         ];
 
         function App() {
@@ -76,47 +57,35 @@
             const [status, setStatus] = useState("Lade Daten...");
 
             useEffect(() => {
-                const saved = localStorage.getItem('fixtureData');
-                if (saved) {
-                    try {
-                        setFixtures(JSON.parse(saved));
-                        setStatus(""); 
-                        return;
-                    } catch (e) { console.error(e); }
-                }
-
+                // Versuche zuerst die CSV zu laden (wichtig für GitHub Pages)
                 if (window.Papa) {
-                    try {
-                        window.Papa.parse("fixtures.csv", {
-                            download: true,
-                            header: true,
-                            skipEmptyLines: true,
-                            complete: (results) => {
-                                if (results.data && results.data.length > 0) {
-                                    const parsed = results.data.map((row, i) => ({
-                                        id: Date.now() + i,
-                                        CHANNEL: row.CHANNEL || row.Channel || "---",
-                                        TYP: row.TYP || row.Typ || "Unbekannt",
-                                        POSITION: row.POSITION || row.Position || "Unbekannt",
-                                        ORT: row.ORT || row.Ort || "",
-                                        ADRESSE: row.ADRESSE || row.Adresse || "---" 
-                                    }));
-                                    setFixtures(parsed);
-                                    setStatus("");
-                                } else {
-                                    setFixtures(MOCK_DATA);
-                                    setStatus("Demo-Modus (CSV leer)");
-                                }
-                            },
-                            error: (err) => {
+                    window.Papa.parse("./fixtures.csv", { // ./ sorgt für relative Pfade
+                        download: true,
+                        header: true,
+                        skipEmptyLines: true,
+                        complete: (results) => {
+                            if (results.data && results.data.length > 0) {
+                                const parsed = results.data.map((row, i) => ({
+                                    id: "csv-" + i,
+                                    CHANNEL: row.CHANNEL || row.Channel || "---",
+                                    TYP: row.TYP || row.Typ || "Unbekannt",
+                                    POSITION: row.POSITION || row.Position || "Unbekannt",
+                                    ORT: row.ORT || row.Ort || "",
+                                    ADRESSE: row.ADRESSE || row.Adresse || "---" 
+                                }));
+                                setFixtures(parsed);
+                                setStatus("");
+                            } else {
                                 setFixtures(MOCK_DATA);
-                                setStatus("Demo-Modus (Keine CSV gefunden)");
+                                setStatus("Demo-Modus (CSV leer)");
                             }
-                        });
-                    } catch (e) {
-                        setFixtures(MOCK_DATA);
-                        setStatus("Demo-Modus");
-                    }
+                        },
+                        error: (err) => {
+                            console.warn("CSV nicht gefunden, nutze Mock-Daten");
+                            setFixtures(MOCK_DATA);
+                            setStatus("Demo-Modus");
+                        }
+                    });
                 }
             }, []);
 
@@ -129,22 +98,19 @@
                 });
             }, [fixtures, searchTerm, activeFilter]);
 
-            const toggleFilter = (filterName) => {
-                setActiveFilter(activeFilter === filterName ? "Alle" : filterName);
-            };
-
             return (
                 <div className="min-h-screen bg-slate-900 text-slate-200 font-sans pb-40">
                     <div className="sticky top-0 z-20 bg-slate-900/95 p-4 border-b border-slate-800 shadow-xl backdrop-blur-sm">
                         <div className="max-w-md mx-auto space-y-4">
                             <h1 className="text-xl font-bold text-white flex items-center gap-3 font-brand">
-                                Haywire moving head finder
+                                Haywire Moving Head Finder
+                                {status && <span className="text-[10px] bg-amber-900 text-amber-200 px-2 py-0.5 rounded">{status}</span>}
                             </h1>
                             
                             <div className="relative">
                                 <input 
                                     className="w-full bg-slate-800 p-3 pl-10 rounded-lg border border-slate-700 text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" 
-                                    placeholder="Channel (z.B. 101) oder Typ..." 
+                                    placeholder="Channel oder Typ suchen..." 
                                     value={searchTerm}
                                     onChange={e => setSearchTerm(e.target.value)} 
                                 />
@@ -158,91 +124,45 @@
                                 )}
                             </div>
 
-                            <div className="space-y-2">
-                                <div className="flex gap-2 overflow-x-auto scrollbar-hide">
-                                    {["Z-Brücke 0", "Z-Brücke 1", "Z-Brücke 2"].map(bridge => (
-                                        <button key={bridge} onClick={() => toggleFilter(bridge)} className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap border ${activeFilter === bridge ? 'bg-blue-600 border-blue-500 text-white shadow-lg' : 'bg-slate-800 border-slate-700 text-slate-400'}`}>{bridge}</button>
-                                    ))}
-                                </div>
-                                <div className="flex gap-2 overflow-x-auto scrollbar-hide">
-                                    {[{label: "ST SR", value: "Sound Truss SR"}, {label: "ST SRC", value: "Sound Truss SRC"}, {label: "ST SLC", value: "Sound Truss SLC"}, {label: "ST SL", value: "Sound Truss SL"}].map(item => (
-                                        <button key={item.value} onClick={() => toggleFilter(item.value)} className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap border ${activeFilter === item.value ? 'bg-blue-600 border-blue-500 text-white shadow-lg' : 'bg-slate-800 border-slate-700 text-slate-400'}`}>{item.label}</button>
-                                    ))}
-                                </div>
-                                <div className="flex gap-2 overflow-x-auto scrollbar-hide">
-                                    {[{label:"PB SR",value:"Prosc Boom SR"},{label:"NBB SR",value:"Near Box Boom SR"},{label:"AT SR",value:"Advanced Truss SR"},{label:"AT SL",value:"Advanced Truss SL"},{label:"NBB SL",value:"Near Box Boom SL"},{label:"PB SL",value:"Prosc Boom SL"},{label:"DS Trough",value:"DS Trough"},{label:"Portal",value:"Portal"}].map(item => (
-                                        <button key={item.value} onClick={() => toggleFilter(item.value)} className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap border ${activeFilter === item.value ? 'bg-blue-600 border-blue-500 text-white shadow-lg' : 'bg-slate-800 border-slate-700 text-slate-400'}`}>{item.label}</button>
-                                    ))}
-                                </div>
-                                <div className="flex gap-2 overflow-x-auto scrollbar-hide">
-                                    {["LX 1", "LX 2", "LX 3", "LX 4", "LX 5"].map(lx => (
-                                        <button key={lx} onClick={() => toggleFilter(lx)} className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap border ${activeFilter === lx ? 'bg-blue-600 border-blue-500 text-white shadow-lg' : 'bg-slate-800 border-slate-700 text-slate-400'}`}>{lx}</button>
-                                    ))}
-                                </div>
-                                <div className="flex gap-2 overflow-x-auto scrollbar-hide">
-                                    {[{label:"L1SR",value:"Leiter 1 SR"},{label:"L2SR",value:"Leiter 2 SR"},{label:"L3SR",value:"Leiter 3 SR"},{label:"L4SR",value:"Leiter 4 SR"},{label:"L1SL",value:"Leiter 1 SL"},{label:"L2SL",value:"Leiter 2 SL"},{label:"L3SL",value:"Leiter 3 SL"},{label:"L4SL",value:"Leiter 4 SL"}].map(item => (
-                                        <button key={item.value} onClick={() => toggleFilter(item.value)} className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap border ${activeFilter === item.value ? 'bg-blue-600 border-blue-500 text-white shadow-lg' : 'bg-slate-800 border-slate-700 text-slate-400'}`}>{item.label}</button>
-                                    ))}
-                                </div>
-                                <div className="flex gap-2 overflow-x-auto scrollbar-hide">
-                                    {[{label:"B1SR",value:"Boom 1 SR"},{label:"B2SR",value:"Boom 2 SR"},{label:"B3SR",value:"Boom 3 SR"},{label:"B4SR",value:"Boom 4 SR"},{label:"B1SL",value:"Boom 1 SL"},{label:"B2SL",value:"Boom 2 SL"},{label:"B3SL",value:"Boom 3 SL"},{label:"B4SL",value:"Boom 4 SL"}].map(item => (
-                                        <button key={item.value} onClick={() => toggleFilter(item.value)} className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap border ${activeFilter === item.value ? 'bg-blue-600 border-blue-500 text-white shadow-lg' : 'bg-slate-800 border-slate-700 text-slate-400'}`}>{item.label}</button>
-                                    ))}
-                                </div>
+                            <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-2">
+                                {["Alle", "LX 1", "LX 2", "Portal", "Z-Brücke 1"].map(f => (
+                                    <button 
+                                        key={f} 
+                                        onClick={() => setActiveFilter(f)}
+                                        className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap border ${activeFilter === f ? 'bg-blue-600 border-blue-500 text-white' : 'bg-slate-800 border-slate-700 text-slate-400'}`}
+                                    >
+                                        {f}
+                                    </button>
+                                ))}
                             </div>
                         </div>
                     </div>
 
                     <div className="p-4 max-w-md mx-auto">
                         <div className="grid gap-3">
-                            {filteredFixtures.map(fixture => {
-                                // Aufteilen der Adresse in Universum und Rest
-                                const parts = fixture.ADRESSE.split('.');
-                                const universe = parts[0];
-                                const rest = parts.length > 1 ? `.${parts.slice(1).join('.')}` : '';
-
-                                return (
-                                    <div key={fixture.id} className="bg-slate-800 p-4 rounded-xl border border-slate-700 shadow-sm hover:border-slate-600 transition-colors relative">
-                                        <div className="flex justify-between items-start">
-                                            <div>
-                                                <div className="flex items-center gap-2 mb-1">
-                                                    <span className="bg-blue-600 text-white px-2 py-0.5 rounded text-sm font-bold font-mono">
-                                                        {fixture.CHANNEL}
-                                                    </span>
-                                                </div>
-                                                <h3 className="font-bold text-white text-lg leading-tight">{fixture.TYP}</h3>
-                                                <div className="flex items-center gap-2 mt-2">
-                                                    <p className="text-xs font-medium text-slate-400 flex items-center gap-1 bg-slate-900/50 px-2 py-1 rounded">
-                                                        <Icon name="MapPin" size={12} className="text-slate-500" /> 
-                                                        {fixture.POSITION}
-                                                    </p>
-                                                    {fixture.ORT && (
-                                                        <p className="text-xs font-medium text-emerald-100 bg-emerald-900/60 px-2 py-1 rounded border border-emerald-800/50">
-                                                            {fixture.ORT}
-                                                        </p>
-                                                    )}
-                                                </div>
+                            {filteredFixtures.map(fixture => (
+                                <div key={fixture.id} className="bg-slate-800 p-4 rounded-xl border border-slate-700 relative">
+                                    <div className="flex justify-between items-start">
+                                        <div>
+                                            <span className="bg-blue-600 text-white px-2 py-0.5 rounded text-sm font-bold font-mono">
+                                                CH {fixture.CHANNEL}
+                                            </span>
+                                            <h3 className="font-bold text-white text-lg mt-1">{fixture.TYP}</h3>
+                                            <div className="flex items-center gap-2 mt-2">
+                                                <p className="text-xs text-slate-400 flex items-center gap-1 bg-slate-900/50 px-2 py-1 rounded">
+                                                    <Icon name="MapPin" size={12} /> {fixture.POSITION}
+                                                </p>
+                                                {fixture.ORT && <p className="text-xs text-emerald-100 bg-emerald-900/60 px-2 py-1 rounded">{fixture.ORT}</p>}
                                             </div>
-                                            <button className="text-slate-600 hover:text-blue-400 p-2 rounded-full hover:bg-slate-700 transition-colors">
-                                                <Icon name="Edit2" size={18} />
-                                            </button>
-                                        </div>
-
-                                        {/* DMX Adresse unten rechts - Vergrößert auf 18px */}
-                                        <div className="absolute bottom-4 right-4 text-[18px] font-mono text-slate-500 tracking-tighter">
-                                            DMX: <span className="text-blue-600 font-bold">{universe}</span>
-                                            <span className="text-slate-400 font-bold">{rest}</span>
                                         </div>
                                     </div>
-                                );
-                            })}
+                                    <div className="absolute bottom-4 right-4 text-[18px] font-mono">
+                                        <span className="text-slate-500 text-xs mr-1 uppercase">DMX</span>
+                                        <span className="text-blue-500 font-bold">{fixture.ADRESSE}</span>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
-                        
-                        {filteredFixtures.length === 0 && !status && (
-                            <div className="text-center p-10 text-slate-500">
-                                Keine Lampen gefunden.
-                            </div>
-                        )}
                     </div>
                 </div>
             );
