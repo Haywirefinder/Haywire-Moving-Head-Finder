@@ -1,36 +1,38 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Haywire Moving Head Finder</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://unpkg.com/lucide-react@latest"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haywire Moving Head Finder</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/lucide-react@latest"></script>
 
-    <style>
-        /* Versteckt Scrollbars für die Filter-Buttons */
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
-        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-    </style>
+    <style>
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
 </head>
 <body class="bg-slate-900">
     <div id="root"></div>
 
-    <script type="text/babel">
-        // Wir holen uns die Hooks und Icons aus den globalen Objekten
-        const { useState, useEffect, useMemo } = React;
-        const { 
-            Aperture, Search, Edit2, Trash2, Plus, X, Check, 
-            AlertTriangle, FileText, RotateCcw 
-        } = LucideReact;
+<script type="text/babel">
+    const { useState, useEffect, useMemo } = React;
+
+    // Sicherheits-Check für Icons:
+    // Falls LucideReact nicht korrekt geladen wird, nutzen wir Platzhalter
+    const icons = window.LucideReact || {};
+    const Aperture = icons.Aperture || (() => <span>⭕</span>);
+    const Edit2 = icons.Edit2 || (() => <span>📝</span>);
+    const Search = icons.Search || (() => <span>🔍</span>);
+    const AlertTriangle = icons.AlertTriangle || (() => <span>⚠️</span>);
 
         // --- Konfigurationsdaten (wie in deinem Original) ---
         const INITIAL_TYPE_OPTIONS = ["Viper Performance", "Viper Wash DX", "Impression X5", "Diablo S", "Impression FR10 Bar", "Impression X4 Bar", "JDC 1"];
@@ -203,4 +205,5 @@
         root.render(<App />);
     </script>
 </body>
+
 </html>
