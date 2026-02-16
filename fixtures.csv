@@ -127,7 +127,7 @@ CHANNEL,TYP,POSITION,ORT,ADRESSE
 200,Impression X4 Bar,DS Trough,Dimmerraum 1,18/1
 201,Viper Performance,Leiter 1 SR,Dimmerraum 1,13/1
 202,Viper Performance,Leiter 2 SR,Dimmerraum 1,13/121
-203,Viper Performance,Leiter 3S R,Dimmerraum 1,14/95
+203,Viper Performance,Leiter 3 SR,Dimmerraum 1,14/95
 204,Viper Performance,Leiter 4 SR,Dimmerraum 1,14/215
 206,Viper Performance,Leiter 1 SL,Dimmerraum 2,11/1
 207,Viper Performance,Leiter 2 SL,Dimmerraum 2,11/121
@@ -177,3 +177,4 @@ CHANNEL,TYP,POSITION,ORT,ADRESSE
 292,JDC 1,Portal,Dimmerraum 3,15/377
 293,JDC 1,Portal,Dimmerraum 3,15/309
 294,JDC 1,Portal,Dimmerraum 3,15/241
+
