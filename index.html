@@ -30,7 +30,7 @@
     <script type="text/babel">
         const { useState, useEffect, useMemo } = React;
 
-        // --- INTERNE ICONS (Stabiles Setup) ---
+        // --- INTERNE ICONS ---
         const Icons = {
             MovingHead: (props) => (
                 <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -60,16 +60,14 @@
             return <IconComponent width={size} height={size} className={className} />;
         };
 
-        // --- MOCK DATEN (Fallback für Vorschau) ---
+        // --- MOCK DATEN ---
         const MOCK_DATA = [
-            { id: 1, CHANNEL: "101", TYP: "Viper Performance", POSITION: "LX 1", ORT: "Bühne Links" },
-            { id: 2, CHANNEL: "102", TYP: "Viper Performance", POSITION: "LX 1", ORT: "Bühne Rechts" },
-            { id: 3, CHANNEL: "201", TYP: "Aura XB", POSITION: "Portal", ORT: "Zuschauer" },
-            { id: 4, CHANNEL: "202", TYP: "Aura XB", POSITION: "Portal", ORT: "Zuschauer" },
-            { id: 5, CHANNEL: "301", TYP: "JDC 1", POSITION: "Boden", ORT: "Hinten" },
+            { id: 1, CHANNEL: "101", TYP: "Viper Performance", POSITION: "LX 1", ORT: "Dimmerraum 1", ADRESSE: "1.001" },
+            { id: 2, CHANNEL: "102", TYP: "Viper Performance", POSITION: "LX 1", ORT: "Dimmerraum 2", ADRESSE: "1.036" },
+            { id: 3, CHANNEL: "201", TYP: "Aura XB", POSITION: "Portal", ORT: "Dimmerraum 3", ADRESSE: "2.100" },
+            { id: 4, CHANNEL: "202", TYP: "Aura XB", POSITION: "Portal", ORT: "Dimmerraum 4", ADRESSE: "2.125" },
+            { id: 5, CHANNEL: "301", TYP: "JDC 1", POSITION: "Boden", ORT: "Dimmerraum 1", ADRESSE: "3.001" },
         ];
-
-        // --- APP LOGIK ---
 
         function App() {
             const [fixtures, setFixtures] = useState([]);
@@ -77,18 +75,16 @@
             const [activeFilter, setActiveFilter] = useState("Alle");
             const [status, setStatus] = useState("Lade Daten...");
 
-            // CSV Laden
             useEffect(() => {
                 const saved = localStorage.getItem('fixtureData');
                 if (saved) {
                     try {
                         setFixtures(JSON.parse(saved));
                         setStatus(""); 
-                        return; // Wenn LocalStorage Daten hat, fertig.
+                        return;
                     } catch (e) { console.error(e); }
                 }
 
-                // Versuche CSV zu laden, aber mit Fallback
                 if (window.Papa) {
                     try {
                         window.Papa.parse("fixtures.csv", {
@@ -102,44 +98,27 @@
                                         CHANNEL: row.CHANNEL || row.Channel || "---",
                                         TYP: row.TYP || row.Typ || "Unbekannt",
                                         POSITION: row.POSITION || row.Position || "Unbekannt",
-                                        ORT: row.ORT || row.Ort || ""
+                                        ORT: row.ORT || row.Ort || "",
+                                        ADRESSE: row.ADRESSE || row.Adresse || "---" 
                                     }));
                                     setFixtures(parsed);
                                     setStatus("");
                                 } else {
-                                    console.warn("CSV leer, lade Demo-Daten");
                                     setFixtures(MOCK_DATA);
                                     setStatus("Demo-Modus (CSV leer)");
                                 }
                             },
                             error: (err) => {
-                                console.warn("Konnte CSV nicht laden, lade Demo-Daten:", err);
                                 setFixtures(MOCK_DATA);
                                 setStatus("Demo-Modus (Keine CSV gefunden)");
                             }
                         });
                     } catch (e) {
-                        console.error("Kritischer Fehler beim Laden, nutze Fallback:", e);
                         setFixtures(MOCK_DATA);
                         setStatus("Demo-Modus");
                     }
-                } else {
-                    setFixtures(MOCK_DATA);
-                    setStatus("Demo-Modus (PapaParse fehlt)");
                 }
             }, []);
-
-            useEffect(() => {
-                if (fixtures.length > 0) {
-                    // localStorage.setItem('fixtureData', JSON.stringify(fixtures));
-                }
-            }, [fixtures]);
-
-            const availablePositions = useMemo(() => {
-                const positions = new Set(fixtures.map(f => f.POSITION));
-                const sorted = Array.from(positions).filter(p => p && p !== "Unbekannt").sort();
-                return ["Alle", ...sorted];
-            }, [fixtures]);
 
             const filteredFixtures = useMemo(() => {
                 return fixtures.filter(f => {
@@ -150,18 +129,14 @@
                 });
             }, [fixtures, searchTerm, activeFilter]);
 
-            // Helfer zum Umschalten der Filter
             const toggleFilter = (filterName) => {
                 setActiveFilter(activeFilter === filterName ? "Alle" : filterName);
             };
 
             return (
                 <div className="min-h-screen bg-slate-900 text-slate-200 font-sans pb-40">
-                    {/* Header */}
                     <div className="sticky top-0 z-20 bg-slate-900/95 p-4 border-b border-slate-800 shadow-xl backdrop-blur-sm">
                         <div className="max-w-md mx-auto space-y-4">
-                            
-                            {/* Überschrift */}
                             <h1 className="text-xl font-bold text-white flex items-center gap-3 font-brand">
                                 Haywire moving head finder
                             </h1>
@@ -183,190 +158,89 @@
                                 )}
                             </div>
 
-                            {/* --- FILTER BUTTONS --- */}
-
-                            {/* 1. Z-Brücken */}
-                            <div className="flex gap-2 overflow-x-auto scrollbar-hide pt-1">
-                                {["Z-Brücke 0", "Z-Brücke 1", "Z-Brücke 2"].map(bridge => (
-                                    <button 
-                                        key={bridge} 
-                                        onClick={() => toggleFilter(bridge)} 
-                                        className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition-colors border ${
-                                            activeFilter === bridge 
-                                            ? 'bg-blue-600 border-blue-500 text-white shadow-lg' 
-                                            : 'bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700 hover:text-white'
-                                        }`}
-                                    >
-                                        {bridge}
-                                    </button>
-                                ))}
+                            <div className="space-y-2">
+                                <div className="flex gap-2 overflow-x-auto scrollbar-hide">
+                                    {["Z-Brücke 0", "Z-Brücke 1", "Z-Brücke 2"].map(bridge => (
+                                        <button key={bridge} onClick={() => toggleFilter(bridge)} className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap border ${activeFilter === bridge ? 'bg-blue-600 border-blue-500 text-white shadow-lg' : 'bg-slate-800 border-slate-700 text-slate-400'}`}>{bridge}</button>
+                                    ))}
+                                </div>
+                                <div className="flex gap-2 overflow-x-auto scrollbar-hide">
+                                    {[{label: "ST SR", value: "Sound Truss SR"}, {label: "ST SRC", value: "Sound Truss SRC"}, {label: "ST SLC", value: "Sound Truss SLC"}, {label: "ST SL", value: "Sound Truss SL"}].map(item => (
+                                        <button key={item.value} onClick={() => toggleFilter(item.value)} className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap border ${activeFilter === item.value ? 'bg-blue-600 border-blue-500 text-white shadow-lg' : 'bg-slate-800 border-slate-700 text-slate-400'}`}>{item.label}</button>
+                                    ))}
+                                </div>
+                                <div className="flex gap-2 overflow-x-auto scrollbar-hide">
+                                    {[{label:"PB SR",value:"Prosc Boom SR"},{label:"NBB SR",value:"Near Box Boom SR"},{label:"AT SR",value:"Advanced Truss SR"},{label:"AT SL",value:"Advanced Truss SL"},{label:"NBB SL",value:"Near Box Boom SL"},{label:"PB SL",value:"Prosc Boom SL"},{label:"DS Trough",value:"DS Trough"},{label:"Portal",value:"Portal"}].map(item => (
+                                        <button key={item.value} onClick={() => toggleFilter(item.value)} className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap border ${activeFilter === item.value ? 'bg-blue-600 border-blue-500 text-white shadow-lg' : 'bg-slate-800 border-slate-700 text-slate-400'}`}>{item.label}</button>
+                                    ))}
+                                </div>
+                                <div className="flex gap-2 overflow-x-auto scrollbar-hide">
+                                    {["LX 1", "LX 2", "LX 3", "LX 4", "LX 5"].map(lx => (
+                                        <button key={lx} onClick={() => toggleFilter(lx)} className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap border ${activeFilter === lx ? 'bg-blue-600 border-blue-500 text-white shadow-lg' : 'bg-slate-800 border-slate-700 text-slate-400'}`}>{lx}</button>
+                                    ))}
+                                </div>
+                                <div className="flex gap-2 overflow-x-auto scrollbar-hide">
+                                    {[{label:"L1SR",value:"Leiter 1 SR"},{label:"L2SR",value:"Leiter 2 SR"},{label:"L3SR",value:"Leiter 3 SR"},{label:"L4SR",value:"Leiter 4 SR"},{label:"L1SL",value:"Leiter 1 SL"},{label:"L2SL",value:"Leiter 2 SL"},{label:"L3SL",value:"Leiter 3 SL"},{label:"L4SL",value:"Leiter 4 SL"}].map(item => (
+                                        <button key={item.value} onClick={() => toggleFilter(item.value)} className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap border ${activeFilter === item.value ? 'bg-blue-600 border-blue-500 text-white shadow-lg' : 'bg-slate-800 border-slate-700 text-slate-400'}`}>{item.label}</button>
+                                    ))}
+                                </div>
+                                <div className="flex gap-2 overflow-x-auto scrollbar-hide">
+                                    {[{label:"B1SR",value:"Boom 1 SR"},{label:"B2SR",value:"Boom 2 SR"},{label:"B3SR",value:"Boom 3 SR"},{label:"B4SR",value:"Boom 4 SR"},{label:"B1SL",value:"Boom 1 SL"},{label:"B2SL",value:"Boom 2 SL"},{label:"B3SL",value:"Boom 3 SL"},{label:"B4SL",value:"Boom 4 SL"}].map(item => (
+                                        <button key={item.value} onClick={() => toggleFilter(item.value)} className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap border ${activeFilter === item.value ? 'bg-blue-600 border-blue-500 text-white shadow-lg' : 'bg-slate-800 border-slate-700 text-slate-400'}`}>{item.label}</button>
+                                    ))}
+                                </div>
                             </div>
-
-                            {/* 2. Sound Truss */}
-                            <div className="flex gap-2 overflow-x-auto scrollbar-hide pt-1">
-                                {[
-                                    { label: "ST SR", value: "Sound Truss SR" },
-                                    { label: "ST SRC", value: "Sound Truss SRC" },
-                                    { label: "ST SLC", value: "Sound Truss SLC" },
-                                    { label: "ST SL", value: "Sound Truss SL" }
-                                ].map(item => (
-                                    <button 
-                                        key={item.value} 
-                                        onClick={() => toggleFilter(item.value)} 
-                                        className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition-colors border ${
-                                            activeFilter === item.value 
-                                            ? 'bg-blue-600 border-blue-500 text-white shadow-lg' 
-                                            : 'bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700 hover:text-white'
-                                        }`}
-                                    >
-                                        {item.label}
-                                    </button>
-                                ))}
-                            </div>
-
-                            {/* 3. PB / NBB / AT / DS / Portal */}
-                            <div className="flex gap-2 overflow-x-auto scrollbar-hide pt-1">
-                                {[
-                                    { label: "PB SR", value: "Prosc Boom SR" },
-                                    { label: "NBB SR", value: "Near Box Boom SR" },
-                                    { label: "AT SR", value: "Advanced Truss SR" },
-                                    { label: "AT SL", value: "Advanced Truss SL" },
-                                    { label: "NBB SL", value: "Near Box Boom SL" },
-                                    { label: "PB SL", value: "Prosc Boom SL" },
-                                    { label: "DS Trough", value: "DS Trough" },
-                                    { label: "Portal", value: "Portal" }
-                                ].map(item => (
-                                    <button 
-                                        key={item.value} 
-                                        onClick={() => toggleFilter(item.value)} 
-                                        className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition-colors border ${
-                                            activeFilter === item.value 
-                                            ? 'bg-blue-600 border-blue-500 text-white shadow-lg' 
-                                            : 'bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700 hover:text-white'
-                                        }`}
-                                    >
-                                        {item.label}
-                                    </button>
-                                ))}
-                            </div>
-
-                            {/* 4. LX */}
-                            <div className="flex gap-2 overflow-x-auto scrollbar-hide pt-1">
-                                {["LX 1", "LX 2", "LX 3", "LX 4", "LX 5"].map(lx => (
-                                    <button 
-                                        key={lx} 
-                                        onClick={() => toggleFilter(lx)} 
-                                        className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition-colors border ${
-                                            activeFilter === lx 
-                                            ? 'bg-blue-600 border-blue-500 text-white shadow-lg' 
-                                            : 'bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700 hover:text-white'
-                                        }`}
-                                    >
-                                        {lx}
-                                    </button>
-                                ))}
-                            </div>
-
-                            {/* 5. Leiter (L1SR...L4SL) */}
-                            <div className="flex gap-2 overflow-x-auto scrollbar-hide pt-1">
-                                {[
-                                    { label: "L1SR", value: "Leiter 1 SR" },
-                                    { label: "L2SR", value: "Leiter 2 SR" },
-                                    { label: "L3SR", value: "Leiter 3 SR" },
-                                    { label: "L4SR", value: "Leiter 4 SR" },
-                                    { label: "L1SL", value: "Leiter 1 SL" },
-                                    { label: "L2SL", value: "Leiter 2 SL" },
-                                    { label: "L3SL", value: "Leiter 3 SL" },
-                                    { label: "L4SL", value: "Leiter 4 SL" }
-                                ].map(item => (
-                                    <button 
-                                        key={item.value} 
-                                        onClick={() => toggleFilter(item.value)} 
-                                        className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition-colors border ${
-                                            activeFilter === item.value 
-                                            ? 'bg-blue-600 border-blue-500 text-white shadow-lg' 
-                                            : 'bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700 hover:text-white'
-                                        }`}
-                                    >
-                                        {item.label}
-                                    </button>
-                                ))}
-                            </div>
-
-                            {/* 6. Boom (B1SR...B4SL) */}
-                            <div className="flex gap-2 overflow-x-auto scrollbar-hide pt-1">
-                                {[
-                                    { label: "B1SR", value: "Boom 1 SR" },
-                                    { label: "B2SR", value: "Boom 2 SR" },
-                                    { label: "B3SR", value: "Boom 3 SR" },
-                                    { label: "B4SR", value: "Boom 4 SR" },
-                                    { label: "B1SL", value: "Boom 1 SL" },
-                                    { label: "B2SL", value: "Boom 2 SL" },
-                                    { label: "B3SL", value: "Boom 3 SL" },
-                                    { label: "B4SL", value: "Boom 4 SL" }
-                                ].map(item => (
-                                    <button 
-                                        key={item.value} 
-                                        onClick={() => toggleFilter(item.value)} 
-                                        className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition-colors border ${
-                                            activeFilter === item.value 
-                                            ? 'bg-blue-600 border-blue-500 text-white shadow-lg' 
-                                            : 'bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700 hover:text-white'
-                                        }`}
-                                    >
-                                        {item.label}
-                                    </button>
-                                ))}
-                            </div>
-
                         </div>
                     </div>
 
-                    {/* Content */}
                     <div className="p-4 max-w-md mx-auto">
-                        {status && (
-                            <div className="text-center py-4 px-4 mb-4">
-                                <p className="text-xs text-yellow-500 bg-yellow-900/20 p-2 rounded border border-yellow-900/50 inline-block">
-                                    Status: {status}
-                                </p>
-                            </div>
-                        )}
-                        
                         <div className="grid gap-3">
-                            {filteredFixtures.map(fixture => (
-                                <div key={fixture.id} className="bg-slate-800 p-4 rounded-xl border border-slate-700 shadow-sm hover:border-slate-600 transition-colors">
-                                    <div className="flex justify-between items-start">
-                                        <div>
-                                            <div className="flex items-center gap-2 mb-1">
-                                                {/* Channel Tag ohne # */}
-                                                <span className="bg-blue-600 text-white px-2 py-0.5 rounded text-sm font-bold font-mono">
-                                                    {fixture.CHANNEL}
-                                                </span>
-                                            </div>
-                                            <h3 className="font-bold text-white text-lg leading-tight">{fixture.TYP}</h3>
-                                            <div className="flex items-center gap-4 mt-2">
-                                                <p className="text-xs font-medium text-slate-400 flex items-center gap-1 bg-slate-900/50 px-2 py-1 rounded">
-                                                    <Icon name="MapPin" size={12} className="text-slate-500" /> 
-                                                    {fixture.POSITION}
-                                                </p>
-                                                {fixture.ORT && (
-                                                    <p className="text-xs text-slate-500">
-                                                        {fixture.ORT}
+                            {filteredFixtures.map(fixture => {
+                                // Aufteilen der Adresse in Universum und Rest
+                                const parts = fixture.ADRESSE.split('.');
+                                const universe = parts[0];
+                                const rest = parts.length > 1 ? `.${parts.slice(1).join('.')}` : '';
+
+                                return (
+                                    <div key={fixture.id} className="bg-slate-800 p-4 rounded-xl border border-slate-700 shadow-sm hover:border-slate-600 transition-colors relative">
+                                        <div className="flex justify-between items-start">
+                                            <div>
+                                                <div className="flex items-center gap-2 mb-1">
+                                                    <span className="bg-blue-600 text-white px-2 py-0.5 rounded text-sm font-bold font-mono">
+                                                        {fixture.CHANNEL}
+                                                    </span>
+                                                </div>
+                                                <h3 className="font-bold text-white text-lg leading-tight">{fixture.TYP}</h3>
+                                                <div className="flex items-center gap-2 mt-2">
+                                                    <p className="text-xs font-medium text-slate-400 flex items-center gap-1 bg-slate-900/50 px-2 py-1 rounded">
+                                                        <Icon name="MapPin" size={12} className="text-slate-500" /> 
+                                                        {fixture.POSITION}
                                                     </p>
-                                                )}
+                                                    {fixture.ORT && (
+                                                        <p className="text-xs font-medium text-emerald-100 bg-emerald-900/60 px-2 py-1 rounded border border-emerald-800/50">
+                                                            {fixture.ORT}
+                                                        </p>
+                                                    )}
+                                                </div>
                                             </div>
+                                            <button className="text-slate-600 hover:text-blue-400 p-2 rounded-full hover:bg-slate-700 transition-colors">
+                                                <Icon name="Edit2" size={18} />
+                                            </button>
                                         </div>
-                                        <button className="text-slate-600 hover:text-blue-400 p-2 rounded-full hover:bg-slate-700 transition-colors">
-                                            <Icon name="Edit2" size={18} />
-                                        </button>
+
+                                        {/* DMX Adresse unten rechts - Vergrößert auf 18px */}
+                                        <div className="absolute bottom-4 right-4 text-[18px] font-mono text-slate-500 tracking-tighter">
+                                            DMX: <span className="text-blue-600 font-bold">{universe}</span>
+                                            <span className="text-slate-400 font-bold">{rest}</span>
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
+                                );
+                            })}
                         </div>
                         
                         {filteredFixtures.length === 0 && !status && (
                             <div className="text-center p-10 text-slate-500">
-                                {activeFilter !== "Alle" ? `Keine Lampen auf ${activeFilter} gefunden.` : "Keine Lampen gefunden."}
+                                Keine Lampen gefunden.
                             </div>
                         )}
                     </div>
