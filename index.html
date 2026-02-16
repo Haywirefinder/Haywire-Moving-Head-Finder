@@ -53,9 +53,6 @@
             Search: (props) => (
                 <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
             ),
-            MapPin: (props) => (
-                <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-            ),
             X: (props) => (
                 <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
             )
@@ -84,11 +81,11 @@
             const [status, setStatus] = useState("Lade...");
 
             const hardcodedValues = [
-                "Z-Brücke 0", "Z-Brücke 1", "Z-Brücke 2",
+                "Z-Brücke 1", "FS Brücke",
                 "Sound Truss SR", "Sound Truss SRC", "Sound Truss SLC", "Sound Truss SL",
                 "Prosc Boom SR", "Near Box Boom SR", "Advanced Truss SR", "Advanced Truss SL", "Near Box Boom SL", "Prosc Boom SL", "DS Trough", "Portal",
                 "LX 1", "LX 2", "LX 3", "LX 4", "LX 5",
-                "Leiter 1 SR", "Leiter 2 SR", "Leiter 3 SR", "Leiter 4 SR", "Leiter 1 SL", "Leiter 2 SL", "Leiter 3 SL", "Leiter 4 SL",
+                "Leiter 1 SR", "Leiter 2 SR", "Leiter 3 SR", "Leiter 4 SR", "Leiter 1 SL", "L2SL", "Leiter 3 SL", "Leiter 4 SL",
                 "Boom 1 SR", "Boom 2 SR", "Boom 3 SR", "Boom 4 SR", "Boom 1 SL", "Boom 2 SL", "Boom 3 SL", "Boom 4 SL"
             ];
 
@@ -183,11 +180,11 @@
                             <div className="space-y-3 pt-2">
                                 <div className="flex flex-col gap-2">
                                     {[
-                                        ["Z-Brücke 0", "Z-Brücke 1", "Z-Brücke 2"],
+                                        ["Z-Brücke 1", "FS Brücke"],
                                         [{l:"ST SR",v:"Sound Truss SR"},{l:"ST SRC",v:"Sound Truss SRC"},{l:"ST SLC",v:"Sound Truss SLC"},{l:"ST SL",v:"Sound Truss SL"}],
                                         [{l:"PB SR",v:"Prosc Boom SR"},{l:"NBB SR",v:"Near Box Boom SR"},{l:"AT SR",v:"Advanced Truss SR"},{l:"AT SL",v:"Advanced Truss SL"},{l:"NBB SL",v:"Near Box Boom SL"},{l:"PB SL",v:"Prosc Boom SL"},{l:"DS Trough",v:"DS Trough"},{l:"Portal",v:"Portal"}],
                                         ["LX 1", "LX 2", "LX 3", "LX 4", "LX 5"],
-                                        [{l:"L1SR",v:"Leiter 1 SR"},{l:"L2SR",v:"Leiter 2 SR"},{l:"L3SR",v:"Leiter 3 SR"},{l:"L4SR",v:"Leiter 4 SR"},{l:"L1SL",v:"Leiter 1 SL"},{l:"L2SL",v:"Leiter 2 SL"},{l:"L3SL",v:"Leiter 3 SL"},{l:"L4SL",v:"Leiter 4 SL"}],
+                                        [{l:"L1SR",v:"Leiter 1 SR"},{l:"L2SR",v:"Leiter 2 SR"},{l:"L3SR",v:"Leiter 3 SR"},{l:"L4SR",v:"Leiter 4 SR"},{l:"L1SL",v:"Leiter 1 SL"},{l:"L2SL",v:"L2SL"},{l:"L3SL",v:"Leiter 3 SL"},{l:"L4SL",v:"Leiter 4 SL"}],
                                         [{l:"B1SR",v:"Boom 1 SR"},{l:"B2SR",v:"Boom 2 SR"},{l:"B3SR",v:"Boom 3 SR"},{l:"B4SR",v:"Boom 4 SR"},{l:"B1SL",v:"Boom 1 SL"},{l:"B2SL",v:"Boom 2 SL"},{l:"B3SL",v:"Boom 3 SL"},{l:"B4SL",v:"Boom 4 SL"}]
                                     ].map((row, idx) => (
                                         <div key={idx} className="flex gap-2 overflow-x-auto scrollbar-hide py-0.5">
@@ -219,8 +216,9 @@
                                 const rest = parts.length > 1 ? `.${parts.slice(1).join('.')}` : '';
 
                                 return (
-                                    <div key={fixture.id} className="bg-slate-800 p-5 rounded-2xl border border-slate-700 shadow-md hover:shadow-xl hover:border-slate-500 transition-all duration-300 relative group flex flex-col justify-between min-h-[150px]">
+                                    <div key={fixture.id} className="bg-slate-800 p-5 rounded-2xl border border-slate-700 shadow-md hover:shadow-xl hover:border-slate-500 transition-all duration-300 relative group flex flex-col justify-between min-h-[160px]">
                                         <div className="space-y-4 font-brand">
+                                            {/* Kopfzeile */}
                                             <div className="flex items-center gap-3">
                                                 <span className="bg-blue-600 text-white px-3 py-1 rounded-lg text-sm font-bold shadow-sm group-hover:bg-blue-500 transition-colors shrink-0">
                                                     {fixture.CHANNEL}
@@ -229,22 +227,26 @@
                                                     {fixture.TYP}
                                                 </h3>
                                             </div>
-                                            
-                                            <div className="flex flex-wrap items-center gap-2">
-                                                <p className="text-xs font-normal text-slate-300 flex items-center gap-1.5 bg-slate-900/80 px-2.5 py-1.5 rounded-full border border-slate-700/50">
-                                                    <Icon name="MapPin" size={12} className="text-slate-500" /> 
-                                                    {fixture.POSITION}
-                                                </p>
-                                                {fixture.ORT && (
-                                                    <p className="text-xs font-normal text-emerald-100 bg-emerald-900/40 px-2.5 py-1.5 rounded-full border border-emerald-800/30">
+
+                                            {/* Mittlere Zeile: Ort zentriert */}
+                                            {fixture.ORT && (
+                                                <div className="flex justify-center">
+                                                    <div className="text-xs font-normal text-emerald-100 bg-emerald-900/40 px-3 py-1.5 rounded-full border border-emerald-800/30 truncate text-center max-w-full">
                                                         {fixture.ORT}
-                                                    </p>
-                                                )}
-                                            </div>
+                                                    </div>
+                                                </div>
+                                            )}
                                         </div>
                                         
-                                        <div className="mt-6 flex justify-end">
-                                            <div className="text-xs font-brand font-normal text-slate-500 tracking-tighter bg-slate-900/40 px-3 py-1 rounded-lg">
+                                        {/* Untere Zeile: Position links, DMX rechts */}
+                                        <div className="mt-6 flex justify-between items-end gap-1">
+                                            {/* Position Links */}
+                                            <div className="text-xs font-normal text-slate-300 bg-slate-900/80 px-2.5 py-1.5 rounded-full border border-slate-700/50 truncate max-w-[45%]">
+                                                {fixture.POSITION}
+                                            </div>
+
+                                            {/* DMX Rechts */}
+                                            <div className="text-xs font-brand font-normal text-slate-500 tracking-tighter bg-slate-900/40 px-3 py-1 rounded-lg shrink-0">
                                                 DMX: <span className="text-blue-600 font-bold">{universe}</span><span className="text-slate-400 font-bold">{rest}</span>
                                             </div>
                                         </div>
