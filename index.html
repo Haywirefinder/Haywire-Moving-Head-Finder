@@ -228,10 +228,10 @@
                                                 </h3>
                                             </div>
 
-                                            {/* Mittlere Zeile: Ort zentriert */}
+                                            {/* Mittlere Zeile: Ort linksbündig - Font fett und nicht kursiv */}
                                             {fixture.ORT && (
-                                                <div className="flex justify-center">
-                                                    <div className="text-xs font-normal text-emerald-100 bg-emerald-900/40 px-3 py-1.5 rounded-full border border-emerald-800/30 truncate text-center max-w-full">
+                                                <div className="flex justify-start">
+                                                    <div className="text-base font-bold text-emerald-400 truncate text-left max-w-full">
                                                         {fixture.ORT}
                                                     </div>
                                                 </div>
@@ -240,14 +240,14 @@
                                         
                                         {/* Untere Zeile: Position links, DMX rechts */}
                                         <div className="mt-6 flex justify-between items-end gap-1">
-                                            {/* Position Links */}
-                                            <div className="text-xs font-normal text-slate-300 bg-slate-900/80 px-2.5 py-1.5 rounded-full border border-slate-700/50 truncate max-w-[45%]">
+                                            {/* Position Links in hellem Grau */}
+                                            <div className="text-xs font-normal text-slate-300 truncate max-w-[45%]">
                                                 {fixture.POSITION}
                                             </div>
 
-                                            {/* DMX Rechts */}
-                                            <div className="text-xs font-brand font-normal text-slate-500 tracking-tighter bg-slate-900/40 px-3 py-1 rounded-lg shrink-0">
-                                                DMX: <span className="text-blue-600 font-bold">{universe}</span><span className="text-slate-400 font-bold">{rest}</span>
+                                            {/* DMX Rechts in hellem Grau */}
+                                            <div className="text-xs font-brand font-normal text-slate-300 tracking-tighter shrink-0">
+                                                DMX: <span className="font-bold">{universe}</span><span className="font-bold">{rest}</span>
                                             </div>
                                         </div>
                                     </div>
