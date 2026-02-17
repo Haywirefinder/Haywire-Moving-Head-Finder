@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
     <!-- Web App Einstellungen für "Standalone" Modus (entfernt Adressleiste) -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -14,7 +14,7 @@
     <meta name="apple-mobile-web-app-title" content="Haywire Finder">
     <meta name="application-name" content="Haywire Finder">
     
-    <!-- Erweitertes Web Manifest (Inline via Data-URI) für bessere Android-Kompatibilität -->
+    <!-- Erweitertes Web Manifest (Inline via Data-URI) -->
     <link rel="manifest" href='data:application/manifest+json,{
         "name": "Haywire Finder",
         "short_name": "Haywire",
@@ -22,6 +22,7 @@
         "id": "haywire-finder-1.0",
         "start_url": "./index.html",
         "display": "standalone",
+        "display_override": ["fullscreen", "standalone"],
         "orientation": "portrait",
         "background_color": "#0f172a",
         "theme_color": "#0f172a",
@@ -52,10 +53,13 @@
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
         
-        body { 
-            /* Fallback und Basis für den Verlauf */
+        html, body {
             background-color: #0f172a; 
             font-family: 'Roboto', sans-serif; 
+            /* Verhindert, dass Ziehen am Rand die Browser-UI (Adressleiste/Refresh) triggert */
+            overscroll-behavior-y: none;
+            height: 100%;
+            overflow-x: hidden;
         }
         
         .font-brand {
@@ -261,11 +265,9 @@
                         <div className="max-w-7xl mx-auto space-y-4">
                             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                                 <div className="flex flex-col">
-                                    {/* Überschrift in 70% Grau (#b3b3b3) */}
                                     <h1 className="fluid-header font-normal text-[#b3b3b3] font-brand truncate uppercase tracking-tight">
                                          HAYWIRE &nbsp; MOVING &nbsp; HEAD &nbsp; FINDER
                                     </h1>
-                                    {/* Untertitel: 70% kleiner, identischer Font und Farbe */}
                                     <div className="fluid-subtitle font-normal text-[#b3b3b3] font-brand uppercase tracking-widest opacity-90 mt-0.5">
                                         Theater an der Elbe &nbsp; - &nbsp; MJ Das Musical
                                     </div>
@@ -342,7 +344,6 @@
                                     return (
                                         <div key={fixture.id} className="bg-slate-800/80 backdrop-blur-sm p-3.5 rounded-2xl border border-slate-700 shadow-md hover:shadow-xl hover:border-slate-500 transition-all duration-300 relative group flex flex-col justify-between min-h-[112px]">
                                             <div className="space-y-2 font-brand">
-                                                {/* Kopfzeile */}
                                                 <div className="flex items-center gap-3">
                                                     <span className="bg-blue-600 text-white px-3 py-1 rounded-lg text-sm font-bold shadow-sm group-hover:bg-blue-500 transition-colors shrink-0">
                                                         {fixture.CHANNEL}
@@ -352,7 +353,6 @@
                                                     </h3>
                                                 </div>
 
-                                                {/* Mittlere Zeile: Ort linksbündig */}
                                                 {fixture.ORT && (
                                                     <div className="flex justify-start">
                                                         <div className="text-base font-bold text-emerald-400 truncate text-left max-w-full">
@@ -362,7 +362,6 @@
                                                 )}
                                             </div>
                                             
-                                            {/* Untere Zeile: Position links, DMX rechts */}
                                             <div className="mt-3 flex justify-between items-end gap-1">
                                                 <div className="text-xs font-normal text-slate-300 truncate max-w-[45%]">
                                                     {fixture.POSITION}
