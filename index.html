@@ -14,8 +14,25 @@
     <meta name="apple-mobile-web-app-title" content="Haywire Finder">
     <meta name="application-name" content="Haywire Finder">
     
-    <!-- Web Manifest (Inline via Data-URI für Single-File Support) -->
-    <link rel="manifest" href='data:application/manifest+json,{"name":"Haywire Finder","short_name":"Haywire","display":"standalone","start_url":".","background_color":"#0f172a","theme_color":"#0f172a"}'>
+    <!-- Erweitertes Web Manifest (Inline via Data-URI) für bessere Android-Kompatibilität -->
+    <link rel="manifest" href='data:application/manifest+json,{
+        "name": "Haywire Finder",
+        "short_name": "Haywire",
+        "description": "Moving Head Finder MJ Musical",
+        "id": "haywire-finder-1.0",
+        "start_url": "./index.html",
+        "display": "standalone",
+        "orientation": "portrait",
+        "background_color": "#0f172a",
+        "theme_color": "#0f172a",
+        "icons": [
+            {
+                "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiB2aWV3Qm94PSIwIDAgMTkyIDE5MiI+PHJlY3Qgd2lkdGg9IjE5MiIgaGVpZ2h0PSIxOTIiIGZpbGw9IiMwZjE3MmEiLz48Y2lyY2xlIGN4PSI5NiIgY3k9Ijk2IiByPSI0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjM2I4MmY2IiBzdHJva2Utd2lkdGg9IjgiLz48L3N2Zz4=",
+                "sizes": "192x192",
+                "type": "image/svg+xml"
+            }
+        ]
+    }'>
 
     <title>Haywire Finder</title>
     
