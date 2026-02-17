@@ -56,7 +56,6 @@
         html, body {
             background-color: #0f172a; 
             font-family: 'Roboto', sans-serif; 
-            /* Verhindert, dass Ziehen am Rand die Browser-UI (Adressleiste/Refresh) triggert */
             overscroll-behavior-y: none;
             height: 100%;
             overflow-x: hidden;
@@ -117,15 +116,90 @@
             return IconComponent ? <IconComponent width={size} height={size} className={className} /> : null;
         };
 
-        // --- MOCK DATEN (Fallback) ---
+        // --- KOMPLETTE DATEN AUS CSV (Erweiterter Demo-Modus) ---
         const MOCK_DATA = [
-            { id: 1, CHANNEL: "101", TYP: "Viper Performance", POSITION: "LX 1", ORT: "Dimmerraum 1", ADRESSE: "1.001" },
-            { id: 2, CHANNEL: "102", TYP: "Viper Performance", POSITION: "LX 1", ORT: "Dimmerraum 2", ADRESSE: "1.036" },
-            { id: 3, CHANNEL: "201", TYP: "Aura XB", POSITION: "Portal", ORT: "Dimmerraum 3", ADRESSE: "2.100" },
-            { id: 4, CHANNEL: "202", TYP: "Aura XB", POSITION: "Sound Truss SR", ORT: "Dimmerraum 4", ADRESSE: "2.125" },
-            { id: 5, CHANNEL: "301", TYP: "JDC 1", POSITION: "Z-Brücke 1", ORT: "Dimmerraum 1", ADRESSE: "3.001" },
-            { id: 6, CHANNEL: "401", TYP: "MAC Ultra", POSITION: "LX 2", ORT: "Dimmerraum 1", ADRESSE: "1.201" },
-            { id: 7, CHANNEL: "402", TYP: "MAC Ultra", POSITION: "LX 2", ORT: "Dimmerraum 1", ADRESSE: "1.250" },
+            // Z-Brücke
+            { id: 1, CHANNEL: "1", TYP: "Viper Performance", POSITION: "Z-Brücke 1", ORT: "Dimmerraum 3", ADRESSE: "10/337", ROW: "7" },
+            { id: 2, CHANNEL: "2", TYP: "Viper Performance", POSITION: "Z-Brücke 1", ORT: "Dimmerraum 3", ADRESSE: "10/297", ROW: "6" },
+            { id: 3, CHANNEL: "3", TYP: "Viper Performance", POSITION: "Z-Brücke 1", ORT: "Dimmerraum 3", ADRESSE: "10/257", ROW: "5" },
+            { id: 4, CHANNEL: "4", TYP: "Viper Performance", POSITION: "Z-Brücke 1", ORT: "Dimmerraum 3", ADRESSE: "10/217", ROW: "4" },
+            { id: 5, CHANNEL: "5", TYP: "Viper Performance", POSITION: "Z-Brücke 1", ORT: "Dimmerraum 3", ADRESSE: "10/177", ROW: "3" },
+            { id: 6, CHANNEL: "6", TYP: "Viper Performance", POSITION: "Z-Brücke 1", ORT: "Dimmerraum 3", ADRESSE: "10/137", ROW: "2" },
+            { id: 7, CHANNEL: "7", TYP: "Viper Performance", POSITION: "Z-Brücke 1", ORT: "Dimmerraum 3", ADRESSE: "10/97", ROW: "1" },
+            
+            // Sound Truss
+            { id: 11, CHANNEL: "11", TYP: "Viper Performance", POSITION: "Sound Truss SR", ORT: "Dimmerraum 4", ADRESSE: "15/201", ROW: "6" },
+            { id: 12, CHANNEL: "12", TYP: "Viper Performance", POSITION: "Sound Truss SR", ORT: "Dimmerraum 4", ADRESSE: "15/121", ROW: "5" },
+            { id: 13, CHANNEL: "13", TYP: "Viper Performance", POSITION: "Sound Truss SRC", ORT: "Dimmerraum 4", ADRESSE: "15/161", ROW: "4" },
+            { id: 14, CHANNEL: "14", TYP: "Viper Performance", POSITION: "Sound Truss SLC", ORT: "Dimmerraum 4", ADRESSE: "15/81", ROW: "3" },
+            { id: 15, CHANNEL: "15", TYP: "Viper Performance", POSITION: "Sound Truss SL", ORT: "Dimmerraum 4", ADRESSE: "15/41", ROW: "2" },
+            { id: 16, CHANNEL: "16", TYP: "Viper Performance", POSITION: "Sound Truss SL", ORT: "Dimmerraum 4", ADRESSE: "15/1", ROW: "1" },
+
+            // Prosc Boom & Near Box
+            { id: 21, CHANNEL: "21", TYP: "Viper Performance", POSITION: "Prosc Boom SR", ORT: "Dimmerraum 4", ADRESSE: "15/281", ROW: "1" },
+            { id: 22, CHANNEL: "22", TYP: "Viper Performance", POSITION: "Prosc Boom SL", ORT: "Dimmerraum 4", ADRESSE: "15/321", ROW: "1" },
+            { id: 31, CHANNEL: "31", TYP: "Viper Performance", POSITION: "Near Box Boom SR", ORT: "Dimmerraum 4", ADRESSE: "15/361", ROW: "1" },
+            { id: 32, CHANNEL: "32", TYP: "Viper Performance", POSITION: "Near Box Boom SL", ORT: "Dimmerraum 4", ADRESSE: "15/401", ROW: "1" },
+
+            // Advanced Truss
+            { id: 41, CHANNEL: "41", TYP: "Viper Performance", POSITION: "Advanced Truss SR", ORT: "Dimmerraum 4", ADRESSE: "16/1", ROW: "1" },
+            { id: 42, CHANNEL: "42", TYP: "Viper Performance", POSITION: "Advanced Truss SL", ORT: "Dimmerraum 4", ADRESSE: "16/41", ROW: "1" },
+
+            // DS Trough
+            { id: 51, CHANNEL: "51", TYP: "Viper Performance", POSITION: "DS Trough", ORT: "Dimmerraum 1", ADRESSE: "10/1", ROW: "1" },
+            { id: 52, CHANNEL: "52", TYP: "Viper Performance", POSITION: "DS Trough", ORT: "Dimmerraum 1", ADRESSE: "10/41", ROW: "1" },
+
+            // LX 1
+            { id: 101, CHANNEL: "101", TYP: "Viper Performance", POSITION: "LX 1", ORT: "Dimmerraum 1", ADRESSE: "1/1", ROW: "1" },
+            { id: 102, CHANNEL: "102", TYP: "Viper Performance", POSITION: "LX 1", ORT: "Dimmerraum 1", ADRESSE: "1/41", ROW: "1" },
+            { id: 103, CHANNEL: "103", TYP: "Viper Performance", POSITION: "LX 1", ORT: "Dimmerraum 1", ADRESSE: "1/81", ROW: "1" },
+            { id: 104, CHANNEL: "104", TYP: "Viper Performance", POSITION: "LX 1", ORT: "Dimmerraum 1", ADRESSE: "1/121", ROW: "1" },
+            { id: 105, CHANNEL: "105", TYP: "Viper Performance", POSITION: "LX 1", ORT: "Dimmerraum 1", ADRESSE: "1/161", ROW: "1" },
+
+            // LX 2
+            { id: 111, CHANNEL: "111", TYP: "Viper Performance", POSITION: "LX 2", ORT: "Dimmerraum 2", ADRESSE: "2/1", ROW: "1" },
+            { id: 112, CHANNEL: "112", TYP: "Viper Performance", POSITION: "LX 2", ORT: "Dimmerraum 2", ADRESSE: "2/41", ROW: "1" },
+            { id: 113, CHANNEL: "113", TYP: "Viper Performance", POSITION: "LX 2", ORT: "Dimmerraum 2", ADRESSE: "2/81", ROW: "1" },
+
+            // LX 3
+            { id: 121, CHANNEL: "121", TYP: "Viper Performance", POSITION: "LX 3", ORT: "Dimmerraum 3", ADRESSE: "3/1", ROW: "1" },
+            { id: 122, CHANNEL: "122", TYP: "Viper Performance", POSITION: "LX 3", ORT: "Dimmerraum 3", ADRESSE: "3/41", ROW: "1" },
+            { id: 123, CHANNEL: "123", TYP: "Viper Performance", POSITION: "LX 3", ORT: "Dimmerraum 3", ADRESSE: "3/81", ROW: "1" },
+
+            // LX 4
+            { id: 131, CHANNEL: "131", TYP: "Viper Performance", POSITION: "LX 4", ORT: "Dimmerraum 2", ADRESSE: "4/1", ROW: "1" },
+            { id: 132, CHANNEL: "132", TYP: "Viper Performance", POSITION: "LX 4", ORT: "Dimmerraum 2", ADRESSE: "4/41", ROW: "1" },
+            { id: 133, CHANNEL: "133", TYP: "Viper Performance", POSITION: "LX 4", ORT: "Dimmerraum 2", ADRESSE: "4/81", ROW: "1" },
+
+            // LX 5
+            { id: 141, CHANNEL: "141", TYP: "Viper Performance", POSITION: "LX 5", ORT: "Dimmerraum 3", ADRESSE: "5/1", ROW: "1" },
+            { id: 142, CHANNEL: "142", TYP: "Viper Performance", POSITION: "LX 5", ORT: "Dimmerraum 3", ADRESSE: "5/41", ROW: "1" },
+            { id: 143, CHANNEL: "143", TYP: "Viper Performance", POSITION: "LX 5", ORT: "Dimmerraum 3", ADRESSE: "5/81", ROW: "1" },
+
+            // Leitern (Viper)
+            { id: 227, CHANNEL: "227", TYP: "Viper Performance", POSITION: "Leiter 2 SL", ORT: "Dimmerraum 2", ADRESSE: "11/201", ROW: "1" },
+            { id: 228, CHANNEL: "228", TYP: "Viper Performance", POSITION: "Leiter 3 SL", ORT: "Dimmerraum 2", ADRESSE: "12/251", ROW: "1" },
+            { id: 229, CHANNEL: "229", TYP: "Viper Performance", POSITION: "Leiter 4 SL", ORT: "Dimmerraum 2", ADRESSE: "12/371", ROW: "1" },
+
+            // Leitern (Impression X5)
+            { id: 251, CHANNEL: "251", TYP: "Impression X5", POSITION: "Leiter 1 SR", ORT: "Dimmerraum 1", ADRESSE: "13/241", ROW: "3" },
+            { id: 252, CHANNEL: "252", TYP: "Impression X5", POSITION: "Leiter 2 SR", ORT: "Dimmerraum 1", ADRESSE: "13/276", ROW: "3" },
+            { id: 253, CHANNEL: "253", TYP: "Impression X5", POSITION: "Leiter 3 SR", ORT: "Dimmerraum 1", ADRESSE: "14/335", ROW: "3" },
+            { id: 254, CHANNEL: "254", TYP: "Impression X5", POSITION: "Leiter 4 SR", ORT: "Dimmerraum 1", ADRESSE: "14/370", ROW: "3" },
+            { id: 256, CHANNEL: "256", TYP: "Impression X5", POSITION: "Leiter 1 SL", ORT: "Dimmerraum 2", ADRESSE: "11/241", ROW: "3" },
+            { id: 257, CHANNEL: "257", TYP: "Impression X5", POSITION: "Leiter 2 SL", ORT: "Dimmerraum 2", ADRESSE: "11/276", ROW: "3" },
+            { id: 258, CHANNEL: "258", TYP: "Impression X5", POSITION: "Leiter 3 SL", ORT: "Dimmerraum 2", ADRESSE: "12/411", ROW: "3" },
+            { id: 259, CHANNEL: "259", TYP: "Impression X5", POSITION: "Leiter 4 SL", ORT: "Dimmerraum 2", ADRESSE: "12/446", ROW: "3" },
+
+            // Booms
+            { id: 261, CHANNEL: "261", TYP: "Impression X5", POSITION: "Boom 1 SR", ORT: "Dimmerraum 1", ADRESSE: "16/145", ROW: "2" },
+            { id: 262, CHANNEL: "262", TYP: "Impression X5", POSITION: "Boom 2 SR", ORT: "Dimmerraum 1", ADRESSE: "16/180", ROW: "2" },
+            { id: 263, CHANNEL: "263", TYP: "Impression X5", POSITION: "Boom 3 SR", ORT: "Dimmerraum 1", ADRESSE: "16/215", ROW: "2" },
+            { id: 264, CHANNEL: "264", TYP: "Impression X5", POSITION: "Boom 4 SR", ORT: "Dimmerraum 1", ADRESSE: "16/250", ROW: "2" },
+            { id: 265, CHANNEL: "265", TYP: "Impression X5", POSITION: "Boom 1 SL", ORT: "Dimmerraum 2", ADRESSE: "16/285", ROW: "2" },
+            { id: 266, CHANNEL: "266", TYP: "Impression X5", POSITION: "Boom 2 SL", ORT: "Dimmerraum 2", ADRESSE: "16/320", ROW: "2" },
+            { id: 267, CHANNEL: "267", TYP: "Impression X5", POSITION: "Boom 3 SL", ORT: "Dimmerraum 2", ADRESSE: "16/355", ROW: "2" },
+            { id: 268, CHANNEL: "268", TYP: "Impression X5", POSITION: "Boom 4 SL", ORT: "Dimmerraum 2", ADRESSE: "16/390", ROW: "2" }
         ];
 
         function App() {
@@ -136,7 +210,7 @@
             const [showAllForced, setShowAllForced] = useState(false);
 
             const filterRows = [
-                ["Z-Brücke 1", "FS Brücke"],
+                [{l:"Z-Brücke 1",v:"Z-Brücke 1"},{l:"FS Brücke",v:"Z-Brücke 2"}],
                 [{l:"ST SR",v:"Sound Truss SR"},{l:"ST SRC",v:"Sound Truss SRC"},{l:"ST SLC",v:"Sound Truss SLC"},{l:"ST SL",v:"Sound Truss SL"}],
                 [{l:"PB SR",v:"Prosc Boom SR"},{l:"NBB SR",v:"Near Box Boom SR"},{l:"AT SR",v:"Advanced Truss SR"},{l:"AT SL",v:"Advanced Truss SL"},{l:"NBB SL",v:"Near Box Boom SL"},{l:"PB SL",v:"Prosc Boom SL"},{l:"DS Trough",v:"DS Trough"},{l:"Portal",v:"Portal"}],
                 ["LX 1", "LX 2", "LX 3", "LX 4", "LX 5"],
@@ -144,18 +218,8 @@
                 [{l:"B1SR",v:"Boom 1 SR"},{l:"B2SR",v:"Boom 2 SR"},{l:"B3SR",v:"Boom 3 SR"},{l:"B4SR",v:"Boom 4 SR"},{l:"B1SL",v:"Boom 1 SL"},{l:"B2SL",v:"Boom 2 SL"},{l:"B3SL",v:"Boom 3 SL"},{l:"B4SL",v:"Boom 4 SL"}]
             ];
 
-            const rowColorClasses = [
-                "text-blue-300",
-                "text-emerald-300",
-                "text-violet-300",
-                "text-amber-300",
-                "text-rose-300",
-                "text-cyan-300"
-            ];
-
-            const hardcodedValues = useMemo(() => {
-                return filterRows.flat().map(item => typeof item === 'string' ? item : item.v);
-            }, []);
+            const rowColorClasses = ["text-blue-300", "text-emerald-300", "text-violet-300", "text-amber-300", "text-rose-300", "text-cyan-300"];
+            const hardcodedValues = useMemo(() => filterRows.flat().map(item => typeof item === 'string' ? item : item.v), []);
 
             useEffect(() => {
                 const loadData = async () => {
@@ -174,7 +238,8 @@
                                             TYP: row.TYP || row.Typ || "Unbekannt",
                                             POSITION: row.POSITION || row.Position || "Unbekannt",
                                             ORT: row.ORT || row.Ort || "",
-                                            ADRESSE: row.ADRESSE || row.Adresse || "---" 
+                                            ADRESSE: row.ADRESSE || row.Adresse || "---",
+                                            ROW: row.ROW || row.Row || ""
                                         }));
                                         setFixtures(parsed);
                                         setStatus("");
@@ -195,27 +260,18 @@
                 loadData();
             }, []);
 
-            const isInteractionActive = useMemo(() => {
-                return searchTerm.trim() !== "" || activeFilter !== "Alle" || showAllForced;
-            }, [searchTerm, activeFilter, showAllForced]);
+            const isInteractionActive = useMemo(() => searchTerm.trim() !== "" || activeFilter !== "Alle" || showAllForced, [searchTerm, activeFilter, showAllForced]);
 
             const filteredFixtures = useMemo(() => {
                 if (!isInteractionActive) return [];
-
                 const search = searchTerm.trim().toLowerCase();
                 const isNumericSearch = search !== "" && /^\d+$/.test(search);
-
                 return fixtures.filter(f => {
                     const fixtureChannel = f.CHANNEL.toString().toLowerCase().trim();
                     const fixtureType = f.TYP.toLowerCase();
-                    
                     let matchesSearch = false;
-                    if (isNumericSearch) {
-                        matchesSearch = fixtureChannel === search;
-                    } else {
-                        matchesSearch = fixtureChannel.includes(search) || fixtureType.includes(search);
-                    }
-
+                    if (isNumericSearch) matchesSearch = fixtureChannel === search;
+                    else matchesSearch = fixtureChannel.includes(search) || fixtureType.includes(search);
                     const matchesFilter = activeFilter === "Alle" || f.POSITION === activeFilter;
                     return matchesSearch && matchesFilter;
                 });
@@ -227,36 +283,17 @@
             }, [fixtures, hardcodedValues]);
 
             const toggleFilter = (val) => {
-                if (activeFilter === val) {
-                    setActiveFilter("Alle");
-                    setShowAllForced(false);
-                } else {
-                    setActiveFilter(val);
-                    setShowAllForced(false); 
-                }
+                if (activeFilter === val) { setActiveFilter("Alle"); setShowAllForced(false); }
+                else { setActiveFilter(val); setShowAllForced(false); }
             };
 
             const handleToggleAll = () => {
-                if (showAllForced && activeFilter === "Alle" && searchTerm === "") {
-                    setShowAllForced(false);
-                } else {
-                    setSearchTerm("");
-                    setActiveFilter("Alle");
-                    setShowAllForced(true);
-                }
+                if (showAllForced && activeFilter === "Alle" && searchTerm === "") setShowAllForced(false);
+                else { setSearchTerm(""); setActiveFilter("Alle"); setShowAllForced(true); }
             };
 
             const FilterBtn = ({ label, value, colorClass = "text-slate-400" }) => (
-                <button 
-                    onClick={() => toggleFilter(value)} 
-                    className={`min-w-[85px] px-2 py-1 rounded-lg text-xs font-normal transition-all border font-brand whitespace-nowrap flex items-center justify-center ${
-                        activeFilter === value 
-                        ? 'bg-blue-600 border-blue-500 text-white shadow-lg scale-105' 
-                        : `bg-slate-800 border-slate-700 ${colorClass} hover:bg-slate-700 hover:border-slate-500 hover:text-white`
-                    }`}
-                >
-                    {label}
-                </button>
+                <button onClick={() => toggleFilter(value)} className={`min-w-[85px] px-2 py-1 rounded-lg text-xs font-normal transition-all border font-brand whitespace-nowrap flex items-center justify-center ${activeFilter === value ? 'bg-blue-600 border-blue-500 text-white shadow-lg scale-105' : `bg-slate-800 border-slate-700 ${colorClass} hover:bg-slate-700 hover:border-slate-500 hover:text-white`}`}>{label}</button>
             );
 
             return (
@@ -265,54 +302,25 @@
                         <div className="max-w-7xl mx-auto space-y-4">
                             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                                 <div className="flex flex-col">
-                                    <h1 className="fluid-header font-normal text-[#b3b3b3] font-brand truncate uppercase tracking-tight">
-                                         HAYWIRE &nbsp; MOVING &nbsp; HEAD &nbsp; FINDER
-                                    </h1>
-                                    <div className="fluid-subtitle font-normal text-[#b3b3b3] font-brand uppercase tracking-widest opacity-90 mt-0.5">
-                                        Theater an der Elbe &nbsp; - &nbsp; MJ Das Musical
-                                    </div>
+                                    <h1 className="fluid-header font-normal text-[#b3b3b3] font-brand truncate uppercase tracking-tight">HAYWIRE &nbsp; MOVING &nbsp; HEAD &nbsp; FINDER</h1>
+                                    <div className="fluid-subtitle font-normal text-[#b3b3b3] font-brand uppercase tracking-widest opacity-90 mt-0.5">Theater an der Elbe &nbsp; - &nbsp; MJ Das Musical</div>
                                 </div>
-                                
                                 <div className="relative w-full md:max-w-xs">
-                                    <input 
-                                        className="w-full bg-slate-800 p-3 pl-10 rounded-lg border border-slate-700 text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all placeholder-slate-500 font-brand" 
-                                        placeholder="Suche Channel oder Typ..." 
-                                        value={searchTerm} 
-                                        onChange={e => {
-                                            setSearchTerm(e.target.value);
-                                            if (e.target.value.trim() !== "") setShowAllForced(false);
-                                        }} 
-                                    />
+                                    <input className="w-full bg-slate-800 p-3 pl-10 rounded-lg border border-slate-700 text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all placeholder-slate-500 font-brand" placeholder="Suche Channel oder Typ..." value={searchTerm} onChange={e => { setSearchTerm(e.target.value); if (e.target.value.trim() !== "") setShowAllForced(false); }} />
                                     <div className="absolute left-3 top-3.5 text-slate-500"><Icon name="Search" size={18} /></div>
                                     {searchTerm && <button onClick={() => setSearchTerm("")} className="absolute right-3 top-3.5 text-slate-500 hover:text-white"><Icon name="X" size={18} /></button>}
                                 </div>
                             </div>
-
                             <div className="space-y-3 pt-2">
                                 <div className="flex justify-start">
-                                    <button 
-                                        onClick={handleToggleAll}
-                                        className={`min-w-[85px] px-4 py-1.5 rounded-lg text-xs font-medium transition-all border font-brand ${
-                                            showAllForced && activeFilter === "Alle" && searchTerm === ""
-                                            ? 'bg-blue-600 border-blue-500 text-white shadow-lg scale-105' 
-                                            : 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700 hover:border-slate-500'
-                                        }`}
-                                    >
-                                        Alle
-                                    </button>
+                                    <button onClick={handleToggleAll} className={`min-w-[85px] px-4 py-1 rounded-lg text-xs font-medium transition-all border font-brand ${showAllForced && activeFilter === "Alle" && searchTerm === "" ? 'bg-blue-600 border-blue-500 text-white shadow-lg scale-105' : 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700 hover:border-slate-500'}`}>Alle</button>
                                 </div>
-
                                 <div className="flex flex-col gap-2">
                                     {filterRows.map((row, idx) => (
                                         <div key={idx} className="flex gap-2 overflow-x-auto scrollbar-hide py-0.5">
-                                            {row.map(item => {
-                                                const label = typeof item === 'string' ? item : item.l;
-                                                const value = typeof item === 'string' ? item : item.v;
-                                                return <FilterBtn key={value} label={label} value={value} colorClass={rowColorClasses[idx % rowColorClasses.length]} />;
-                                            })}
+                                            {row.map(item => <FilterBtn key={typeof item === 'string' ? item : item.v} label={typeof item === 'string' ? item : item.l} value={typeof item === 'string' ? item : item.v} colorClass={rowColorClasses[idx % rowColorClasses.length]} />)}
                                         </div>
                                     ))}
-                                    
                                     {otherPositions.length > 0 && (
                                         <div className="flex gap-2 overflow-x-auto scrollbar-hide border-t border-slate-800 pt-2 mt-1">
                                             {otherPositions.map(p => <FilterBtn key={p} label={p} value={p} colorClass="text-slate-400" />)}
@@ -322,71 +330,49 @@
                             </div>
                         </div>
                     </div>
-
                     <div className="p-4 md:p-8 max-w-7xl mx-auto">
                         {status && <div className="text-center py-4 text-xs text-yellow-600 mb-4 animate-pulse">{status}</div>}
-                        
                         {!isInteractionActive ? (
                             <div className="text-center p-20 text-slate-500 flex flex-col items-center gap-4 animate-in fade-in duration-700">
-                                <div className="p-6 bg-slate-800/50 rounded-full text-slate-400">
-                                    <Icon name="Info" size={48} />
-                                </div>
+                                <div className="p-6 bg-slate-800/50 rounded-full text-slate-400"><Icon name="Info" size={48} /></div>
                                 <h2 className="text-xl font-light text-slate-300 font-brand">Bereit zum Suchen</h2>
                                 <p className="max-w-md font-brand font-normal">Wähle oben eine Position aus oder nutze das Suchfeld, um Geräte anzuzeigen.</p>
                             </div>
                         ) : (
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 grid-transition">
                                 {filteredFixtures.map(fixture => {
-                                    const parts = fixture.ADRESSE.split('.');
+                                    const parts = fixture.ADRESSE.split('/');
                                     const universe = parts[0];
-                                    const rest = parts.length > 1 ? `.${parts.slice(1).join('.')}` : '';
-
+                                    const rest = parts.length > 1 ? `/${parts.slice(1).join('.')}` : '';
                                     return (
                                         <div key={fixture.id} className="bg-slate-800/80 backdrop-blur-sm p-3.5 rounded-2xl border border-slate-700 shadow-md hover:shadow-xl hover:border-slate-500 transition-all duration-300 relative group flex flex-col justify-between min-h-[112px]">
                                             <div className="space-y-2 font-brand">
                                                 <div className="flex items-center gap-3">
-                                                    <span className="bg-blue-600 text-white px-3 py-1 rounded-lg text-sm font-bold shadow-sm group-hover:bg-blue-500 transition-colors shrink-0">
-                                                        {fixture.CHANNEL}
-                                                    </span>
-                                                    <h3 className="font-medium text-white text-base md:text-lg leading-tight truncate group-hover:text-blue-200 transition-colors">
-                                                        {fixture.TYP}
-                                                    </h3>
+                                                    <span className="bg-blue-600 text-white px-3 py-1 rounded-lg text-sm font-bold shadow-sm group-hover:bg-blue-500 transition-colors shrink-0">{fixture.CHANNEL}</span>
+                                                    <h3 className="font-medium text-white text-base md:text-lg leading-tight truncate group-hover:text-blue-200 transition-colors">{fixture.TYP}</h3>
                                                 </div>
-
-                                                {fixture.ORT && (
-                                                    <div className="flex justify-start">
-                                                        <div className="text-base font-bold text-emerald-400 truncate text-left max-w-full">
-                                                            {fixture.ORT}
-                                                        </div>
-                                                    </div>
-                                                )}
+                                                {fixture.ORT && <div className="flex justify-start"><div className="text-base font-bold text-emerald-400 truncate text-left max-w-full">{fixture.ORT}</div></div>}
                                             </div>
-                                            
                                             <div className="mt-3 flex justify-between items-end gap-1">
-                                                <div className="text-xs font-normal text-slate-300 truncate max-w-[45%]">
-                                                    {fixture.POSITION}
+                                                <div className="flex flex-col max-w-[65%]">
+                                                    <div className="text-xs font-normal text-slate-300 truncate">{fixture.POSITION}</div>
+                                                    {fixture.ROW && <div className="text-[9px] font-medium text-slate-500 uppercase tracking-tighter leading-tight mt-0.5 flex items-baseline">Fixture von links / unten:&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-base text-slate-200 font-bold">{fixture.ROW}</span></div>}
                                                 </div>
-                                                <div className="text-xs font-brand font-normal text-slate-300 tracking-tighter shrink-0">
-                                                    DMX: <span className="font-bold">{universe}</span><span className="font-bold">{rest}</span>
-                                                </div>
+                                                <div className="text-xs font-brand font-normal text-slate-300 tracking-tighter shrink-0 pb-1">DMX: <span className="font-bold">{universe}</span><span className="font-bold">{rest}</span></div>
                                             </div>
                                         </div>
                                     );
                                 })}
                             </div>
                         )}
-                        
                         {isInteractionActive && filteredFixtures.length === 0 && (
                             <div className="text-center p-20 text-slate-500 flex flex-col items-center gap-4">
-                                <div className="p-4 bg-slate-800 rounded-full">
-                                    <Icon name="Search" size={40} className="text-slate-600" />
-                                </div>
+                                <div className="p-4 bg-slate-800 rounded-full"><Icon name="Search" size={40} className="text-slate-600" /></div>
                                 <p className="text-lg">Keine Lampen für deine Auswahl gefunden.</p>
                                 <button onClick={() => {setSearchTerm(""); setActiveFilter("Alle"); setShowAllForced(false);}} className="text-blue-500 hover:underline">Filter zurücksetzen</button>
                             </div>
                         )}
                     </div>
-
                     <div className="fixed bottom-0 left-0 right-0 bg-slate-900/80 backdrop-blur-md border-t border-slate-800 p-4 text-center z-30 font-brand">
                         <div className="max-w-7xl mx-auto flex justify-between items-center text-[10px] text-slate-600 uppercase tracking-widest font-brand">
                             <span>{isInteractionActive ? filteredFixtures.length : 0} Geräte gefunden</span>
