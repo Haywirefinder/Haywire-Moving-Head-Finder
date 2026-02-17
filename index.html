@@ -2,11 +2,21 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
+    <!-- Web App Einstellungen für "Standalone" Modus (entfernt Adressleiste) -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0f172a">
+
     <!-- Namen für den Homebildschirm festlegen -->
     <meta name="apple-mobile-web-app-title" content="Haywire Finder">
     <meta name="application-name" content="Haywire Finder">
+    
+    <!-- Web Manifest (Inline via Data-URI für Single-File Support) -->
+    <link rel="manifest" href='data:application/manifest+json,{"name":"Haywire Finder","short_name":"Haywire","display":"standalone","start_url":".","background_color":"#0f172a","theme_color":"#0f172a"}'>
+
     <title>Haywire Finder</title>
     
     <!-- Design & Frameworks -->
