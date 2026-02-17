@@ -42,8 +42,13 @@
 
         /* Dynamische Schriftgröße für die Überschrift */
         .fluid-header {
-            /* clamp(Min-Größe, Variabler Wert, Max-Größe reduziert um weitere 15% auf ca 1.6rem) */
             font-size: clamp(0.95rem, 3.8vw, 1.6rem);
+            line-height: 1.1;
+        }
+
+        /* Untertitel: 70% kleiner als die Überschrift */
+        .fluid-subtitle {
+            font-size: clamp(0.55rem, 1.4vw, 0.65rem);
             line-height: 1.2;
         }
     </style>
@@ -104,7 +109,7 @@
                 [{l:"ST SR",v:"Sound Truss SR"},{l:"ST SRC",v:"Sound Truss SRC"},{l:"ST SLC",v:"Sound Truss SLC"},{l:"ST SL",v:"Sound Truss SL"}],
                 [{l:"PB SR",v:"Prosc Boom SR"},{l:"NBB SR",v:"Near Box Boom SR"},{l:"AT SR",v:"Advanced Truss SR"},{l:"AT SL",v:"Advanced Truss SL"},{l:"NBB SL",v:"Near Box Boom SL"},{l:"PB SL",v:"Prosc Boom SL"},{l:"DS Trough",v:"DS Trough"},{l:"Portal",v:"Portal"}],
                 ["LX 1", "LX 2", "LX 3", "LX 4", "LX 5"],
-                [{l:"L1SR",v:"Leiter 1 SR"},{l:"L2SR",v:"Leiter 2 SR"},{l:"L3SR",v:"Leiter 3 SR"},{l:"L4SR",v:"Leiter 4 SR"},{l:"L1SL",v:"Leiter 1 SL"},{l:"L2SL",v:"Leiter 2 SL"},{l:"L3SL",v:"Leiter 3 SL"},{l:"L4SL",v:"Leiter 4 SL"}],
+                [{l:"L1SR",v:"Leiter 1 SR"},{l:"L2SR",v:"Leiter 2 SR"},{l:"L3SR",v:"Leiter 3 SR"},{l:"L4SR",v:"Leiter 4 SR"},{l:"L1SL",v:"Leiter 1 SL"},{l:"L2SL",v:"L2SL"},{l:"L3SL",v:"Leiter 3 SL"},{l:"L4SL",v:"Leiter 4 SL"}],
                 [{l:"B1SR",v:"Boom 1 SR"},{l:"B2SR",v:"Boom 2 SR"},{l:"B3SR",v:"Boom 3 SR"},{l:"B4SR",v:"Boom 4 SR"},{l:"B1SL",v:"Boom 1 SL"},{l:"B2SL",v:"Boom 2 SL"},{l:"B3SL",v:"Boom 3 SL"},{l:"B4SL",v:"Boom 4 SL"}]
             ];
 
@@ -167,7 +172,6 @@
                 if (!isInteractionActive) return [];
 
                 const search = searchTerm.trim().toLowerCase();
-                // Prüfen, ob die Suche eine reine Zahl ist
                 const isNumericSearch = search !== "" && /^\d+$/.test(search);
 
                 return fixtures.filter(f => {
@@ -176,10 +180,8 @@
                     
                     let matchesSearch = false;
                     if (isNumericSearch) {
-                        // Wenn eine Zahl eingegeben wird: Exakte Suche im Channel-Feld
                         matchesSearch = fixtureChannel === search;
                     } else {
-                        // Wenn Text eingegeben wird: Bisherige Teilsuche in Channel und Typ
                         matchesSearch = fixtureChannel.includes(search) || fixtureType.includes(search);
                     }
 
@@ -216,7 +218,7 @@
             const FilterBtn = ({ label, value, colorClass = "text-slate-400" }) => (
                 <button 
                     onClick={() => toggleFilter(value)} 
-                    className={`min-w-[85px] px-2 py-1.5 rounded-lg text-xs font-normal transition-all border font-brand whitespace-nowrap flex items-center justify-center ${
+                    className={`min-w-[85px] px-2 py-1 rounded-lg text-xs font-normal transition-all border font-brand whitespace-nowrap flex items-center justify-center ${
                         activeFilter === value 
                         ? 'bg-blue-600 border-blue-500 text-white shadow-lg scale-105' 
                         : `bg-slate-800 border-slate-700 ${colorClass} hover:bg-slate-700 hover:border-slate-500 hover:text-white`
@@ -231,10 +233,16 @@
                     <div className="sticky top-0 z-20 bg-slate-900/95 border-b border-slate-800 shadow-xl backdrop-blur-md px-4 py-4 md:py-6">
                         <div className="max-w-7xl mx-auto space-y-4">
                             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                                {/* Überschrift in 70% Grau (#b3b3b3) - Weiter reduzierte Fluid-Typografie */}
-                                <h1 className="fluid-header font-normal text-[#b3b3b3] font-brand truncate uppercase tracking-tight">
-                                     HAYWIRE &nbsp; MOVING &nbsp; HEAD &nbsp; FINDER
-                                </h1>
+                                <div className="flex flex-col">
+                                    {/* Überschrift in 70% Grau (#b3b3b3) */}
+                                    <h1 className="fluid-header font-normal text-[#b3b3b3] font-brand truncate uppercase tracking-tight">
+                                         HAYWIRE &nbsp; MOVING &nbsp; HEAD &nbsp; FINDER
+                                    </h1>
+                                    {/* Untertitel: 70% kleiner, identischer Font und Farbe */}
+                                    <div className="fluid-subtitle font-normal text-[#b3b3b3] font-brand uppercase tracking-widest opacity-90 mt-0.5">
+                                        Theater an der Elbe &nbsp; - &nbsp; MJ Das Musical
+                                    </div>
+                                </div>
                                 
                                 <div className="relative w-full md:max-w-xs">
                                     <input 
@@ -255,7 +263,7 @@
                                 <div className="flex justify-start">
                                     <button 
                                         onClick={handleToggleAll}
-                                        className={`min-w-[85px] px-4 py-1.5 rounded-lg text-xs font-medium transition-all border font-brand ${
+                                        className={`min-w-[85px] px-4 py-1 rounded-lg text-xs font-medium transition-all border font-brand ${
                                             showAllForced && activeFilter === "Alle" && searchTerm === ""
                                             ? 'bg-blue-600 border-blue-500 text-white shadow-lg scale-105' 
                                             : 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700 hover:border-slate-500'
@@ -365,4 +373,3 @@
     </script>
 </body>
 </html>
-
