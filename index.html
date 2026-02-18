@@ -206,6 +206,8 @@
             const [fixtures, setFixtures] = useState([]);
             const [searchTerm, setSearchTerm] = useState("");
             const [activeFilter, setActiveFilter] = useState("Alle");
+            // Neuer State für den Reihen-Filter
+            const [activeRowFilter, setActiveRowFilter] = useState(null);
             const [status, setStatus] = useState("Lade...");
             const [showAllForced, setShowAllForced] = useState(false);
 
@@ -273,9 +275,16 @@
                     if (isNumericSearch) matchesSearch = fixtureChannel === search;
                     else matchesSearch = fixtureChannel.includes(search) || fixtureType.includes(search);
                     const matchesFilter = activeFilter === "Alle" || f.POSITION === activeFilter;
-                    return matchesSearch && matchesFilter;
+                    
+                    // Neuer Filter: Reihe (ROW)
+                    let matchesRow = true;
+                    if (activeFilter !== "Alle" && activeRowFilter !== null) {
+                        matchesRow = f.ROW === activeRowFilter.toString();
+                    }
+
+                    return matchesSearch && matchesFilter && matchesRow;
                 });
-            }, [fixtures, searchTerm, activeFilter, isInteractionActive]);
+            }, [fixtures, searchTerm, activeFilter, activeRowFilter, isInteractionActive]);
 
             const otherPositions = useMemo(() => {
                 const allPos = new Set(fixtures.map(f => f.POSITION));
@@ -283,13 +292,24 @@
             }, [fixtures, hardcodedValues]);
 
             const toggleFilter = (val) => {
-                if (activeFilter === val) { setActiveFilter("Alle"); setShowAllForced(false); }
-                else { setActiveFilter(val); setShowAllForced(false); }
+                if (activeFilter === val) { 
+                    setActiveFilter("Alle"); 
+                    setShowAllForced(false); 
+                } else { 
+                    setActiveFilter(val); 
+                    setShowAllForced(false); 
+                }
+                // Reset row filter bei Wechsel des Hauptfilters
+                setActiveRowFilter(null);
+            };
+
+            const toggleRowFilter = (rowNum) => {
+                setActiveRowFilter(activeRowFilter === rowNum ? null : rowNum);
             };
 
             const handleToggleAll = () => {
                 if (showAllForced && activeFilter === "Alle" && searchTerm === "") setShowAllForced(false);
-                else { setSearchTerm(""); setActiveFilter("Alle"); setShowAllForced(true); }
+                else { setSearchTerm(""); setActiveFilter("Alle"); setShowAllForced(true); setActiveRowFilter(null); }
             };
 
             // Daten für den aktiven Filterbutton finden
@@ -312,7 +332,6 @@
                 return { label: activeFilter, value: activeFilter, colorClass: "text-slate-400" };
             }, [activeFilter, filterRows, otherPositions, rowColorClasses]);
 
-
             const FilterBtn = ({ label, value, colorClass = "text-slate-400" }) => (
                 <button onClick={() => toggleFilter(value)} className={`min-w-[85px] px-2 py-1 rounded-lg text-xs font-normal transition-all border font-brand whitespace-nowrap flex items-center justify-center ${activeFilter === value ? 'bg-blue-600 border-blue-500 text-white shadow-lg scale-105' : `bg-slate-800 border-slate-700 ${colorClass} hover:bg-slate-700 hover:border-slate-500 hover:text-white`}`}>{label}</button>
             );
@@ -332,7 +351,6 @@
                                     {searchTerm && <button onClick={() => setSearchTerm("")} className="absolute right-3 top-3.5 text-slate-500 hover:text-white"><Icon name="X" size={18} /></button>}
                                 </div>
                             </div>
-                            
                             <div className="space-y-3 pt-2">
                                 {/* Wenn kein Filter aktiv ist: Zeige Alle + Alle Reihen */}
                                 {activeFilter === "Alle" ? (
@@ -354,15 +372,34 @@
                                         </div>
                                     </>
                                 ) : (
-                                    /* Wenn Filter aktiv: Zeige nur den ausgewählten Button LINKSbündig */
-                                    <div className="flex justify-start pb-2">
-                                        {activeFilterData && (
-                                            <FilterBtn 
-                                                label={activeFilterData.label} 
-                                                value={activeFilterData.value} 
-                                                colorClass={activeFilterData.colorClass} 
-                                            />
-                                        )}
+                                    /* Wenn Filter aktiv: Zeige nur den ausgewählten Button LINKSbündig und darunter die Reihen-Filter */
+                                    <div className="flex flex-col gap-2">
+                                        <div className="flex justify-start pb-2">
+                                            {activeFilterData && (
+                                                <FilterBtn 
+                                                    label={activeFilterData.label} 
+                                                    value={activeFilterData.value} 
+                                                    colorClass={activeFilterData.colorClass} 
+                                                />
+                                            )}
+                                        </div>
+                                        
+                                        {/* Reihen-Filter 1-15 */}
+                                        <div className="flex gap-2 overflow-x-auto scrollbar-hide py-1 border-t border-slate-800/50">
+                                            {Array.from({ length: 15 }, (_, i) => i + 1).map(num => (
+                                                <button 
+                                                    key={num}
+                                                    onClick={() => toggleRowFilter(num)}
+                                                    className={`w-8 h-8 rounded-full text-xs font-bold flex items-center justify-center transition-all border ${
+                                                        activeRowFilter === num
+                                                        ? 'bg-emerald-600 border-emerald-500 text-white shadow-lg scale-110'
+                                                        : 'bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700 hover:text-white'
+                                                    }`}
+                                                >
+                                                    {num}
+                                                </button>
+                                            ))}
+                                        </div>
                                     </div>
                                 )}
                             </div>
@@ -395,7 +432,7 @@
                                             <div className="mt-3 flex justify-between items-end gap-1">
                                                 <div className="flex flex-col max-w-[65%]">
                                                     <div className="text-xs font-normal text-slate-300 truncate">{fixture.POSITION}</div>
-                                                    {fixture.ROW && <div className="text-[11px] md:text-[12px] font-medium text-slate-500 uppercase tracking-tighter leading-tight mt-0.5 flex items-baseline">Fixture von links / unten:&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-base md:text-lg text-slate-200 font-bold">{fixture.ROW}</span></div>}
+                                                    {fixture.ROW && <div className="text-[9px] font-medium text-slate-500 uppercase tracking-tighter leading-tight mt-0.5 flex items-baseline">Fixture von links / unten:&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-base font-bold text-slate-200">{fixture.ROW}</span></div>}
                                                 </div>
                                                 <div className="text-xs font-brand font-normal text-slate-300 tracking-tighter shrink-0 pb-1">DMX: <span className="font-bold">{universe}</span><span className="font-bold">{rest}</span></div>
                                             </div>
