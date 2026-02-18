@@ -6,10 +6,10 @@ CHANNEL,TYP,POSITION,ORT,ADRESSE,ROW
 5,Viper Performance,Z-Brücke 1,Dimmerraum 3,10/177,3
 6,Viper Performance,Z-Brücke 1,Dimmerraum 3,10/137,2
 7,Viper Performance,Z-Brücke 1,Dimmerraum 3,10/97,1
-11,Viper Performance,Sound Truss SR,Dimmerraum 4,15/201,6
-12,Viper Performance,Sound Truss SR,Dimmerraum 4,15/121,5
-13,Viper Performance,Sound Truss SRC,Dimmerraum 4,15/161,4
-14,Viper Performance,Sound Truss SLC,Dimmerraum 4,15/81,3
+11,Viper Performance,Sound Truss SR,Dimmerraum 4,15/201,2
+12,Viper Performance,Sound Truss SR,Dimmerraum 4,15/121,1
+13,Viper Performance,Sound Truss SRC,Dimmerraum 4,15/161,1
+14,Viper Performance,Sound Truss SLC,Dimmerraum 4,15/81,1
 15,Viper Performance,Sound Truss SL,Dimmerraum 4,15/41,2
 16,Viper Performance,Sound Truss SL,Dimmerraum 4,15/1,1
 21,Viper Performance,LX 1,Dimmerraum 2,3/121,15
@@ -176,4 +176,5 @@ CHANNEL,TYP,POSITION,ORT,ADRESSE,ROW
 291,JDC 1,Portal,Dimmerraum 3,15/445,4
 292,JDC 1,Portal,Dimmerraum 3,15/377,3
 293,JDC 1,Portal,Dimmerraum 3,15/309,2
+
 294,JDC 1,Portal,Dimmerraum 3,15/241,1
