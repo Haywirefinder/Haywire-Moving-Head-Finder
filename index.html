@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
-    <!-- Web App Einstellungen -->
+    <!-- Web App Einstellungen für PWA -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -24,7 +24,6 @@
         "orientation": "portrait",
         "background_color": "#0f172a",
         "theme_color": "#0f172a",
-        "scope": ".",
         "icons": [
             {
                 "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiB2aWV3Qm94PSIwIDAgMTkyIDE5MiI+PHJlY3Qgd2lkdGg9IjE5MiIgaGVpZ2h0PSIxOTIiIGZpbGw9IiMwZjE3MmEiLz48Y2lyY2xlIGN4PSI5NiIgY3k9Ijk2IiByPSI0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjM2I4MmY2IiBzdHJva2Utd2lkdGg9IjgiLz48L3N2Zz4=",
@@ -95,20 +94,11 @@
 
         // --- ICONS ---
         const Icons = {
-            MovingHead: (props) => (
-                <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 21h16" /><path d="M18 21v-3a3 3 0 0 0-3-3H9a3 3 0 0 0-3 3v3" /><rect x="8" y="3" width="8" height="10" rx="2" /><circle cx="12" cy="8" r="2" /></svg>
-            ),
             Search: (props) => (
                 <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
             ),
             X: (props) => (
                 <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-            ),
-            Info: (props) => (
-                <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            ),
-            Layout: (props) => (
-                <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
             ),
             ArrowLeft: (props) => (
                 <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
@@ -120,90 +110,70 @@
             return IconComponent ? <IconComponent width={size} height={size} className={className} /> : null;
         };
 
-        // --- KOMPLETTE DATEN AUS CSV (Erweiterter Demo-Modus) ---
-        const MOCK_DATA = [
-            // Z-Brücke
-            { id: 1, CHANNEL: "1", TYP: "Viper Performance", POSITION: "Z-Brücke 1", ORT: "Dimmerraum 3", ADRESSE: "10/337", ROW: "7" },
-            { id: 2, CHANNEL: "2", TYP: "Viper Performance", POSITION: "Z-Brücke 1", ORT: "Dimmerraum 3", ADRESSE: "10/297", ROW: "6" },
-            { id: 3, CHANNEL: "3", TYP: "Viper Performance", POSITION: "Z-Brücke 1", ORT: "Dimmerraum 3", ADRESSE: "10/257", ROW: "5" },
-            { id: 4, CHANNEL: "4", TYP: "Viper Performance", POSITION: "Z-Brücke 1", ORT: "Dimmerraum 3", ADRESSE: "10/217", ROW: "4" },
-            { id: 5, CHANNEL: "5", TYP: "Viper Performance", POSITION: "Z-Brücke 1", ORT: "Dimmerraum 3", ADRESSE: "10/177", ROW: "3" },
-            { id: 6, CHANNEL: "6", TYP: "Viper Performance", POSITION: "Z-Brücke 1", ORT: "Dimmerraum 3", ADRESSE: "10/137", ROW: "2" },
-            { id: 7, CHANNEL: "7", TYP: "Viper Performance", POSITION: "Z-Brücke 1", ORT: "Dimmerraum 3", ADRESSE: "10/97", ROW: "1" },
-            
-            // Sound Truss
-            { id: 11, CHANNEL: "11", TYP: "Viper Performance", POSITION: "Sound Truss SR", ORT: "Dimmerraum 4", ADRESSE: "15/201", ROW: "6" },
-            { id: 12, CHANNEL: "12", TYP: "Viper Performance", POSITION: "Sound Truss SR", ORT: "Dimmerraum 4", ADRESSE: "15/121", ROW: "5" },
-            { id: 13, CHANNEL: "13", TYP: "Viper Performance", POSITION: "Sound Truss SRC", ORT: "Dimmerraum 4", ADRESSE: "15/161", ROW: "4" },
-            { id: 14, CHANNEL: "14", TYP: "Viper Performance", POSITION: "Sound Truss SLC", ORT: "Dimmerraum 4", ADRESSE: "15/81", ROW: "3" },
-            { id: 15, CHANNEL: "15", TYP: "Viper Performance", POSITION: "Sound Truss SL", ORT: "Dimmerraum 4", ADRESSE: "15/41", ROW: "2" },
-            { id: 16, CHANNEL: "16", TYP: "Viper Performance", POSITION: "Sound Truss SL", ORT: "Dimmerraum 4", ADRESSE: "15/1", ROW: "1" },
-
-            // Prosc Boom & Near Box
-            { id: 21, CHANNEL: "21", TYP: "Viper Performance", POSITION: "Prosc Boom SR", ORT: "Dimmerraum 4", ADRESSE: "15/281", ROW: "1" },
-            { id: 22, CHANNEL: "22", TYP: "Viper Performance", POSITION: "Prosc Boom SL", ORT: "Dimmerraum 4", ADRESSE: "15/321", ROW: "1" },
-            { id: 31, CHANNEL: "31", TYP: "Viper Performance", POSITION: "Near Box Boom SR", ORT: "Dimmerraum 4", ADRESSE: "15/361", ROW: "1" },
-            { id: 32, CHANNEL: "32", TYP: "Viper Performance", POSITION: "Near Box Boom SL", ORT: "Dimmerraum 4", ADRESSE: "15/401", ROW: "1" },
-
-            // Advanced Truss
-            { id: 41, CHANNEL: "41", TYP: "Viper Performance", POSITION: "Advanced Truss SR", ORT: "Dimmerraum 4", ADRESSE: "16/1", ROW: "1" },
-            { id: 42, CHANNEL: "42", TYP: "Viper Performance", POSITION: "Advanced Truss SL", ORT: "Dimmerraum 4", ADRESSE: "16/41", ROW: "1" },
-
-            // DS Trough
-            { id: 51, CHANNEL: "51", TYP: "Viper Performance", POSITION: "DS Trough", ORT: "Dimmerraum 1", ADRESSE: "10/1", ROW: "1" },
-            { id: 52, CHANNEL: "52", TYP: "Viper Performance", POSITION: "DS Trough", ORT: "Dimmerraum 1", ADRESSE: "10/41", ROW: "1" },
-
-            // LX 1
-            { id: 101, CHANNEL: "101", TYP: "Viper Performance", POSITION: "LX 1", ORT: "Dimmerraum 1", ADRESSE: "1/1", ROW: "1" },
-            { id: 102, CHANNEL: "102", TYP: "Viper Performance", POSITION: "LX 1", ORT: "Dimmerraum 1", ADRESSE: "1/41", ROW: "1" },
-            { id: 103, CHANNEL: "103", TYP: "Viper Performance", POSITION: "LX 1", ORT: "Dimmerraum 1", ADRESSE: "1/81", ROW: "1" },
-            { id: 104, CHANNEL: "104", TYP: "Viper Performance", POSITION: "LX 1", ORT: "Dimmerraum 1", ADRESSE: "1/121", ROW: "1" },
-            { id: 105, CHANNEL: "105", TYP: "Viper Performance", POSITION: "LX 1", ORT: "Dimmerraum 1", ADRESSE: "1/161", ROW: "1" },
-
-            // LX 2
-            { id: 111, CHANNEL: "111", TYP: "Viper Performance", POSITION: "LX 2", ORT: "Dimmerraum 2", ADRESSE: "2/1", ROW: "1" },
-            { id: 112, CHANNEL: "112", TYP: "Viper Performance", POSITION: "LX 2", ORT: "Dimmerraum 2", ADRESSE: "2/41", ROW: "1" },
-            { id: 113, CHANNEL: "113", TYP: "Viper Performance", POSITION: "LX 2", ORT: "Dimmerraum 2", ADRESSE: "2/81", ROW: "1" },
-
-            // LX 3
-            { id: 121, CHANNEL: "121", TYP: "Viper Performance", POSITION: "LX 3", ORT: "Dimmerraum 3", ADRESSE: "3/1", ROW: "1" },
-            { id: 122, CHANNEL: "122", TYP: "Viper Performance", POSITION: "LX 3", ORT: "Dimmerraum 3", ADRESSE: "3/41", ROW: "1" },
-            { id: 123, CHANNEL: "123", TYP: "Viper Performance", POSITION: "LX 3", ORT: "Dimmerraum 3", ADRESSE: "3/81", ROW: "1" },
-
-            // LX 4
-            { id: 131, CHANNEL: "131", TYP: "Viper Performance", POSITION: "LX 4", ORT: "Dimmerraum 2", ADRESSE: "4/1", ROW: "1" },
-            { id: 132, CHANNEL: "132", TYP: "Viper Performance", POSITION: "LX 4", ORT: "Dimmerraum 2", ADRESSE: "4/41", ROW: "1" },
-            { id: 133, CHANNEL: "133", TYP: "Viper Performance", POSITION: "LX 4", ORT: "Dimmerraum 2", ADRESSE: "4/81", ROW: "1" },
-
-            // LX 5
-            { id: 141, CHANNEL: "141", TYP: "Viper Performance", POSITION: "LX 5", ORT: "Dimmerraum 3", ADRESSE: "5/1", ROW: "1" },
-            { id: 142, CHANNEL: "142", TYP: "Viper Performance", POSITION: "LX 5", ORT: "Dimmerraum 3", ADRESSE: "5/41", ROW: "1" },
-            { id: 143, CHANNEL: "143", TYP: "Viper Performance", POSITION: "LX 5", ORT: "Dimmerraum 3", ADRESSE: "5/81", ROW: "1" },
-
-            // Leitern (Viper)
-            { id: 227, CHANNEL: "227", TYP: "Viper Performance", POSITION: "Leiter 2 SL", ORT: "Dimmerraum 2", ADRESSE: "11/201", ROW: "1" },
-            { id: 228, CHANNEL: "228", TYP: "Viper Performance", POSITION: "Leiter 3 SL", ORT: "Dimmerraum 2", ADRESSE: "12/251", ROW: "1" },
-            { id: 229, CHANNEL: "229", TYP: "Viper Performance", POSITION: "Leiter 4 SL", ORT: "Dimmerraum 2", ADRESSE: "12/371", ROW: "1" },
-
-            // Leitern (Impression X5)
-            { id: 251, CHANNEL: "251", TYP: "Impression X5", POSITION: "Leiter 1 SR", ORT: "Dimmerraum 1", ADRESSE: "13/241", ROW: "3" },
-            { id: 252, CHANNEL: "252", TYP: "Impression X5", POSITION: "Leiter 2 SR", ORT: "Dimmerraum 1", ADRESSE: "13/276", ROW: "3" },
-            { id: 253, CHANNEL: "253", TYP: "Impression X5", POSITION: "Leiter 3 SR", ORT: "Dimmerraum 1", ADRESSE: "14/335", ROW: "3" },
-            { id: 254, CHANNEL: "254", TYP: "Impression X5", POSITION: "Leiter 4 SR", ORT: "Dimmerraum 1", ADRESSE: "14/370", ROW: "3" },
-            { id: 256, CHANNEL: "256", TYP: "Impression X5", POSITION: "Leiter 1 SL", ORT: "Dimmerraum 2", ADRESSE: "11/241", ROW: "3" },
-            { id: 257, CHANNEL: "257", TYP: "Impression X5", POSITION: "Leiter 2 SL", ORT: "Dimmerraum 2", ADRESSE: "11/276", ROW: "3" },
-            { id: 258, CHANNEL: "258", TYP: "Impression X5", POSITION: "Leiter 3 SL", ORT: "Dimmerraum 2", ADRESSE: "12/411", ROW: "3" },
-            { id: 259, CHANNEL: "259", TYP: "Impression X5", POSITION: "Leiter 4 SL", ORT: "Dimmerraum 2", ADRESSE: "12/446", ROW: "3" },
-
-            // Booms
-            { id: 261, CHANNEL: "261", TYP: "Impression X5", POSITION: "Boom 1 SR", ORT: "Dimmerraum 1", ADRESSE: "16/145", ROW: "2" },
-            { id: 262, CHANNEL: "262", TYP: "Impression X5", POSITION: "Boom 2 SR", ORT: "Dimmerraum 1", ADRESSE: "16/180", ROW: "2" },
-            { id: 263, CHANNEL: "263", TYP: "Impression X5", POSITION: "Boom 3 SR", ORT: "Dimmerraum 1", ADRESSE: "16/215", ROW: "2" },
-            { id: 264, CHANNEL: "264", TYP: "Impression X5", POSITION: "Boom 4 SR", ORT: "Dimmerraum 1", ADRESSE: "16/250", ROW: "2" },
-            { id: 265, CHANNEL: "265", TYP: "Impression X5", POSITION: "Boom 1 SL", ORT: "Dimmerraum 2", ADRESSE: "16/285", ROW: "2" },
-            { id: 266, CHANNEL: "266", TYP: "Impression X5", POSITION: "Boom 2 SL", ORT: "Dimmerraum 2", ADRESSE: "16/320", ROW: "2" },
-            { id: 267, CHANNEL: "267", TYP: "Impression X5", POSITION: "Boom 3 SL", ORT: "Dimmerraum 2", ADRESSE: "16/355", ROW: "2" },
-            { id: 268, CHANNEL: "268", TYP: "Impression X5", POSITION: "Boom 4 SL", ORT: "Dimmerraum 2", ADRESSE: "16/390", ROW: "2" }
+        // --- HARDCODIERTE FILTERKONFIGURATION ---
+        const FILTER_ROWS = [
+            // Reihe 1: Stone
+            [
+                { l: "Z-B 1", v: "Z-Brücke 1", c: "text-stone-400" },
+                { l: "1FS B", v: "Z-Brücke 3", c: "text-stone-400" },
+                { l: "DS Tr.", v: "DS Trough", c: "text-stone-400" },
+                { l: "Portal", v: "Portal", c: "text-stone-400" }
+            ],
+            // Reihe 2: Rose
+            [
+                { l: "ST SR", v: "Sound Truss SR", c: "text-rose-500" },
+                { l: "ST SRC", v: "Sound Truss SRC", c: "text-rose-500" },
+                { l: "ST SLC", v: "Sound Truss SLC", c: "text-rose-500" },
+                { l: "ST SL", v: "Sound Truss SL", c: "text-rose-500" }
+            ],
+            // Reihe 3: Fuchsia
+            [
+                { l: "NBB SR", v: "Near Box Boom SR", c: "text-fuchsia-500" },
+                { l: "PB SR", v: "Prosc Boom SR", c: "text-fuchsia-500" },
+                { l: "AT SR", v: "Advanced Truss SR", c: "text-fuchsia-500" }
+            ],
+            // Reihe 4: Violet
+            [
+                { l: "NBB SL", v: "Near Box Boom SL", c: "text-violet-500" },
+                { l: "PB SL", v: "Prosc Boom SL", c: "text-violet-500" },
+                { l: "AT SL", v: "Advanced Truss SL", c: "text-violet-500" }
+            ],
+            // Reihe 5: Yellow-600
+            [
+                { l: "LX 1", v: "LX 1", c: "text-yellow-600" },
+                { l: "LX 2", v: "LX 2", c: "text-yellow-600" },
+                { l: "LX 3", v: "LX 3", c: "text-yellow-600" },
+                { l: "LX 4", v: "LX 4", c: "text-yellow-600" },
+                { l: "LX 5", v: "LX 5", c: "text-yellow-600" }
+            ],
+            // Reihe 6: Teal-500
+            [
+                { l: "L1 SR", v: "Leiter 1 SR", c: "text-green-500" },
+                { l: "L2 SR", v: "Leiter 2 SR", c: "text-green-500" },
+                { l: "L3 SR", v: "Leiter 3 SR", c: "text-green-500" },
+                { l: "L4 SR", v: "Leiter 4 SR", c: "text-green-500" }
+            ],
+            // Reihe 7: Cyan-500
+            [
+                { l: "B1 SR", v: "Boom 1 SR", c: "text-cyan-500" },
+                { l: "B2 SR", v: "Boom 2 SR", c: "text-cyan-500" },
+                { l: "B3 SR", v: "Boom 3 SR", c: "text-cyan-500" },
+                { l: "B4 SR", v: "Boom 4 SR", c: "text-cyan-500" }
+            ],
+            // Reihe 8: Teal-500
+            [
+                { l: "L1 SL", v: "Leiter 1 SL", c: "text-green-500" },
+                { l: "L2 SL", v: "Leiter 2 SL", c: "text-green-500" },
+                { l: "L3 SL", v: "Leiter 3 SL", c: "text-green-500" },
+                { l: "L4 SL", v: "Leiter 4 SL", c: "text-green-500" }
+            ],
+            // Reihe 9: Cyan-500
+            [
+                { l: "B1 SL", v: "Boom 1 SL", c: "text-cyan-500" },
+                { l: "B2 SL", v: "Boom 2 SL", c: "text-cyan-500" },
+                { l: "B3 SL", v: "Boom 3 SL", c: "text-cyan-500" },
+                { l: "B4 SL", v: "Boom 4 SL", c: "text-cyan-500" }
+            ]
         ];
 
         function App() {
@@ -211,32 +181,8 @@
             const [searchTerm, setSearchTerm] = useState("");
             const [activeFilter, setActiveFilter] = useState("Alle");
             const [activeRowFilter, setActiveRowFilter] = useState(null);
-            const [status, setStatus] = useState("Lade...");
+            const [status, setStatus] = useState("Lade Daten...");
             const [showAllForced, setShowAllForced] = useState(false);
-
-            // Filter Struktur basierend auf CSV
-            const filterRows = [
-                // Reihe 1
-                [{l:"Z-B 1",v:"Z-Brücke 1",c:"text-slate-200"}, {l:"FS B",v:"Z-Brücke 2",c:"text-slate-200"}, {l:"DS Tr.",v:"DS Trough",c:"text-stone-300"}, {l:"Portal",v:"Portal",c:"text-stone-300"}],
-                // Reihe 2
-                [{l:"ST SR",v:"Sound Truss SR",c:"text-blue-200"}, {l:"ST SRC",v:"Sound Truss SRC",c:"text-blue-200"}, {l:"ST SLC",v:"Sound Truss SLC",c:"text-blue-200"}, {l:"ST SL",v:"Sound Truss SL",c:"text-blue-200"}],
-                // Reihe 3
-                [{l:"NBB SR",v:"Near Box Boom SR",c:"text-purple-300"}, {l:"PB SR",v:"Prosc Boom SR",c:"text-purple-300"}, {l:"AT SR",v:"Advanced Truss SR",c:"text-purple-300"}],
-                // Reihe 4
-                [{l:"NBB SL",v:"Near Box Boom SL",c:"text-sky-300"}, {l:"PB SL",v:"Prosc Boom SL",c:"text-sky-300"}, {l:"AT SL",v:"Advanced Truss SL",c:"text-sky-300"}],
-                // Reihe 5
-                [{l:"LX 1",v:"LX 1",c:"text-amber-300"}, {l:"LX 2",v:"LX 2",c:"text-amber-300"}, {l:"LX 3",v:"LX 3",c:"text-amber-300"}, {l:"LX 4",v:"LX 4",c:"text-amber-300"}, {l:"LX 5",v:"LX 5",c:"text-amber-300"}],
-                // Reihe 6
-                [{l:"L1 SR",v:"Leiter 1 SR",c:"text-lime-300"}, {l:"L2 SR",v:"Leiter 2 SR",c:"text-lime-300"}, {l:"L3 SR",v:"Leiter 3 SR",c:"text-lime-300"}, {l:"L4 SR",v:"Leiter 4 SR",c:"text-lime-300"}],
-                // Reihe 7
-                [{l:"B1 SR",v:"Boom 1 SR",c:"text-teal-300"}, {l:"B2 SR",v:"Boom 2 SR",c:"text-teal-300"}, {l:"B3 SR",v:"Boom 3 SR",c:"text-teal-300"}, {l:"B4 SR",v:"Boom 4 SR",c:"text-teal-300"}],
-                // Reihe 8
-                [{l:"L1 SL",v:"Leiter 1 SL",c:"text-orange-300"}, {l:"L2 SL",v:"Leiter 2 SL",c:"text-orange-300"}, {l:"L3 SL",v:"Leiter 3 SL",c:"text-orange-300"}, {l:"L4 SL",v:"Leiter 4 SL",c:"text-orange-300"}],
-                // Reihe 9
-                [{l:"B1 SL",v:"Boom 1 SL",c:"text-indigo-300"}, {l:"B2 SL",v:"Boom 2 SL",c:"text-indigo-300"}, {l:"B3 SL",v:"Boom 3 SL",c:"text-indigo-300"}, {l:"B4 SL",v:"Boom 4 SL",c:"text-indigo-300"}]
-            ];
-
-            const hardcodedValues = useMemo(() => filterRows.flat().map(item => item.v), []);
 
             useEffect(() => {
                 const loadData = async () => {
@@ -260,18 +206,14 @@
                                         }));
                                         setFixtures(parsed);
                                         setStatus("");
-                                    } else {
-                                        setFixtures(MOCK_DATA);
-                                        setStatus("Demo-Modus");
                                     }
                                 }
                             });
                         } else {
-                            throw new Error("CSV nicht erreichbar");
+                            setStatus("Bitte fixtures.csv bereitstellen");
                         }
                     } catch (e) {
-                        setFixtures(MOCK_DATA);
-                        setStatus("Demo-Modus");
+                        setStatus("Fehler beim Laden");
                     }
                 };
                 loadData();
@@ -286,34 +228,25 @@
                 return fixtures.filter(f => {
                     const fixtureChannel = f.CHANNEL.toString().toLowerCase().trim();
                     const fixtureType = f.TYP.toLowerCase();
-                    let matchesSearch = false;
-                    if (isNumericSearch) matchesSearch = fixtureChannel === search;
-                    else matchesSearch = fixtureChannel.includes(search) || fixtureType.includes(search);
-                    
+                    let matchesSearch = isNumericSearch ? fixtureChannel === search : (fixtureChannel.includes(search) || fixtureType.includes(search));
                     const matchesFilter = activeFilter === "Alle" || f.POSITION === activeFilter;
-                    
                     let matchesRow = true;
                     if (activeFilter !== "Alle" && activeRowFilter !== null) {
                         matchesRow = f.ROW === activeRowFilter.toString();
                     }
-
                     return matchesSearch && matchesFilter && matchesRow;
                 });
             }, [fixtures, searchTerm, activeFilter, activeRowFilter, isInteractionActive]);
 
             const otherPositions = useMemo(() => {
+                const hardcodedValues = FILTER_ROWS.flat().map(item => item.v);
                 const allPos = new Set(fixtures.map(f => f.POSITION));
                 return Array.from(allPos).filter(p => p && p !== "Unbekannt" && !hardcodedValues.includes(p)).sort();
-            }, [fixtures, hardcodedValues]);
+            }, [fixtures]);
 
             const toggleFilter = (val) => {
-                if (activeFilter === val) { 
-                    setActiveFilter("Alle"); 
-                    setShowAllForced(false); 
-                } else { 
-                    setActiveFilter(val); 
-                    setShowAllForced(false); 
-                }
+                setActiveFilter(activeFilter === val ? "Alle" : val);
+                setShowAllForced(false);
                 setActiveRowFilter(null);
             };
 
@@ -328,25 +261,22 @@
 
             const activeFilterData = useMemo(() => {
                 if (activeFilter === "Alle") return null;
-                for (let i = 0; i < filterRows.length; i++) {
-                    const row = filterRows[i];
-                    const item = row.find(it => it.v === activeFilter);
-                    if (item) {
-                        return {
-                            label: item.l,
-                            value: activeFilter,
-                            colorClass: item.c
-                        };
-                    }
-                }
-                if (otherPositions.includes(activeFilter)) {
-                    return { label: activeFilter, value: activeFilter, colorClass: "text-slate-400" };
-                }
-                return { label: activeFilter, value: activeFilter, colorClass: "text-slate-400" };
-            }, [activeFilter, filterRows, otherPositions]);
+                const found = FILTER_ROWS.flat().find(it => it.v === activeFilter);
+                if (found) return found;
+                return { l: activeFilter, v: activeFilter, c: "text-slate-400" };
+            }, [activeFilter]);
 
             const FilterBtn = ({ label, value, colorClass = "text-slate-400" }) => (
-                <button onClick={() => toggleFilter(value)} className={`min-w-[60px] px-2 py-1 rounded-lg text-xs font-normal transition-all border font-brand whitespace-nowrap flex items-center justify-center ${activeFilter === value ? 'bg-blue-600 border-blue-500 text-white shadow-lg scale-105' : `bg-slate-800 border-slate-700 ${colorClass} hover:bg-slate-700 hover:border-slate-500 hover:text-white`}`}>{label}</button>
+                <button 
+                    onClick={() => toggleFilter(value)} 
+                    className={`min-w-[60px] px-2 py-1 rounded-lg text-xs font-normal transition-all border font-brand whitespace-nowrap flex items-center justify-center ${
+                        activeFilter === value 
+                        ? 'bg-blue-600 border-blue-500 text-white shadow-lg scale-105' 
+                        : `bg-slate-800 border-slate-700 ${colorClass} hover:bg-slate-700 hover:border-slate-500 hover:text-white`
+                    }`}
+                >
+                    {label}
+                </button>
             );
 
             return (
@@ -359,11 +289,17 @@
                                     <div className="fluid-subtitle font-normal text-[#b3b3b3] font-brand uppercase tracking-widest opacity-90 mt-0.5">Theater an der Elbe &nbsp; - &nbsp; MJ Das Musical</div>
                                 </div>
                                 <div className="relative w-full md:max-w-xs">
-                                    <input className="w-full bg-slate-800 p-3 pl-10 rounded-lg border border-slate-700 text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all placeholder-slate-500 font-brand" placeholder="Suche Channel oder Typ..." value={searchTerm} onChange={e => { setSearchTerm(e.target.value); if (e.target.value.trim() !== "") setShowAllForced(false); }} />
+                                    <input 
+                                        className="w-full bg-slate-800 p-3 pl-10 rounded-lg border border-slate-700 text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all placeholder-slate-500 font-brand" 
+                                        placeholder="Suche Channel oder Typ..." 
+                                        value={searchTerm} 
+                                        onChange={e => { setSearchTerm(e.target.value); if (e.target.value.trim() !== "") setShowAllForced(false); }} 
+                                    />
                                     <div className="absolute left-3 top-3.5 text-slate-500"><Icon name="Search" size={18} /></div>
                                     {searchTerm && <button onClick={() => setSearchTerm("")} className="absolute right-3 top-3.5 text-slate-500 hover:text-white"><Icon name="X" size={18} /></button>}
                                 </div>
                             </div>
+
                             <div className="space-y-3 pt-2">
                                 {activeFilter === "Alle" ? (
                                     <>
@@ -371,7 +307,7 @@
                                             <button onClick={handleToggleAll} className={`min-w-[60px] px-4 py-1 rounded-lg text-xs font-medium transition-all border font-brand ${showAllForced && activeFilter === "Alle" && searchTerm === "" ? 'bg-blue-600 border-blue-500 text-white shadow-lg scale-105' : 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700 hover:border-slate-500'}`}>Alle</button>
                                         </div>
                                         <div className="flex flex-col gap-2">
-                                            {filterRows.map((row, idx) => (
+                                            {FILTER_ROWS.map((row, idx) => (
                                                 <div key={idx} className="flex gap-2 overflow-x-auto scrollbar-hide py-0.5">
                                                     {row.map(item => <FilterBtn key={item.v} label={item.l} value={item.v} colorClass={item.c} />)}
                                                 </div>
@@ -390,13 +326,23 @@
                                                 <Icon name="ArrowLeft" size={16} /> Zurück
                                             </button>
                                             {activeFilterData && (
-                                                <FilterBtn label={activeFilterData.label} value={activeFilterData.value} colorClass={activeFilterData.colorClass} />
+                                                <FilterBtn label={activeFilterData.l} value={activeFilterData.v} colorClass={activeFilterData.c} />
                                             )}
                                         </div>
                                         <div className="text-xs text-slate-400 font-normal px-1 pb-1">Wievielte Lampe von links bzw. unten ?</div>
                                         <div className="flex gap-2 overflow-x-auto scrollbar-hide py-1 border-t border-slate-800/50">
                                             {Array.from({ length: 15 }, (_, i) => i + 1).map(num => (
-                                                <button key={num} onClick={() => toggleRowFilter(num)} className={`w-8 h-8 rounded-full text-xs font-bold flex items-center justify-center transition-all border shrink-0 ${activeRowFilter === num ? 'bg-emerald-600 border-emerald-500 text-white shadow-lg scale-110' : 'bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700 hover:text-white'}`}>{num}</button>
+                                                <button 
+                                                    key={num} 
+                                                    onClick={() => toggleRowFilter(num)} 
+                                                    className={`w-8 h-8 rounded-full text-xs font-bold flex items-center justify-center transition-all border shrink-0 ${
+                                                        activeRowFilter === num 
+                                                        ? 'bg-emerald-600 border-emerald-500 text-white shadow-lg scale-110' 
+                                                        : 'bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700 hover:text-white'
+                                                    }`}
+                                                >
+                                                    {num}
+                                                </button>
                                             ))}
                                         </div>
                                     </div>
@@ -404,15 +350,11 @@
                             </div>
                         </div>
                     </div>
+                    
                     <div className="p-4 md:p-8 max-w-7xl mx-auto">
                         {status && <div className="text-center py-4 text-xs text-yellow-600 mb-4 animate-pulse">{status}</div>}
-                        {!isInteractionActive ? (
-                            <div className="text-center p-20 text-slate-500 flex flex-col items-center gap-4 animate-in fade-in duration-700">
-                                <div className="p-6 bg-slate-800/50 rounded-full text-slate-400"><Icon name="Info" size={48} /></div>
-                                <h2 className="text-xl font-light text-slate-300 font-brand">Bereit zum Suchen</h2>
-                                <p className="max-w-md font-brand font-normal">Wähle oben eine Position aus oder nutze das Suchfeld, um Geräte anzuzeigen.</p>
-                            </div>
-                        ) : (
+                        
+                        {isInteractionActive && (
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 grid-transition">
                                 {filteredFixtures.map(fixture => {
                                     const parts = fixture.ADRESSE.split('/');
@@ -432,13 +374,14 @@
                                                     <div className="text-xs font-normal text-slate-300 truncate">{fixture.POSITION}</div>
                                                     {fixture.ROW && <div className="text-[9px] font-medium text-slate-500 uppercase tracking-tighter leading-tight mt-0.5 flex items-baseline">Fixture von links / unten:&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-base font-bold text-slate-200">{fixture.ROW}</span></div>}
                                                 </div>
-                                                <div className="text-xs font-brand font-normal text-slate-300 tracking-tighter shrink-0 pb-1">DMX: <span className="font-bold">{universe}</span><span className="font-bold">{rest}</span></div>
+                                                <div className="text-xs font-brand font-normal text-slate-300 tracking-tighter shrink-0 pb-1">DMX: <span className="font-normal">{universe}</span><span className="font-normal">{rest}</span></div>
                                             </div>
                                         </div>
                                     );
                                 })}
                             </div>
                         )}
+
                         {isInteractionActive && filteredFixtures.length === 0 && (
                             <div className="text-center p-20 text-slate-500 flex flex-col items-center gap-4">
                                 <div className="p-4 bg-slate-800 rounded-full"><Icon name="Search" size={40} className="text-slate-600" /></div>
@@ -447,6 +390,7 @@
                             </div>
                         )}
                     </div>
+
                     <div className="fixed bottom-0 left-0 right-0 bg-slate-900/80 backdrop-blur-md border-t border-slate-800 p-4 text-center z-30 font-brand">
                         <div className="max-w-7xl mx-auto flex justify-between items-center text-[10px] text-slate-600 uppercase tracking-widest font-brand">
                             <span>{isInteractionActive ? filteredFixtures.length : 0} Geräte gefunden</span>
@@ -461,6 +405,7 @@
         root.render(<App />);
     </script>
     
+    <!-- Mini Service Worker für PWA-Installierbarkeit -->
     <script>
         if ('serviceWorker' in navigator) {
             const swContent = `
