@@ -4,17 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
-    <!-- Web App Einstellungen für "Standalone" Modus (entfernt Adressleiste) -->
+    <!-- Web App Einstellungen für PWA -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#0f172a">
-
-    <!-- Namen für den Homebildschirm festlegen -->
     <meta name="apple-mobile-web-app-title" content="Haywire Finder">
     <meta name="application-name" content="Haywire Finder">
     
-    <!-- Erweitertes Web Manifest (Inline via Data-URI) -->
+    <!-- Erweitertes Web Manifest -->
     <link rel="manifest" href='data:application/manifest+json,{
         "name": "Haywire Finder",
         "short_name": "Haywire",
@@ -30,7 +28,14 @@
             {
                 "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiB2aWV3Qm94PSIwIDAgMTkyIDE5MiI+PHJlY3Qgd2lkdGg9IjE5MiIgaGVpZ2h0PSIxOTIiIGZpbGw9IiMwZjE3MmEiLz48Y2lyY2xlIGN4PSI5NiIgY3k9Ijk2IiByPSI0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjM2I4MmY2IiBzdHJva2Utd2lkdGg9IjgiLz48L3N2Zz4=",
                 "sizes": "192x192",
-                "type": "image/svg+xml"
+                "type": "image/svg+xml",
+                "purpose": "any maskable"
+            },
+            {
+                "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiB2aWV3Qm94PSIwIDAgMTkyIDE5MiI+PHJlY3Qgd2lkdGg9IjE5MiIgaGVpZ2h0PSIxOTIiIGZpbGw9IiMwZjE3MmEiLz48Y2lyY2xlIGN4PSI5NiIgY3k9Ijk2IiByPSI0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjM2I4MmY2IiBzdHJva2Utd2lkdGg9IjgiLz48L3N2Zz4=",
+                "sizes": "512x512",
+                "type": "image/svg+xml",
+                "purpose": "any maskable"
             }
         ]
     }'>
@@ -70,13 +75,11 @@
             transition: all 0.3s ease-in-out;
         }
 
-        /* Dynamische Schriftgröße für die Überschrift */
         .fluid-header {
             font-size: clamp(0.95rem, 3.8vw, 1.6rem);
             line-height: 1.1;
         }
 
-        /* Untertitel: 70% kleiner als die Überschrift */
         .fluid-subtitle {
             font-size: clamp(0.55rem, 1.4vw, 0.65rem);
             line-height: 1.2;
@@ -97,11 +100,14 @@
             X: (props) => (
                 <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
             ),
+            ArrowLeft: (props) => (
+                <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+            ),
             Info: (props) => (
                 <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
             ),
-            ArrowLeft: (props) => (
-                <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+            Layout: (props) => (
+                <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
             )
         };
 
@@ -110,6 +116,72 @@
             return IconComponent ? <IconComponent width={size} height={size} className={className} /> : null;
         };
 
+        // --- HARDCODIERTE FILTERKONFIGURATION ---
+        const FILTER_ROWS = [
+            // Reihe 1: Stone
+            [
+                { l: "Z-B 1", v: "Z-Brücke 1", c: "text-stone-500" },
+                { l: "1FS B", v: "Z-Brücke 3", c: "text-stone-500" },
+                { l: "DS Tr.", v: "DS Trough", c: "text-stone-500" },
+                { l: "Portal", v: "Portal", c: "text-stone-500" }
+            ],
+            // Reihe 2: Rose
+            [
+                { l: "ST SR", v: "Sound Truss SR", c: "text-rose-500" },
+                { l: "ST SRC", v: "Sound Truss SRC", c: "text-rose-500" },
+                { l: "ST SLC", v: "Sound Truss SLC", c: "text-rose-500" },
+                { l: "ST SL", v: "Sound Truss SL", c: "text-rose-500" }
+            ],
+            // Reihe 3: Fuchsia
+            [
+                { l: "NBB SR", v: "Near Box Boom SR", c: "text-fuchsia-500" },
+                { l: "PB SR", v: "Prosc Boom SR", c: "text-fuchsia-500" },
+                { l: "AT SR", v: "Advanced Truss SR", c: "text-fuchsia-500" }
+            ],
+            // Reihe 4: Violet
+            [
+                { l: "NBB SL", v: "Near Box Boom SL", c: "text-violet-500" },
+                { l: "PB SL", v: "Prosc Boom SL", c: "text-violet-500" },
+                { l: "AT SL", v: "Advanced Truss SL", c: "text-violet-500" }
+            ],
+            // Reihe 5: Blue
+            [
+                { l: "LX 1", v: "LX 1", c: "text-blue-500" },
+                { l: "LX 2", v: "LX 2", c: "text-blue-500" },
+                { l: "LX 3", v: "LX 3", c: "text-blue-500" },
+                { l: "LX 4", v: "LX 4", c: "text-blue-500" },
+                { l: "LX 5", v: "LX 5", c: "text-blue-500" }
+            ],
+            // Reihe 6: Teal
+            [
+                { l: "L1 SR", v: "Leiter 1 SR", c: "text-teal-500" },
+                { l: "L2 SR", v: "Leiter 2 SR", c: "text-teal-500" },
+                { l: "L3 SR", v: "Leiter 3 SR", c: "text-teal-500" },
+                { l: "L4 SR", v: "Leiter 4 SR", c: "text-teal-500" }
+            ],
+            // Reihe 7: Orange
+            [
+                { l: "B1 SR", v: "Boom 1 SR", c: "text-orange-500" },
+                { l: "B2 SR", v: "Boom 2 SR", c: "text-orange-500" },
+                { l: "B3 SR", v: "Boom 3 SR", c: "text-orange-500" },
+                { l: "B4 SR", v: "Boom 4 SR", c: "text-orange-500" }
+            ],
+            // Reihe 8: Indigo
+            [
+                { l: "L1 SL", v: "Leiter 1 SL", c: "text-indigo-500" },
+                { l: "L2 SL", v: "Leiter 2 SL", c: "text-indigo-500" },
+                { l: "L3 SL", v: "Leiter 3 SL", c: "text-indigo-500" },
+                { l: "L4 SL", v: "Leiter 4 SL", c: "text-indigo-500" }
+            ],
+            // Reihe 9: Cyan
+            [
+                { l: "B1 SL", v: "Boom 1 SL", c: "text-cyan-500" },
+                { l: "B2 SL", v: "Boom 2 SL", c: "text-cyan-500" },
+                { l: "B3 SL", v: "Boom 3 SL", c: "text-cyan-500" },
+                { l: "B4 SL", v: "Boom 4 SL", c: "text-cyan-500" }
+            ]
+        ];
+
         function App() {
             const [fixtures, setFixtures] = useState([]);
             const [searchTerm, setSearchTerm] = useState("");
@@ -117,30 +189,6 @@
             const [activeRowFilter, setActiveRowFilter] = useState(null);
             const [status, setStatus] = useState("Lade Daten...");
             const [showAllForced, setShowAllForced] = useState(false);
-
-            // Filter Struktur mit angepasster Beschriftung "Stage"
-            const filterRows = [
-                // Reihe 1: Stone
-                [{l:"Z-B 1",v:"Z-Brücke 1",c:"text-stone-500"}, {l:"1FS B",v:"Z-Brücke 3",c:"text-stone-500"}, {l:"Stage",v:"DS Trough",c:"text-stone-500"}, {l:"Portal",v:"Portal",c:"text-stone-500"}],
-                // Reihe 2: Rose
-                [{l:"ST SR",v:"Sound Truss SR",c:"text-rose-500"}, {l:"ST SRC",v:"Sound Truss SRC",c:"text-rose-500"}, {l:"ST SLC",v:"Sound Truss SLC",c:"text-rose-500"}, {l:"ST SL",v:"Sound Truss SL",c:"text-rose-500"}],
-                // Reihe 3: Fuchsia
-                [{l:"NBB SR",v:"Near Box Boom SR",c:"text-fuchsia-500"}, {l:"PB SR",v:"Prosc Boom SR",c:"text-fuchsia-500"}, {l:"AT SR",v:"Advanced Truss SR",c:"text-fuchsia-500"}],
-                // Reihe 4: Violet
-                [{l:"NBB SL",v:"Near Box Boom SL",c:"text-violet-500"}, {l:"PB SL",v:"Prosc Boom SL",c:"text-violet-500"}, {l:"AT SL",v:"Advanced Truss SL",c:"text-violet-500"}],
-                // Reihe 5: Yellow
-                [{l:"LX 1",v:"LX 1",c:"text-yellow-600"}, {l:"LX 2",v:"LX 2",c:"text-yellow-600"}, {l:"LX 3",v:"LX 3",c:"text-yellow-600"}, {l:"LX 4",v:"LX 4",c:"text-yellow-600"}, {l:"LX 5",v:"LX 5",c:"text-yellow-600"}],
-                // Reihe 6: Teal
-                [{l:"L1 SR",v:"Leiter 1 SR",c:"text-teal-500"}, {l:"L2 SR",v:"Leiter 2 SR",c:"text-teal-500"}, {l:"L3 SR",v:"Leiter 3 SR",c:"text-teal-500"}, {l:"L4 SR",v:"Leiter 4 SR",c:"text-teal-500"}],
-                // Reihe 7: Cyan
-                [{l:"B1 SR",v:"Boom 1 SR",c:"text-cyan-500"}, {l:"B2 SR",v:"Boom 2 SR",c:"text-cyan-500"}, {l:"B3 SR",v:"Boom 3 SR",c:"text-cyan-500"}, {l:"B4 SR",v:"Boom 4 SR",c:"text-cyan-500"}],
-                // Reihe 8: Teal
-                [{l:"L1 SL",v:"Leiter 1 SL",c:"text-teal-500"}, {l:"L2 SL",v:"Leiter 2 SL",c:"text-teal-500"}, {l:"L3 SL",v:"Leiter 3 SL",c:"text-teal-500"}, {l:"L4 SL",v:"Leiter 4 SL",c:"text-teal-500"}],
-                // Reihe 9: Cyan
-                [{l:"B1 SL",v:"Boom 1 SL",c:"text-cyan-500"}, {l:"B2 SL",v:"Boom 2 SL",c:"text-cyan-500"}, {l:"B3 SL",v:"Boom 3 SL",c:"text-cyan-500"}, {l:"B4 SL",v:"Boom 4 SL",c:"text-cyan-500"}]
-            ];
-
-            const hardcodedValues = useMemo(() => filterRows.flat().map(item => item.v), []);
 
             // MOCK DATEN (Fallback)
             const MOCK_DATA = [
@@ -194,6 +242,23 @@
 
             const isInteractionActive = useMemo(() => searchTerm.trim() !== "" || activeFilter !== "Alle" || showAllForced, [searchTerm, activeFilter, showAllForced]);
 
+            // Berechne die verfügbaren Reihen für den aktiven Filter
+            const availableRows = useMemo(() => {
+                if (activeFilter === "Alle") return [];
+                
+                const rows = new Set();
+                fixtures.forEach(f => {
+                    if (f.POSITION === activeFilter && f.ROW) {
+                        const r = parseInt(f.ROW, 10);
+                        if (!isNaN(r)) {
+                            rows.add(r);
+                        }
+                    }
+                });
+                
+                return Array.from(rows).sort((a, b) => a - b);
+            }, [fixtures, activeFilter]);
+
             const filteredFixtures = useMemo(() => {
                 if (!isInteractionActive) return [];
                 const search = searchTerm.trim().toLowerCase();
@@ -202,20 +267,24 @@
                     const fixtureChannel = f.CHANNEL.toString().toLowerCase().trim();
                     const fixtureType = f.TYP.toLowerCase();
                     let matchesSearch = isNumericSearch ? fixtureChannel === search : (fixtureChannel.includes(search) || fixtureType.includes(search));
+                    
                     const matchesFilter = activeFilter === "Alle" || f.POSITION === activeFilter;
+                    
+                    // Reihen-Filter Logik
                     let matchesRow = true;
                     if (activeFilter !== "Alle" && activeRowFilter !== null) {
                         matchesRow = f.ROW === activeRowFilter.toString();
                     }
+
                     return matchesSearch && matchesFilter && matchesRow;
                 });
             }, [fixtures, searchTerm, activeFilter, activeRowFilter, isInteractionActive]);
 
             const otherPositions = useMemo(() => {
-                const hardcodedValues = filterRows.flat().map(item => item.v);
+                const hardcodedValues = FILTER_ROWS.flat().map(item => item.v);
                 const allPos = new Set(fixtures.map(f => f.POSITION));
                 return Array.from(allPos).filter(p => p && p !== "Unbekannt" && !hardcodedValues.includes(p)).sort();
-            }, [fixtures, filterRows]);
+            }, [fixtures, FILTER_ROWS]);
 
             const toggleFilter = (val) => {
                 if (activeFilter === val) { 
@@ -239,10 +308,10 @@
 
             const activeFilterData = useMemo(() => {
                 if (activeFilter === "Alle") return null;
-                const found = filterRows.flat().find(it => it.v === activeFilter);
+                const found = FILTER_ROWS.flat().find(it => it.v === activeFilter);
                 if (found) return found;
                 return { l: activeFilter, v: activeFilter, c: "text-slate-400" };
-            }, [activeFilter, filterRows]);
+            }, [activeFilter]);
 
             const FilterBtn = ({ label, value, colorClass = "text-slate-400" }) => (
                 <button onClick={() => toggleFilter(value)} className={`min-w-[60px] px-2 py-1 rounded-lg text-xs font-normal transition-all border font-brand whitespace-nowrap flex items-center justify-center ${activeFilter === value ? 'bg-blue-600 border-blue-500 text-white shadow-lg scale-105' : `bg-slate-800 border-slate-700 ${colorClass} hover:bg-slate-700 hover:border-slate-500 hover:text-white`}`}>{label}</button>
@@ -270,7 +339,7 @@
                                             <button onClick={handleToggleAll} className={`min-w-[60px] px-4 py-1 rounded-lg text-xs font-medium transition-all border font-brand ${showAllForced && activeFilter === "Alle" && searchTerm === "" ? 'bg-blue-600 border-blue-500 text-white shadow-lg scale-105' : 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700 hover:border-slate-500'}`}>Alle</button>
                                         </div>
                                         <div className="flex flex-col gap-2">
-                                            {filterRows.map((row, idx) => (
+                                            {FILTER_ROWS.map((row, idx) => (
                                                 <div key={idx} className="flex gap-2 overflow-x-auto scrollbar-hide py-0.5">
                                                     {row.map(item => <FilterBtn key={item.v} label={item.l} value={item.v} colorClass={item.c} />)}
                                                 </div>
