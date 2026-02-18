@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
-    <!-- PWA / Web App Einstellungen -->
+    <!-- Web App Einstellungen -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -12,11 +12,34 @@
     <meta name="apple-mobile-web-app-title" content="Haywire Finder">
     <meta name="application-name" content="Haywire Finder">
     
-    <!-- iOS Icon -->
-    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiB2aWV3Qm94PSIwIDAgMTkyIDE5MiI+PHJlY3Qgd2lkdGg9IjE5MiIgaGVpZ2h0PSIxOTIiIGZpbGw9IiMwZjE3MmEiLz48Y2lyY2xlIGN4PSI5NiIgY3k9Ijk2IiByPSI0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjM2I4MmY2IiBzdHJva2Utd2lkdGg9IjgiLz48L3N2Zz4=">
-
-    <!-- Web Manifest (URL-Encoded für bessere Kompatibilität) -->
-    <link rel="manifest" href="data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22Haywire%20Finder%22%2C%22short_name%22%3A%22Haywire%22%2C%22description%22%3A%22Moving%20Head%20Finder%20MJ%20Musical%22%2C%22id%22%3A%22haywire-finder-1.0%22%2C%22start_url%22%3A%22.%2Findex.html%22%2C%22display%22%3A%22standalone%22%2C%22display_override%22%3A%5B%22fullscreen%22%2C%22standalone%22%5D%2C%22orientation%22%3A%22portrait%22%2C%22background_color%22%3A%22%230f172a%22%2C%22theme_color%22%3A%22%230f172a%22%2C%22scope%22%3A%22.%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiB2aWV3Qm94PSIwIDAgMTkyIDE5MiI%2BPHJlY3Qgd2lkdGg9IjE5MiIgaGVpZ2h0PSIxOTIiIGZpbGw9IiMwZjE3MmEiLz48Y2lyY2xlIGN4PSI5NiIgY3k9Ijk2IiByPSI0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjM2I4MmY2IiBzdHJva2Utd2lkdGg9IjgiLz48L3N2Zz4%3D%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%2C%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiB2aWV3Qm94PSIwIDAgMTkyIDE5MiI%2BPHJlY3Qgd2lkdGg9IjE5MiIgaGVpZ2h0PSIxOTIiIGZpbGw9IiMwZjE3MmEiLz48Y2lyY2xlIGN4PSI5NiIgY3k9Ijk2IiByPSI0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjM2I4MmY2IiBzdHJva2Utd2lkdGg9IjgiLz48L3N2Zz4%3D%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D">
+    <!-- Erweitertes Web Manifest -->
+    <link rel="manifest" href='data:application/manifest+json,{
+        "name": "Haywire Finder",
+        "short_name": "Haywire",
+        "description": "Moving Head Finder MJ Musical",
+        "id": "haywire-finder-1.0",
+        "start_url": "./index.html",
+        "display": "standalone",
+        "display_override": ["fullscreen", "standalone"],
+        "orientation": "portrait",
+        "background_color": "#0f172a",
+        "theme_color": "#0f172a",
+        "scope": ".",
+        "icons": [
+            {
+                "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiB2aWV3Qm94PSIwIDAgMTkyIDE5MiI+PHJlY3Qgd2lkdGg9IjE5MiIgaGVpZ2h0PSIxOTIiIGZpbGw9IiMwZjE3MmEiLz48Y2lyY2xlIGN4PSI5NiIgY3k9Ijk2IiByPSI0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjM2I4MmY2IiBzdHJva2Utd2lkdGg9IjgiLz48L3N2Zz4=",
+                "sizes": "192x192",
+                "type": "image/svg+xml",
+                "purpose": "any maskable"
+            },
+            {
+                "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiB2aWV3Qm94PSIwIDAgMTkyIDE5MiI+PHJlY3Qgd2lkdGg9IjE5MiIgaGVpZ2h0PSIxOTIiIGZpbGw9IiMwZjE3MmEiLz48Y2lyY2xlIGN4PSI5NiIgY3k9Ijk2IiByPSI0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjM2I4MmY2IiBzdHJva2Utd2lkdGg9IjgiLz48L3N2Zz4=",
+                "sizes": "512x512",
+                "type": "image/svg+xml",
+                "purpose": "any maskable"
+            }
+        ]
+    }'>
 
     <title>Haywire Finder</title>
     
@@ -99,7 +122,7 @@
 
         // --- KOMPLETTE DATEN AUS CSV (Erweiterter Demo-Modus) ---
         const MOCK_DATA = [
-            // Z-Brücke
+            // Z-Brücke 1
             { id: 1, CHANNEL: "1", TYP: "Viper Performance", POSITION: "Z-Brücke 1", ORT: "Dimmerraum 3", ADRESSE: "10/337", ROW: "7" },
             { id: 2, CHANNEL: "2", TYP: "Viper Performance", POSITION: "Z-Brücke 1", ORT: "Dimmerraum 3", ADRESSE: "10/297", ROW: "6" },
             { id: 3, CHANNEL: "3", TYP: "Viper Performance", POSITION: "Z-Brücke 1", ORT: "Dimmerraum 3", ADRESSE: "10/257", ROW: "5" },
@@ -108,6 +131,9 @@
             { id: 6, CHANNEL: "6", TYP: "Viper Performance", POSITION: "Z-Brücke 1", ORT: "Dimmerraum 3", ADRESSE: "10/137", ROW: "2" },
             { id: 7, CHANNEL: "7", TYP: "Viper Performance", POSITION: "Z-Brücke 1", ORT: "Dimmerraum 3", ADRESSE: "10/97", ROW: "1" },
             
+            // Z-Brücke 3 (FS B)
+            { id: 9, CHANNEL: "9", TYP: "Viper Performance", POSITION: "Z-Brücke 3", ORT: "Dimmerraum 3", ADRESSE: "10/001", ROW: "1" },
+
             // Sound Truss
             { id: 11, CHANNEL: "11", TYP: "Viper Performance", POSITION: "Sound Truss SR", ORT: "Dimmerraum 4", ADRESSE: "15/201", ROW: "6" },
             { id: 12, CHANNEL: "12", TYP: "Viper Performance", POSITION: "Sound Truss SR", ORT: "Dimmerraum 4", ADRESSE: "15/121", ROW: "5" },
@@ -129,6 +155,10 @@
             // DS Trough
             { id: 51, CHANNEL: "51", TYP: "Viper Performance", POSITION: "DS Trough", ORT: "Dimmerraum 1", ADRESSE: "10/1", ROW: "1" },
             { id: 52, CHANNEL: "52", TYP: "Viper Performance", POSITION: "DS Trough", ORT: "Dimmerraum 1", ADRESSE: "10/41", ROW: "1" },
+
+            // Portal
+            { id: 61, CHANNEL: "61", TYP: "Aura XB", POSITION: "Portal", ORT: "Dimmerraum 1", ADRESSE: "12/1", ROW: "1" },
+            { id: 62, CHANNEL: "62", TYP: "Aura XB", POSITION: "Portal", ORT: "Dimmerraum 1", ADRESSE: "12/25", ROW: "2" },
 
             // LX 1
             { id: 101, CHANNEL: "101", TYP: "Viper Performance", POSITION: "LX 1", ORT: "Dimmerraum 1", ADRESSE: "1/1", ROW: "1" },
@@ -157,6 +187,11 @@
             { id: 142, CHANNEL: "142", TYP: "Viper Performance", POSITION: "LX 5", ORT: "Dimmerraum 3", ADRESSE: "5/41", ROW: "1" },
             { id: 143, CHANNEL: "143", TYP: "Viper Performance", POSITION: "LX 5", ORT: "Dimmerraum 3", ADRESSE: "5/81", ROW: "1" },
 
+            // LX 5 / Leitern Bereich / Sonderpositionen (Einträge 150-160 laut CSV Update)
+            { id: 151, CHANNEL: "151", TYP: "MAC Ultra", POSITION: "LX 5", ORT: "Dimmerraum 3", ADRESSE: "5/201", ROW: "" },
+            { id: 152, CHANNEL: "152", TYP: "MAC Ultra", POSITION: "LX 5", ORT: "Dimmerraum 3", ADRESSE: "5/250", ROW: "" },
+            { id: 153, CHANNEL: "153", TYP: "MAC Ultra", POSITION: "LX 5", ORT: "Dimmerraum 3", ADRESSE: "5/300", ROW: "" },
+            
             // Leitern (Viper)
             { id: 227, CHANNEL: "227", TYP: "Viper Performance", POSITION: "Leiter 2 SL", ORT: "Dimmerraum 2", ADRESSE: "11/201", ROW: "1" },
             { id: 228, CHANNEL: "228", TYP: "Viper Performance", POSITION: "Leiter 3 SL", ORT: "Dimmerraum 2", ADRESSE: "12/251", ROW: "1" },
@@ -193,26 +228,18 @@
             const [showAllForced, setShowAllForced] = useState(false);
 
             const filterRows = [
-                // Reihe 1: Stone
                 [{l:"Z-B 1",v:"Z-Brücke 1",c:"text-stone-500"}, {l:"1FS B",v:"Z-Brücke 3",c:"text-stone-500"}, {l:"Stage",v:"DS Trough",c:"text-stone-500"}, {l:"Portal",v:"Portal",c:"text-stone-500"}],
-                // Reihe 2: Rose
                 [{l:"ST SR",v:"Sound Truss SR",c:"text-rose-500"}, {l:"ST SRC",v:"Sound Truss SRC",c:"text-rose-500"}, {l:"ST SLC",v:"Sound Truss SLC",c:"text-rose-500"}, {l:"ST SL",v:"Sound Truss SL",c:"text-rose-500"}],
-                // Reihe 3: Fuchsia
                 [{l:"NBB SR",v:"Near Box Boom SR",c:"text-fuchsia-500"}, {l:"PB SR",v:"Prosc Boom SR",c:"text-fuchsia-500"}, {l:"AT SR",v:"Advanced Truss SR",c:"text-fuchsia-500"}],
-                // Reihe 4: Violet
                 [{l:"NBB SL",v:"Near Box Boom SL",c:"text-violet-500"}, {l:"PB SL",v:"Prosc Boom SL",c:"text-violet-500"}, {l:"AT SL",v:"Advanced Truss SL",c:"text-violet-500"}],
-                // Reihe 5: Yellow
                 [{l:"LX 1",v:"LX 1",c:"text-yellow-600"}, {l:"LX 2",v:"LX 2",c:"text-yellow-600"}, {l:"LX 3",v:"LX 3",c:"text-yellow-600"}, {l:"LX 4",v:"LX 4",c:"text-yellow-600"}, {l:"LX 5",v:"LX 5",c:"text-yellow-600"}],
-                // Reihe 6: Teal
                 [{l:"L1 SR",v:"Leiter 1 SR",c:"text-teal-500"}, {l:"L2 SR",v:"Leiter 2 SR",c:"text-teal-500"}, {l:"L3 SR",v:"Leiter 3 SR",c:"text-teal-500"}, {l:"L4 SR",v:"Leiter 4 SR",c:"text-teal-500"}],
-                // Reihe 7: Orange
                 [{l:"B1 SR",v:"Boom 1 SR",c:"text-cyan-500"}, {l:"B2 SR",v:"Boom 2 SR",c:"text-cyan-500"}, {l:"B3 SR",v:"Boom 3 SR",c:"text-cyan-500"}, {l:"B4 SR",v:"Boom 4 SR",c:"text-cyan-500"}],
-                // Reihe 8: Teal
                 [{l:"L1 SL",v:"Leiter 1 SL",c:"text-teal-500"}, {l:"L2 SL",v:"Leiter 2 SL",c:"text-teal-500"}, {l:"L3 SL",v:"Leiter 3 SL",c:"text-teal-500"}, {l:"L4 SL",v:"Leiter 4 SL",c:"text-teal-500"}],
-                // Reihe 9: Cyan
                 [{l:"B1 SL",v:"Boom 1 SL",c:"text-cyan-500"}, {l:"B2 SL",v:"Boom 2 SL",c:"text-cyan-500"}, {l:"B3 SL",v:"Boom 3 SL",c:"text-cyan-500"}, {l:"B4 SL",v:"Boom 4 SL",c:"text-cyan-500"}]
             ];
 
+            const rowColorClasses = ["text-blue-300", "text-emerald-300", "text-violet-300", "text-amber-300", "text-rose-300", "text-cyan-300"];
             const hardcodedValues = useMemo(() => filterRows.flat().map(item => item.v), []);
 
             useEffect(() => {
@@ -244,10 +271,13 @@
                                 }
                             });
                         } else {
-                            setStatus("Bitte fixtures.csv bereitstellen");
+                            // Fallback, wenn CSV nicht da ist
+                            setFixtures(MOCK_DATA);
+                            setStatus("Demo-Modus");
                         }
                     } catch (e) {
-                        setStatus("Fehler beim Laden");
+                        setFixtures(MOCK_DATA);
+                        setStatus("Demo-Modus");
                     }
                 };
                 loadData();
@@ -471,4 +501,3 @@
     </script>
 </body>
 </html>
-
