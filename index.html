@@ -384,6 +384,11 @@
                                             )}
                                         </div>
                                         
+                                        {/* Headline for row filter */}
+                                        <div className="text-xs text-slate-400 font-normal px-1 pb-1">
+                                            Wievielte Lampe von links bzw. unten ?
+                                        </div>
+
                                         {/* Reihen-Filter 1-15 */}
                                         <div className="flex gap-2 overflow-x-auto scrollbar-hide py-1 border-t border-slate-800/50">
                                             {Array.from({ length: 15 }, (_, i) => i + 1).map(num => (
@@ -432,7 +437,7 @@
                                             <div className="mt-3 flex justify-between items-end gap-1">
                                                 <div className="flex flex-col max-w-[65%]">
                                                     <div className="text-xs font-normal text-slate-300 truncate">{fixture.POSITION}</div>
-                                                    {fixture.ROW && <div className="text-[9px] font-medium text-slate-500 uppercase tracking-tighter leading-tight mt-0.5 flex items-baseline">Fixture von links / unten:&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-base font-bold text-slate-200">{fixture.ROW}</span></div>}
+                                                    {fixture.ROW && <div className="text-[11px] md:text-[12px] font-medium text-slate-500 uppercase tracking-tighter leading-tight mt-0.5 flex items-baseline">Fixture von links / unten:&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-base font-bold text-slate-200">{fixture.ROW}</span></div>}
                                                 </div>
                                                 <div className="text-xs font-brand font-normal text-slate-300 tracking-tighter shrink-0 pb-1">DMX: <span className="font-bold">{universe}</span><span className="font-bold">{rest}</span></div>
                                             </div>
