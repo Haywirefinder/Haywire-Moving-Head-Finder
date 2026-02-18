@@ -4,33 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
-    <!-- Web App Einstellungen für "Standalone" Modus (entfernt Adressleiste) -->
+    <!-- PWA Einstellungen -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#0f172a">
-
-    <!-- Namen für den Homebildschirm festlegen -->
     <meta name="apple-mobile-web-app-title" content="Haywire Finder">
     <meta name="application-name" content="Haywire Finder">
+
+    <!-- Icon für iOS (Apple Touch Icon) -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiB2aWV3Qm94PSIwIDAgMTkyIDE5MiI+PHJlY3Qgd2lkdGg9IjE5MiIgaGVpZ2h0PSIxOTIiIGZpbGw9IiMwZjE3MmEiLz48Y2lyY2xlIGN4PSI5NiIgY3k9Ijk2IiByPSI0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjM2I4MmY2IiBzdHJva2Utd2lkdGg9IjgiLz48L3N2Zz4=">
     
-    <!-- Erweitertes Web Manifest (Inline via Data-URI) -->
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiB2aWV3Qm94PSIwIDAgMTkyIDE5MiI+PHJlY3Qgd2lkdGg9IjE5MiIgaGVpZ2h0PSIxOTIiIGZpbGw9IiMwZjE3MmEiLz48Y2lyY2xlIGN4PSI5NiIgY3k9Ijk2IiByPSI0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjM2I4MmY2IiBzdHJva2Utd2lkdGg9IjgiLz48L3N2Zz4=">
+
+    <!-- Erweitertes Web Manifest -->
     <link rel="manifest" href='data:application/manifest+json,{
         "name": "Haywire Finder",
         "short_name": "Haywire",
         "description": "Moving Head Finder MJ Musical",
-        "id": "haywire-finder-1.0",
-        "start_url": "./index.html",
+        "id": "haywire-finder-v1.2",
+        "start_url": ".",
         "display": "standalone",
         "display_override": ["fullscreen", "standalone"],
         "orientation": "portrait",
         "background_color": "#0f172a",
         "theme_color": "#0f172a",
+        "scope": ".",
         "icons": [
             {
                 "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiB2aWV3Qm94PSIwIDAgMTkyIDE5MiI+PHJlY3Qgd2lkdGg9IjE5MiIgaGVpZ2h0PSIxOTIiIGZpbGw9IiMwZjE3MmEiLz48Y2lyY2xlIGN4PSI5NiIgY3k9Ijk2IiByPSI0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjM2I4MmY2IiBzdHJva2Utd2lkdGg9IjgiLz48L3N2Zz4=",
                 "sizes": "192x192",
-                "type": "image/svg+xml"
+                "type": "image/svg+xml",
+                "purpose": "any maskable"
+            },
+            {
+                "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiB2aWV3Qm94PSIwIDAgMTkyIDE5MiI+PHJlY3Qgd2lkdGg9IjE5MiIgaGVpZ2h0PSIxOTIiIGZpbGw9IiMwZjE3MmEiLz48Y2lyY2xlIGN4PSI5NiIgY3k9Ijk2IiByPSI0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjM2I4MmY2IiBzdHJva2Utd2lkdGg9IjgiLz48L3N2Zz4=",
+                "sizes": "512x512",
+                "type": "image/svg+xml",
+                "purpose": "any maskable"
             }
         ]
     }'>
@@ -70,13 +82,11 @@
             transition: all 0.3s ease-in-out;
         }
 
-        /* Dynamische Schriftgröße für die Überschrift */
         .fluid-header {
             font-size: clamp(0.95rem, 3.8vw, 1.6rem);
             line-height: 1.1;
         }
 
-        /* Untertitel: 70% kleiner als die Überschrift */
         .fluid-subtitle {
             font-size: clamp(0.55rem, 1.4vw, 0.65rem);
             line-height: 1.2;
@@ -375,7 +385,7 @@
                                         </div>
                                     </>
                                 ) : (
-                                    /* Wenn Filter aktiv: Zeige "Zurück" und ausgewählten Button */
+                                    /* Wenn Filter aktiv: Zeige nur den ausgewählten Button LINKSbündig und darunter die Reihen-Filter */
                                     <div className="flex flex-col gap-2">
                                         <div className="flex justify-between items-center pb-2">
                                             {/* Zurück Button */}
@@ -479,6 +489,21 @@
 
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
+    </script>
+    
+    <!-- Mini Service Worker für PWA-Installierbarkeit -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            const swContent = `
+                self.addEventListener('install', (e) => self.skipWaiting());
+                self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
+                self.addEventListener('fetch', (e) => e.respondWith(fetch(e.request)));
+            `;
+            const blob = new Blob([swContent], {type: 'text/javascript'});
+            const url = URL.createObjectURL(blob);
+            navigator.serviceWorker.register(url)
+                .catch((err) => console.log('SW fail', err));
+        }
     </script>
 </body>
 </html>
