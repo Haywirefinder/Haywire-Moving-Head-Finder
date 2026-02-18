@@ -4,59 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
-    <!-- PWA Einstellungen -->
+    <!-- Web App Einstellungen für "Standalone" Modus -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#0f172a">
+
     <meta name="apple-mobile-web-app-title" content="Haywire Finder">
     <meta name="application-name" content="Haywire Finder">
-
-    <!-- Icon für iOS (Apple Touch Icon) -->
-    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiB2aWV3Qm94PSIwIDAgMTkyIDE5MiI+PHJlY3Qgd2lkdGg9IjE5MiIgaGVpZ2h0PSIxOTIiIGZpbGw9IiMwZjE3MmEiLz48Y2lyY2xlIGN4PSI5NiIgY3k9Ijk2IiByPSI0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjM2I4MmY2IiBzdHJva2Utd2lkdGg9IjgiLz48L3N2Zz4=">
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiB2aWV3Qm94PSIwIDAgMTkyIDE5MiI+PHJlY3Qgd2lkdGg9IjE5MiIgaGVpZ2h0PSIxOTIiIGZpbGw9IiMwZjE3MmEiLz48Y2lyY2xlIGN4PSI5NiIgY3k9Ijk2IiByPSI0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjM2I4MmY2IiBzdHJva2Utd2lkdGg9IjgiLz48L3N2Zz4=">
-
     <!-- Erweitertes Web Manifest -->
     <link rel="manifest" href='data:application/manifest+json,{
         "name": "Haywire Finder",
         "short_name": "Haywire",
         "description": "Moving Head Finder MJ Musical",
-        "id": "haywire-finder-v1.2",
-        "start_url": ".",
+        "id": "haywire-finder-1.0",
+        "start_url": "./index.html",
         "display": "standalone",
         "display_override": ["fullscreen", "standalone"],
         "orientation": "portrait",
         "background_color": "#0f172a",
         "theme_color": "#0f172a",
-        "scope": ".",
         "icons": [
             {
                 "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiB2aWV3Qm94PSIwIDAgMTkyIDE5MiI+PHJlY3Qgd2lkdGg9IjE5MiIgaGVpZ2h0PSIxOTIiIGZpbGw9IiMwZjE3MmEiLz48Y2lyY2xlIGN4PSI5NiIgY3k9Ijk2IiByPSI0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjM2I4MmY2IiBzdHJva2Utd2lkdGg9IjgiLz48L3N2Zz4=",
                 "sizes": "192x192",
-                "type": "image/svg+xml",
-                "purpose": "any maskable"
-            },
-            {
-                "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiB2aWV3Qm94PSIwIDAgMTkyIDE5MiI+PHJlY3Qgd2lkdGg9IjE5MiIgaGVpZ2h0PSIxOTIiIGZpbGw9IiMwZjE3MmEiLz48Y2lyY2xlIGN4PSI5NiIgY3k9Ijk2IiByPSI0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjM2I4MmY2IiBzdHJva2Utd2lkdGg9IjgiLz48L3N2Zz4=",
-                "sizes": "512x512",
-                "type": "image/svg+xml",
-                "purpose": "any maskable"
+                "type": "image/svg+xml"
             }
         ]
     }'>
 
     <title>Haywire Finder</title>
     
-    <!-- Design & Frameworks -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 
-    <!-- Google Fonts: Roboto -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -219,15 +204,14 @@
             const [fixtures, setFixtures] = useState([]);
             const [searchTerm, setSearchTerm] = useState("");
             const [activeFilter, setActiveFilter] = useState("Alle");
-            // Neuer State für den Reihen-Filter
             const [activeRowFilter, setActiveRowFilter] = useState(null);
             const [status, setStatus] = useState("Lade...");
             const [showAllForced, setShowAllForced] = useState(false);
 
             const filterRows = [
-                [{l:"Z-Brücke 1",v:"Z-Brücke 1"},{l:"FS Brücke",v:"Z-Brücke 2"}],
+                [{l:"Z-B 1",v:"Z-Brücke 1"},{l:"FS B",v:"Z-Brücke 2"}],
                 [{l:"ST SR",v:"Sound Truss SR"},{l:"ST SRC",v:"Sound Truss SRC"},{l:"ST SLC",v:"Sound Truss SLC"},{l:"ST SL",v:"Sound Truss SL"}],
-                [{l:"PB SR",v:"Prosc Boom SR"},{l:"NBB SR",v:"Near Box Boom SR"},{l:"AT SR",v:"Advanced Truss SR"},{l:"AT SL",v:"Advanced Truss SL"},{l:"NBB SL",v:"Near Box Boom SL"},{l:"PB SL",v:"Prosc Boom SL"},{l:"DS Trough",v:"DS Trough"},{l:"Portal",v:"Portal"}],
+                [{l:"PB SR",v:"Prosc Boom SR"},{l:"NBB SR",v:"Near Box Boom SR"},{l:"AT SR",v:"Advanced Truss SR"},{l:"AT SL",v:"Advanced Truss SL"},{l:"NBB SL",v:"Near Box Boom SL"},{l:"PB SL",v:"Prosc Boom SL"},{l:"DS Tr.",v:"DS Trough"},{l:"Portal",v:"Portal"}],
                 ["LX 1", "LX 2", "LX 3", "LX 4", "LX 5"],
                 [{l:"L1SR",v:"Leiter 1 SR"},{l:"L2SR",v:"Leiter 2 SR"},{l:"L3SR",v:"Leiter 3 SR"},{l:"L4SR",v:"Leiter 4 SR"},{l:"L1SL",v:"Leiter 1 SL"},{l:"L2SL",v:"Leiter 2 SL"},{l:"L3SL",v:"Leiter 3 SL"},{l:"L4SL",v:"Leiter 4 SL"}],
                 [{l:"B1SR",v:"Boom 1 SR"},{l:"B2SR",v:"Boom 2 SR"},{l:"B3SR",v:"Boom 3 SR"},{l:"B4SR",v:"Boom 4 SR"},{l:"B1SL",v:"Boom 1 SL"},{l:"B2SL",v:"Boom 2 SL"},{l:"B3SL",v:"Boom 3 SL"},{l:"B4SL",v:"Boom 4 SL"}]
@@ -289,7 +273,6 @@
                     else matchesSearch = fixtureChannel.includes(search) || fixtureType.includes(search);
                     const matchesFilter = activeFilter === "Alle" || f.POSITION === activeFilter;
                     
-                    // Neuer Filter: Reihe (ROW)
                     let matchesRow = true;
                     if (activeFilter !== "Alle" && activeRowFilter !== null) {
                         matchesRow = f.ROW === activeRowFilter.toString();
@@ -312,7 +295,6 @@
                     setActiveFilter(val); 
                     setShowAllForced(false); 
                 }
-                // Reset row filter bei Wechsel des Hauptfilters
                 setActiveRowFilter(null);
             };
 
@@ -325,7 +307,6 @@
                 else { setSearchTerm(""); setActiveFilter("Alle"); setShowAllForced(true); setActiveRowFilter(null); }
             };
 
-            // Daten für den aktiven Filterbutton finden
             const activeFilterData = useMemo(() => {
                 if (activeFilter === "Alle") return null;
                 for (let i = 0; i < filterRows.length; i++) {
@@ -346,7 +327,7 @@
             }, [activeFilter, filterRows, otherPositions, rowColorClasses]);
 
             const FilterBtn = ({ label, value, colorClass = "text-slate-400" }) => (
-                <button onClick={() => toggleFilter(value)} className={`min-w-[85px] px-2 py-1 rounded-lg text-xs font-normal transition-all border font-brand whitespace-nowrap flex items-center justify-center ${activeFilter === value ? 'bg-blue-600 border-blue-500 text-white shadow-lg scale-105' : `bg-slate-800 border-slate-700 ${colorClass} hover:bg-slate-700 hover:border-slate-500 hover:text-white`}`}>{label}</button>
+                <button onClick={() => toggleFilter(value)} className={`min-w-[60px] px-2 py-1 rounded-lg text-xs font-normal transition-all border font-brand whitespace-nowrap flex items-center justify-center ${activeFilter === value ? 'bg-blue-600 border-blue-500 text-white shadow-lg scale-105' : `bg-slate-800 border-slate-700 ${colorClass} hover:bg-slate-700 hover:border-slate-500 hover:text-white`}`}>{label}</button>
             );
 
             return (
@@ -365,11 +346,10 @@
                                 </div>
                             </div>
                             <div className="space-y-3 pt-2">
-                                {/* Wenn kein Filter aktiv ist: Zeige Alle + Alle Reihen */}
                                 {activeFilter === "Alle" ? (
                                     <>
                                         <div className="flex justify-start">
-                                            <button onClick={handleToggleAll} className={`min-w-[85px] px-4 py-1 rounded-lg text-xs font-medium transition-all border font-brand ${showAllForced && activeFilter === "Alle" && searchTerm === "" ? 'bg-blue-600 border-blue-500 text-white shadow-lg scale-105' : 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700 hover:border-slate-500'}`}>Alle</button>
+                                            <button onClick={handleToggleAll} className={`min-w-[60px] px-4 py-1 rounded-lg text-xs font-medium transition-all border font-brand ${showAllForced && activeFilter === "Alle" && searchTerm === "" ? 'bg-blue-600 border-blue-500 text-white shadow-lg scale-105' : 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700 hover:border-slate-500'}`}>Alle</button>
                                         </div>
                                         <div className="flex flex-col gap-2">
                                             {filterRows.map((row, idx) => (
@@ -385,10 +365,8 @@
                                         </div>
                                     </>
                                 ) : (
-                                    /* Wenn Filter aktiv: Zeige nur den ausgewählten Button LINKSbündig und darunter die Reihen-Filter */
                                     <div className="flex flex-col gap-2">
-                                        <div className="flex justify-between items-center pb-2">
-                                            {/* Zurück Button */}
+                                        <div className="flex justify-start pb-2">
                                             <button 
                                                 onClick={() => toggleFilter("Alle")}
                                                 className="flex items-center gap-1.5 pl-1 pr-3 py-1.5 text-xs font-medium text-slate-400 hover:text-white transition-colors"
@@ -397,35 +375,21 @@
                                                 Zurück
                                             </button>
 
-                                            {/* Aktiver Filter */}
-                                            {activeFilterData && (
-                                                <FilterBtn 
-                                                    label={activeFilterData.label} 
-                                                    value={activeFilterData.value} 
-                                                    colorClass={activeFilterData.colorClass} 
-                                                />
-                                            )}
+                                            <div className="ml-auto">
+                                                {activeFilterData && (
+                                                    <FilterBtn 
+                                                        label={activeFilterData.label} 
+                                                        value={activeFilterData.value} 
+                                                        colorClass={activeFilterData.colorClass} 
+                                                    />
+                                                )}
+                                            </div>
                                         </div>
                                         
-                                        {/* Headline for row filter */}
-                                        <div className="text-xs text-slate-400 font-normal px-1 pb-1">
-                                            Wievielte Lampe von links bzw. unten ?
-                                        </div>
-
-                                        {/* Reihen-Filter 1-15 */}
+                                        <div className="text-xs text-slate-400 font-normal px-1 pb-1">Wievielte Lampe von links bzw. unten ?</div>
                                         <div className="flex gap-2 overflow-x-auto scrollbar-hide py-1 border-t border-slate-800/50">
                                             {Array.from({ length: 15 }, (_, i) => i + 1).map(num => (
-                                                <button 
-                                                    key={num}
-                                                    onClick={() => toggleRowFilter(num)}
-                                                    className={`w-8 h-8 rounded-full text-xs font-bold flex items-center justify-center transition-all border shrink-0 ${
-                                                        activeRowFilter === num
-                                                        ? 'bg-emerald-600 border-emerald-500 text-white shadow-lg scale-110'
-                                                        : 'bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700 hover:text-white'
-                                                    }`}
-                                                >
-                                                    {num}
-                                                </button>
+                                                <button key={num} onClick={() => toggleRowFilter(num)} className={`w-8 h-8 rounded-full text-xs font-bold flex items-center justify-center transition-all border shrink-0 ${activeRowFilter === num ? 'bg-emerald-600 border-emerald-500 text-white shadow-lg scale-110' : 'bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700 hover:text-white'}`}>{num}</button>
                                             ))}
                                         </div>
                                     </div>
@@ -436,13 +400,7 @@
                     
                     <div className="p-4 md:p-8 max-w-7xl mx-auto">
                         {status && <div className="text-center py-4 text-xs text-yellow-600 mb-4 animate-pulse">{status}</div>}
-                        {!isInteractionActive ? (
-                            <div className="text-center p-20 text-slate-500 flex flex-col items-center gap-4 animate-in fade-in duration-700">
-                                <div className="p-6 bg-slate-800/50 rounded-full text-slate-400"><Icon name="Info" size={48} /></div>
-                                <h2 className="text-xl font-light text-slate-300 font-brand">Bereit zum Suchen</h2>
-                                <p className="max-w-md font-brand font-normal">Wähle oben eine Position aus oder nutze das Suchfeld, um Geräte anzuzeigen.</p>
-                            </div>
-                        ) : (
+                        {!isInteractionActive ? null : (
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 grid-transition">
                                 {filteredFixtures.map(fixture => {
                                     const parts = fixture.ADRESSE.split('/');
