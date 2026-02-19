@@ -12,34 +12,8 @@
     <meta name="apple-mobile-web-app-title" content="Haywire Finder">
     <meta name="application-name" content="Haywire Finder">
     
-    <!-- Erweitertes Web Manifest -->
-    <link rel="manifest" href='data:application/manifest+json,{
-        "name": "Haywire Finder",
-        "short_name": "Haywire",
-        "description": "Moving Head Finder MJ Musical",
-        "id": "haywire-finder-1.0",
-        "start_url": "./index.html",
-        "display": "standalone",
-        "display_override": ["fullscreen", "standalone"],
-        "orientation": "portrait",
-        "background_color": "#0f172a",
-        "theme_color": "#0f172a",
-        "scope": ".",
-        "icons": [
-            {
-                "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiB2aWV3Qm94PSIwIDAgMTkyIDE5MiI+PHJlY3Qgd2lkdGg9IjE5MiIgaGVpZ2h0PSIxOTIiIGZpbGw9IiMwZjE3MmEiLz48Y2lyY2xlIGN4PSI5NiIgY3k9Ijk2IiByPSI0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjM2I4MmY2IiBzdHJva2Utd2lkdGg9IjgiLz48L3N2Zz4=",
-                "sizes": "192x192",
-                "type": "image/svg+xml",
-                "purpose": "any maskable"
-            },
-            {
-                "src": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiB2aWV3Qm94PSIwIDAgMTkyIDE5MiI+PHJlY3Qgd2lkdGg9IjE5MiIgaGVpZ2h0PSIxOTIiIGZpbGw9IiMwZjE3MmEiLz48Y2lyY2xlIGN4PSI5NiIgY3k9Ijk2IiByPSI0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjM2I4MmY2IiBzdHJva2Utd2lkdGg9IjgiLz48L3N2Zz4=",
-                "sizes": "512x512",
-                "type": "image/svg+xml",
-                "purpose": "any maskable"
-            }
-        ]
-    }'>
+    <!-- Link zum externen Manifest (WICHTIG für Installation) -->
+    <link rel="manifest" href="./manifest.json">
 
     <title>Haywire Finder</title>
     
@@ -104,14 +78,8 @@
             ArrowLeft: (props) => (
                 <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
             ),
-            Info: (props) => (
-                <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            ),
-            Layout: (props) => (
-                <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
-            ),
-            MapPin: (props) => (
-                <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            Download: (props) => (
+                <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             )
         };
 
@@ -120,112 +88,47 @@
             return IconComponent ? <IconComponent width={size} height={size} className={className} /> : null;
         };
 
-        // --- KOMPLETTE DATEN AUS CSV (Erweiterter Demo-Modus) ---
+        // --- MOCK DATA ---
         const MOCK_DATA = [
-            // Z-Brücke 1
-            { id: 1, CHANNEL: "1", TYP: "Viper Performance", POSITION: "Z-Brücke 1", ORT: "Dimmerraum 3", ADRESSE: "10/337", ROW: "7" },
-            { id: 2, CHANNEL: "2", TYP: "Viper Performance", POSITION: "Z-Brücke 1", ORT: "Dimmerraum 3", ADRESSE: "10/297", ROW: "6" },
-            { id: 3, CHANNEL: "3", TYP: "Viper Performance", POSITION: "Z-Brücke 1", ORT: "Dimmerraum 3", ADRESSE: "10/257", ROW: "5" },
-            { id: 4, CHANNEL: "4", TYP: "Viper Performance", POSITION: "Z-Brücke 1", ORT: "Dimmerraum 3", ADRESSE: "10/217", ROW: "4" },
-            { id: 5, CHANNEL: "5", TYP: "Viper Performance", POSITION: "Z-Brücke 1", ORT: "Dimmerraum 3", ADRESSE: "10/177", ROW: "3" },
-            { id: 6, CHANNEL: "6", TYP: "Viper Performance", POSITION: "Z-Brücke 1", ORT: "Dimmerraum 3", ADRESSE: "10/137", ROW: "2" },
-            { id: 7, CHANNEL: "7", TYP: "Viper Performance", POSITION: "Z-Brücke 1", ORT: "Dimmerraum 3", ADRESSE: "10/97", ROW: "1" },
-            
-            // Z-Brücke 3 (FS B)
-            { id: 9, CHANNEL: "9", TYP: "Viper Performance", POSITION: "Z-Brücke 3", ORT: "Dimmerraum 3", ADRESSE: "10/001", ROW: "1" },
-
-            // Sound Truss
-            { id: 11, CHANNEL: "11", TYP: "Viper Performance", POSITION: "Sound Truss SR", ORT: "Dimmerraum 4", ADRESSE: "15/201", ROW: "6" },
-            { id: 12, CHANNEL: "12", TYP: "Viper Performance", POSITION: "Sound Truss SR", ORT: "Dimmerraum 4", ADRESSE: "15/121", ROW: "5" },
-            { id: 13, CHANNEL: "13", TYP: "Viper Performance", POSITION: "Sound Truss SRC", ORT: "Dimmerraum 4", ADRESSE: "15/161", ROW: "4" },
-            { id: 14, CHANNEL: "14", TYP: "Viper Performance", POSITION: "Sound Truss SLC", ORT: "Dimmerraum 4", ADRESSE: "15/81", ROW: "3" },
-            { id: 15, CHANNEL: "15", TYP: "Viper Performance", POSITION: "Sound Truss SL", ORT: "Dimmerraum 4", ADRESSE: "15/41", ROW: "2" },
-            { id: 16, CHANNEL: "16", TYP: "Viper Performance", POSITION: "Sound Truss SL", ORT: "Dimmerraum 4", ADRESSE: "15/1", ROW: "1" },
-
-            // Prosc Boom & Near Box
-            { id: 21, CHANNEL: "21", TYP: "Viper Performance", POSITION: "Prosc Boom SR", ORT: "Dimmerraum 4", ADRESSE: "15/281", ROW: "1" },
-            { id: 22, CHANNEL: "22", TYP: "Viper Performance", POSITION: "Prosc Boom SL", ORT: "Dimmerraum 4", ADRESSE: "15/321", ROW: "1" },
-            { id: 31, CHANNEL: "31", TYP: "Viper Performance", POSITION: "Near Box Boom SR", ORT: "Dimmerraum 4", ADRESSE: "15/361", ROW: "1" },
-            { id: 32, CHANNEL: "32", TYP: "Viper Performance", POSITION: "Near Box Boom SL", ORT: "Dimmerraum 4", ADRESSE: "15/401", ROW: "1" },
-
-            // Advanced Truss
-            { id: 41, CHANNEL: "41", TYP: "Viper Performance", POSITION: "Advanced Truss SR", ORT: "Dimmerraum 4", ADRESSE: "16/1", ROW: "1" },
-            { id: 42, CHANNEL: "42", TYP: "Viper Performance", POSITION: "Advanced Truss SL", ORT: "Dimmerraum 4", ADRESSE: "16/41", ROW: "1" },
-
-            // DS Trough
-            { id: 51, CHANNEL: "51", TYP: "Viper Performance", POSITION: "DS Trough", ORT: "Dimmerraum 1", ADRESSE: "10/1", ROW: "1" },
-            { id: 52, CHANNEL: "52", TYP: "Viper Performance", POSITION: "DS Trough", ORT: "Dimmerraum 1", ADRESSE: "10/41", ROW: "1" },
-
-            // Portal
-            { id: 61, CHANNEL: "61", TYP: "Aura XB", POSITION: "Portal", ORT: "Dimmerraum 1", ADRESSE: "12/1", ROW: "1" },
-            { id: 62, CHANNEL: "62", TYP: "Aura XB", POSITION: "Portal", ORT: "Dimmerraum 1", ADRESSE: "12/25", ROW: "2" },
-
-            // LX 1
-            { id: 101, CHANNEL: "101", TYP: "Viper Performance", POSITION: "LX 1", ORT: "Dimmerraum 1", ADRESSE: "1/1", ROW: "1" },
-            { id: 102, CHANNEL: "102", TYP: "Viper Performance", POSITION: "LX 1", ORT: "Dimmerraum 1", ADRESSE: "1/41", ROW: "1" },
-            { id: 103, CHANNEL: "103", TYP: "Viper Performance", POSITION: "LX 1", ORT: "Dimmerraum 1", ADRESSE: "1/81", ROW: "1" },
-            { id: 104, CHANNEL: "104", TYP: "Viper Performance", POSITION: "LX 1", ORT: "Dimmerraum 1", ADRESSE: "1/121", ROW: "1" },
-            { id: 105, CHANNEL: "105", TYP: "Viper Performance", POSITION: "LX 1", ORT: "Dimmerraum 1", ADRESSE: "1/161", ROW: "1" },
-
-            // LX 2
-            { id: 111, CHANNEL: "111", TYP: "Viper Performance", POSITION: "LX 2", ORT: "Dimmerraum 2", ADRESSE: "2/1", ROW: "1" },
-            { id: 112, CHANNEL: "112", TYP: "Viper Performance", POSITION: "LX 2", ORT: "Dimmerraum 2", ADRESSE: "2/41", ROW: "1" },
-            { id: 113, CHANNEL: "113", TYP: "Viper Performance", POSITION: "LX 2", ORT: "Dimmerraum 2", ADRESSE: "2/81", ROW: "1" },
-
-            // LX 3
-            { id: 121, CHANNEL: "121", TYP: "Viper Performance", POSITION: "LX 3", ORT: "Dimmerraum 3", ADRESSE: "3/1", ROW: "1" },
-            { id: 122, CHANNEL: "122", TYP: "Viper Performance", POSITION: "LX 3", ORT: "Dimmerraum 3", ADRESSE: "3/41", ROW: "1" },
-            { id: 123, CHANNEL: "123", TYP: "Viper Performance", POSITION: "LX 3", ORT: "Dimmerraum 3", ADRESSE: "3/81", ROW: "1" },
-
-            // LX 4
-            { id: 131, CHANNEL: "131", TYP: "Viper Performance", POSITION: "LX 4", ORT: "Dimmerraum 2", ADRESSE: "4/1", ROW: "1" },
-            { id: 132, CHANNEL: "132", TYP: "Viper Performance", POSITION: "LX 4", ORT: "Dimmerraum 2", ADRESSE: "4/41", ROW: "1" },
-            { id: 133, CHANNEL: "133", TYP: "Viper Performance", POSITION: "LX 4", ORT: "Dimmerraum 2", ADRESSE: "4/81", ROW: "1" },
-
-            // LX 5
-            { id: 141, CHANNEL: "141", TYP: "Viper Performance", POSITION: "LX 5", ORT: "Dimmerraum 3", ADRESSE: "5/1", ROW: "1" },
-            { id: 142, CHANNEL: "142", TYP: "Viper Performance", POSITION: "LX 5", ORT: "Dimmerraum 3", ADRESSE: "5/41", ROW: "1" },
-            { id: 143, CHANNEL: "143", TYP: "Viper Performance", POSITION: "LX 5", ORT: "Dimmerraum 3", ADRESSE: "5/81", ROW: "1" },
-
-            // LX 5 / Leitern Bereich / Sonderpositionen (Einträge 150-160 laut CSV Update)
-            { id: 151, CHANNEL: "151", TYP: "MAC Ultra", POSITION: "LX 5", ORT: "Dimmerraum 3", ADRESSE: "5/201", ROW: "" },
-            { id: 152, CHANNEL: "152", TYP: "MAC Ultra", POSITION: "LX 5", ORT: "Dimmerraum 3", ADRESSE: "5/250", ROW: "" },
-            { id: 153, CHANNEL: "153", TYP: "MAC Ultra", POSITION: "LX 5", ORT: "Dimmerraum 3", ADRESSE: "5/300", ROW: "" },
-            
-            // Leitern (Viper)
-            { id: 227, CHANNEL: "227", TYP: "Viper Performance", POSITION: "Leiter 2 SL", ORT: "Dimmerraum 2", ADRESSE: "11/201", ROW: "1" },
-            { id: 228, CHANNEL: "228", TYP: "Viper Performance", POSITION: "Leiter 3 SL", ORT: "Dimmerraum 2", ADRESSE: "12/251", ROW: "1" },
-            { id: 229, CHANNEL: "229", TYP: "Viper Performance", POSITION: "Leiter 4 SL", ORT: "Dimmerraum 2", ADRESSE: "12/371", ROW: "1" },
-
-            // Leitern (Impression X5)
-            { id: 251, CHANNEL: "251", TYP: "Impression X5", POSITION: "Leiter 1 SR", ORT: "Dimmerraum 1", ADRESSE: "13/241", ROW: "3" },
-            { id: 252, CHANNEL: "252", TYP: "Impression X5", POSITION: "Leiter 2 SR", ORT: "Dimmerraum 1", ADRESSE: "13/276", ROW: "3" },
-            { id: 253, CHANNEL: "253", TYP: "Impression X5", POSITION: "Leiter 3 SR", ORT: "Dimmerraum 1", ADRESSE: "14/335", ROW: "3" },
-            { id: 254, CHANNEL: "254", TYP: "Impression X5", POSITION: "Leiter 4 SR", ORT: "Dimmerraum 1", ADRESSE: "14/370", ROW: "3" },
-            { id: 256, CHANNEL: "256", TYP: "Impression X5", POSITION: "Leiter 1 SL", ORT: "Dimmerraum 2", ADRESSE: "11/241", ROW: "3" },
-            { id: 257, CHANNEL: "257", TYP: "Impression X5", POSITION: "Leiter 2 SL", ORT: "Dimmerraum 2", ADRESSE: "11/276", ROW: "3" },
-            { id: 258, CHANNEL: "258", TYP: "Impression X5", POSITION: "Leiter 3 SL", ORT: "Dimmerraum 2", ADRESSE: "12/411", ROW: "3" },
-            { id: 259, CHANNEL: "259", TYP: "Impression X5", POSITION: "Leiter 4 SL", ORT: "Dimmerraum 2", ADRESSE: "12/446", ROW: "3" },
-
-            // Booms
-            { id: 261, CHANNEL: "261", TYP: "Impression X5", POSITION: "Boom 1 SR", ORT: "Dimmerraum 1", ADRESSE: "16/145", ROW: "2" },
-            { id: 262, CHANNEL: "262", TYP: "Impression X5", POSITION: "Boom 2 SR", ORT: "Dimmerraum 1", ADRESSE: "16/180", ROW: "2" },
-            { id: 263, CHANNEL: "263", TYP: "Impression X5", POSITION: "Boom 3 SR", ORT: "Dimmerraum 1", ADRESSE: "16/215", ROW: "2" },
-            { id: 264, CHANNEL: "264", TYP: "Impression X5", POSITION: "Boom 4 SR", ORT: "Dimmerraum 1", ADRESSE: "16/250", ROW: "2" },
-            { id: 265, CHANNEL: "265", TYP: "Impression X5", POSITION: "Boom 1 SL", ORT: "Dimmerraum 2", ADRESSE: "16/285", ROW: "2" },
-            { id: 266, CHANNEL: "266", TYP: "Impression X5", POSITION: "Boom 2 SL", ORT: "Dimmerraum 2", ADRESSE: "16/320", ROW: "2" },
-            { id: 267, CHANNEL: "267", TYP: "Impression X5", POSITION: "Boom 3 SL", ORT: "Dimmerraum 2", ADRESSE: "16/355", ROW: "2" },
-            { id: 268, CHANNEL: "268", TYP: "Impression X5", POSITION: "Boom 4 SL", ORT: "Dimmerraum 2", ADRESSE: "16/390", ROW: "2" }
+            { id: 1, CHANNEL: "1", TYP: "Viper Performance", POSITION: "Z-Brücke 1", ORT: "Dimmerraum 3", ADRESSE: "10/337", ROW: "7" }
         ];
 
         function App() {
             const [fixtures, setFixtures] = useState([]);
             const [searchTerm, setSearchTerm] = useState("");
             const [activeFilter, setActiveFilter] = useState("Alle");
-            // Neuer State für den Reihen-Filter
             const [activeRowFilter, setActiveRowFilter] = useState(null);
             const [status, setStatus] = useState("Lade...");
             const [showAllForced, setShowAllForced] = useState(false);
+            
+            // PWA Install State
+            const [deferredPrompt, setDeferredPrompt] = useState(null);
+            const [isInstallable, setIsInstallable] = useState(false);
+
+            useEffect(() => {
+                // Event Listener für Installations-Prompt
+                const handleBeforeInstallPrompt = (e) => {
+                    e.preventDefault();
+                    setDeferredPrompt(e);
+                    setIsInstallable(true);
+                };
+
+                window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+                return () => {
+                    window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+                };
+            }, []);
+
+            const handleInstallClick = async () => {
+                if (!deferredPrompt) return;
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    setIsInstallable(false);
+                }
+                setDeferredPrompt(null);
+            };
 
             const filterRows = [
                 [{l:"Z-B 1",v:"Z-Brücke 1",c:"text-cyan-500"}, {l:"1FS B",v:"Z-Brücke 3",c:"text-cyan-500"}, {l:"Stage",v:"DS Trough",c:"text-cyan-500"}, {l:"Portal",v:"Portal",c:"text-cyan-500"}],
@@ -271,7 +174,6 @@
                                 }
                             });
                         } else {
-                            // Fallback, wenn CSV nicht da ist
                             setFixtures(MOCK_DATA);
                             setStatus("Demo-Modus");
                         }
@@ -285,21 +187,15 @@
 
             const isInteractionActive = useMemo(() => searchTerm.trim() !== "" || activeFilter !== "Alle" || showAllForced, [searchTerm, activeFilter, showAllForced]);
 
-            // Berechne die verfügbaren Reihen für den aktiven Filter
             const availableRows = useMemo(() => {
                 if (activeFilter === "Alle") return [];
-                
                 const rows = new Set();
                 fixtures.forEach(f => {
                     if (f.POSITION === activeFilter && f.ROW) {
-                        // Versuche Zahl zu parsen, um sicherzustellen, dass wir sauber sortieren können
                         const r = parseInt(f.ROW, 10);
-                        if (!isNaN(r)) {
-                            rows.add(r);
-                        }
+                        if (!isNaN(r)) rows.add(r);
                     }
                 });
-                
                 return Array.from(rows).sort((a, b) => a - b);
             }, [fixtures, activeFilter]);
 
@@ -312,13 +208,10 @@
                     const fixtureType = f.TYP.toLowerCase();
                     let matchesSearch = isNumericSearch ? fixtureChannel === search : (fixtureChannel.includes(search) || fixtureType.includes(search));
                     const matchesFilter = activeFilter === "Alle" || f.POSITION === activeFilter;
-                    
-                    // Reihen-Filter Logik
                     let matchesRow = true;
                     if (activeFilter !== "Alle" && activeRowFilter !== null) {
                         matchesRow = f.ROW === activeRowFilter.toString();
                     }
-
                     return matchesSearch && matchesFilter && matchesRow;
                 });
             }, [fixtures, searchTerm, activeFilter, activeRowFilter, isInteractionActive]);
@@ -330,13 +223,8 @@
             }, [fixtures, filterRows]);
 
             const toggleFilter = (val) => {
-                if (activeFilter === val) { 
-                    setActiveFilter("Alle"); 
-                    setShowAllForced(false); 
-                } else { 
-                    setActiveFilter(val); 
-                    setShowAllForced(false); 
-                }
+                if (activeFilter === val) { setActiveFilter("Alle"); setShowAllForced(false); } 
+                else { setActiveFilter(val); setShowAllForced(false); }
                 setActiveRowFilter(null);
             };
 
@@ -366,13 +254,28 @@
                         <div className="max-w-7xl mx-auto space-y-4">
                             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                                 <div className="flex flex-col">
-                                    <h1 className="fluid-header font-normal text-[#b3b3b3] font-brand truncate uppercase tracking-tight">HAYWIRE &nbsp; MOVING &nbsp; HEAD &nbsp; FINDER</h1>
-                                    <div className="fluid-subtitle font-normal text-[#b3b3b3] font-brand uppercase tracking-widest opacity-90 mt-0.5">Theater an der Elbe &nbsp; - &nbsp; MJ Das Musical</div>
+                                    <div className="flex justify-between items-start">
+                                        <h1 className="fluid-header font-normal text-[#b3b3b3] font-brand truncate uppercase tracking-tight">HAYWIRE &nbsp; FINDER</h1>
+                                        {/* Install Button (Nur sichtbar wenn installierbar) */}
+                                        {isInstallable && (
+                                            <button onClick={handleInstallClick} className="md:hidden bg-blue-600/20 border border-blue-500/50 text-blue-400 px-2 py-1 rounded text-[10px] uppercase font-bold tracking-wider hover:bg-blue-600 hover:text-white transition-colors flex items-center gap-1">
+                                                <Icon name="Download" size={12} /> App Installieren
+                                            </button>
+                                        )}
+                                    </div>
+                                    <div className="fluid-subtitle font-normal text-[#b3b3b3] font-brand uppercase tracking-widest opacity-90 mt-0.5">Moving Head Finder MJ Musical</div>
                                 </div>
-                                <div className="relative w-full md:max-w-xs">
-                                    <input className="w-full bg-slate-800 p-3 pl-10 rounded-lg border border-slate-700 text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all placeholder-slate-500 font-brand" placeholder="Suche Channel oder Typ..." value={searchTerm} onChange={e => { setSearchTerm(e.target.value); if (e.target.value.trim() !== "") setShowAllForced(false); }} />
-                                    <div className="absolute left-3 top-3.5 text-slate-500"><Icon name="Search" size={18} /></div>
-                                    {searchTerm && <button onClick={() => setSearchTerm("")} className="absolute right-3 top-3.5 text-slate-500 hover:text-white"><Icon name="X" size={18} /></button>}
+                                <div className="flex items-center gap-2 w-full md:max-w-xs">
+                                    <div className="relative w-full">
+                                        <input className="w-full bg-slate-800 p-3 pl-10 rounded-lg border border-slate-700 text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all placeholder-slate-500 font-brand" placeholder="Suche Channel oder Typ..." value={searchTerm} onChange={e => { setSearchTerm(e.target.value); if (e.target.value.trim() !== "") setShowAllForced(false); }} />
+                                        <div className="absolute left-3 top-3.5 text-slate-500"><Icon name="Search" size={18} /></div>
+                                        {searchTerm && <button onClick={() => setSearchTerm("")} className="absolute right-3 top-3.5 text-slate-500 hover:text-white"><Icon name="X" size={18} /></button>}
+                                    </div>
+                                    {isInstallable && (
+                                        <button onClick={handleInstallClick} className="hidden md:flex bg-blue-600/20 border border-blue-500/50 text-blue-400 p-3 rounded-lg hover:bg-blue-600 hover:text-white transition-colors" title="Als App installieren">
+                                            <Icon name="Download" size={20} />
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                             <div className="space-y-3 pt-2">
@@ -434,9 +337,7 @@
                     <div className="p-4 md:p-8 max-w-7xl mx-auto">
                         {status && <div className="text-center py-4 text-xs text-yellow-600 mb-4 animate-pulse">{status}</div>}
                         {!isInteractionActive ? (
-                            <div className="text-center p-20 text-slate-500 flex flex-col items-center gap-4 animate-in fade-in duration-700">
-                                {/* Leerer Bereich, da Platzhalter entfernt wurde */}
-                            </div>
+                            <div className="text-center p-20 text-slate-500 flex flex-col items-center gap-4 animate-in fade-in duration-700"></div>
                         ) : (
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 grid-transition">
                                 {filteredFixtures.map(fixture => {
@@ -486,28 +387,15 @@
         root.render(<App />);
     </script>
     
+    <!-- Externer Service Worker Registrierung -->
     <script>
         if ('serviceWorker' in navigator) {
-            const swContent = `
-                self.addEventListener('install', (e) => self.skipWaiting());
-                self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
-                self.addEventListener('fetch', (e) => e.respondWith(fetch(e.request)));
-            `;
-            const blob = new Blob([swContent], {type: 'text/javascript'});
-            const url = URL.createObjectURL(blob);
-            navigator.serviceWorker.register(url)
-                .catch((err) => console.log('SW fail', err));
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then((reg) => console.log('Service Worker registriert: ', reg.scope))
+                    .catch((err) => console.log('Service Worker Fehler: ', err));
+            });
         }
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
