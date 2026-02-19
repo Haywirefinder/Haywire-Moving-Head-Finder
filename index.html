@@ -12,8 +12,12 @@
     <meta name="apple-mobile-web-app-title" content="Haywire Finder">
     <meta name="application-name" content="Haywire Finder">
     
+    <!-- Eigenes Icon für iOS und Browser-Tab (?v=2 für Cache-Busting) -->
+    <link rel="icon" type="image/png" href="./app-icon.png?v=2">
+    <link rel="apple-touch-icon" href="./app-icon.png?v=2">
+
     <!-- Link zum externen Manifest (WICHTIG für Installation) -->
-    <link rel="manifest" href="./manifest.json">
+    <link rel="manifest" href="./manifest.json?v=2">
 
     <title>Haywire Finder</title>
     
@@ -88,9 +92,13 @@
             return IconComponent ? <IconComponent width={size} height={size} className={className} /> : null;
         };
 
-        // --- MOCK DATA ---
+        // --- MOCK DATA (Wird in der Vorschau genutzt, da externe CSV oft blockiert wird) ---
         const MOCK_DATA = [
-            { id: 1, CHANNEL: "1", TYP: "Viper Performance", POSITION: "Z-Brücke 1", ORT: "Dimmerraum 3", ADRESSE: "10/337", ROW: "7" }
+            { id: 1, CHANNEL: "1", TYP: "Viper Performance", POSITION: "Z-Brücke 1", ORT: "Dimmerraum 3", ADRESSE: "10/337", ROW: "7" },
+            { id: 2, CHANNEL: "11", TYP: "Viper Performance", POSITION: "Sound Truss SR", ORT: "Dimmerraum 4", ADRESSE: "15/201", ROW: "2" },
+            { id: 3, CHANNEL: "30", TYP: "Viper Performance", POSITION: "LX 2", ORT: "Dimmerraum 1", ADRESSE: "4/81", ROW: "15" },
+            { id: 4, CHANNEL: "150", TYP: "Impression FR10 Bar", POSITION: "LX 4a", ORT: "Dimmerraum 2", ADRESSE: "5/299", ROW: "11" },
+            { id: 5, CHANNEL: "201", TYP: "Viper Performance", POSITION: "Leiter 1 SR", ORT: "Dimmerraum 1", ADRESSE: "13/1", ROW: "4" }
         ];
 
         function App() {
@@ -255,7 +263,7 @@
                             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                                 <div className="flex flex-col">
                                     <div className="flex justify-between items-start">
-                                        <h1 className="fluid-header font-normal text-[#b3b3b3] font-brand truncate uppercase tracking-tight">HAYWIRE &nbsp; FINDER</h1>
+                                        <h1 className="fluid-header font-normal text-[#b3b3b3] font-brand truncate uppercase tracking-tight">HAYWIRE &nbsp; MOVING &nbsp; HEAD &nbsp; FINDER</h1>
                                         {/* Install Button (Nur sichtbar wenn installierbar) */}
                                         {isInstallable && (
                                             <button onClick={handleInstallClick} className="md:hidden bg-blue-600/20 border border-blue-500/50 text-blue-400 px-2 py-1 rounded text-[10px] uppercase font-bold tracking-wider hover:bg-blue-600 hover:text-white transition-colors flex items-center gap-1">
@@ -263,7 +271,7 @@
                                             </button>
                                         )}
                                     </div>
-                                    <div className="fluid-subtitle font-normal text-[#b3b3b3] font-brand uppercase tracking-widest opacity-90 mt-0.5">Moving Head Finder MJ Musical</div>
+                                    <div className="fluid-subtitle font-normal text-[#b3b3b3] font-brand uppercase tracking-widest opacity-90 mt-0.5">Theater an der Elbe &nbsp; - &nbsp; MJ Das Musical</div>
                                 </div>
                                 <div className="flex items-center gap-2 w-full md:max-w-xs">
                                     <div className="relative w-full">
