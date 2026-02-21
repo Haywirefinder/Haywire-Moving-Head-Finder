@@ -113,6 +113,22 @@
             const [deferredPrompt, setDeferredPrompt] = useState(null);
             const [isInstallable, setIsInstallable] = useState(false);
 
+            // NEU: Verhindert, dass der OnePlus Alert Slider die Suchleiste fokussiert
+            useEffect(() => {
+                const blockHardwareKeys = (e) => {
+                    // Wenn der Nutzer nicht gerade schon im Suchfeld tippt...
+                    if (document.activeElement.tagName !== 'INPUT') {
+                        // ...blockiere spezielle Hardware-Signale (Search, Unidentified oder System-Tasten)
+                        if (e.key === 'Search' || e.key === 'Unidentified' || e.keyCode === 84 || e.keyCode > 111) {
+                            e.preventDefault();
+                        }
+                    }
+                };
+                
+                window.addEventListener('keydown', blockHardwareKeys, { passive: false });
+                return () => window.removeEventListener('keydown', blockHardwareKeys);
+            }, []);
+
             useEffect(() => {
                 // Event Listener für Installations-Prompt
                 const handleBeforeInstallPrompt = (e) => {
@@ -142,7 +158,7 @@
                 [{l:"Z-B 1",v:"Z-Brücke 1",c:"text-cyan-500"}, {l:"1FS B",v:"Z-Brücke 3",c:"text-cyan-500"}, {l:"Stage",v:"DS Trough",c:"text-cyan-500"}, {l:"Portal",v:"Portal",c:"text-cyan-500"}],
                 [{l:"ST SR",v:"Sound Truss SR",c:"text-rose-500"}, {l:"ST SRC",v:"Sound Truss SRC",c:"text-rose-500"}, {l:"ST SLC",v:"Sound Truss SLC",c:"text-rose-500"}, {l:"ST SL",v:"Sound Truss SL",c:"text-rose-500"}],
                 [{l:"NBB SR",v:"Near Box Boom SR",c:"text-blue-500"}, {l:"PB SR",v:"Prosc Boom SR",c:"text-blue-500"}, {l:"AT SR",v:"Advanced Truss SR",c:"text-blue-500"}],
-                [{l:"NBB SL",v:"Near Box Boom SL",c:"text-blue-500"}, {l:"PB SL",v:"Prosc Boom SL",c:"text-blue-500"}, {l:"AT SL",v:"Advanced Truss SL",c:"text-blue-500"}, {l:"LX 4a",v:"LX 4a",c:"text-yellow-500"}],
+                [{l:"NBB SL",v:"Near Box Boom SL",c:"text-blue-500"}, {l:"PB SL",v:"Prosc Boom SL",c:"text-blue-500"}, {l:"AT SL",v:"Advanced Truss SL",c:"text-blue-500"}, {l:"LX 4a",v:"LX 4a",c:"text-yellow-700"}],
                 [{l:"LX 1",v:"LX 1",c:"text-yellow-500"}, {l:"LX 2",v:"LX 2",c:"text-yellow-500"}, {l:"LX 3",v:"LX 3",c:"text-yellow-500"}, {l:"LX 4",v:"LX 4",c:"text-yellow-500"}, {l:"LX 5",v:"LX 5",c:"text-yellow-500"}],
                 [{l:"L1 SR",v:"Leiter 1 SR",c:"text-emerald-500"}, {l:"L2 SR",v:"Leiter 2 SR",c:"text-emerald-500"}, {l:"L3 SR",v:"Leiter 3 SR",c:"text-emerald-500"}, {l:"L4 SR",v:"Leiter 4 SR",c:"text-emerald-500"}],
                 [{l:"B1 SR",v:"Boom 1 SR",c:"text-violet-500"}, {l:"B2 SR",v:"Boom 2 SR",c:"text-violet-500"}, {l:"B3 SR",v:"Boom 3 SR",c:"text-violet-500"}, {l:"B4 SR",v:"Boom 4 SR",c:"text-violet-500"}],
@@ -407,4 +423,3 @@
     </script>
 </body>
 </html>
-
